@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="500.0" prefWidth="720.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.HomeController">
+    <children>
+        <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <effect>
+                <DropShadow />
+            </effect>
+            <children>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <VBox alignment="CENTER" style="-fx-background-color: #7caeff;" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-family: Montserrat;" text="Home Page Test" />
+                            </children></VBox>
+                        <VBox alignment="TOP_RIGHT" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+
+
+                            <children>
+
+
+                                <fx:include source="title_bar.fxml" />
+                        <Button fx:id="logout_button" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#logout" prefWidth="80.0" style="-fx-background-color: #ff3b49; -fx-background-radius: 100PX; -fx-text-fill: white; -fx-font-family: Quicksand;" text="Logout">
+                           <VBox.margin>
+                              <Insets right="20.0" />
+                           </VBox.margin>
+                        </Button>
+
+
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </StackPane>
+    </children>
+</AnchorPane>
