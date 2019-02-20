@@ -75,8 +75,8 @@ public class LoginController implements Initializable {
 
         Statement statement = connection.createStatement();
 
-        ResultSet resultSet = statement.executeQuery("select * from USERS_TABLE where username" +
-                " = '" + usernameDB + "' or email = '" + usernameDB + "' and password = '" + passwordDB + "'");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS_TABLE WHERE username" +
+                " = '" + usernameDB + "' AND password = '" + passwordDB + "'");
 
 
 
@@ -89,12 +89,16 @@ public class LoginController implements Initializable {
 
             stage.setScene(new Scene(root));
 
-            String SQL = "SELECT username FROM USERS_TABLE WHERE username" +"= '" +usernameDB + "'";
-            ResultSet usernameF = statement.executeQuery(SQL);
 
-            System.out.println("Login Successful");
-            System.out.println("User "+ usernameF  +" logged in!");
 
+            String Getfname = "SELECT firstname FROM USERS_TABLE WHERE username" + "= '" + usernameDB + "'";
+            ResultSet getName = statement.executeQuery(Getfname);
+
+            while(getName.next()) {
+                String fName = getName.getString("firstname");
+                System.out.println("Login Successful");
+                System.out.println("User " + fName + " logged in!");
+            }
         } else
         {
             Shaker shaker = new Shaker(tf_username);
