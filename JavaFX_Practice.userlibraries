@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="fontawesomefx-8.9">
+    <archive path="D:/Vidsss/fontawesomefx-8.9.jar" />
+    <archive path="D:/Vidsss/controlsfx-8.40.14/controlsfx-8.40.14.jar" />
+  </library>
+  <library name="jfoenix-8.0.8">
+    <archive path="D:/Vidsss/jfoenix-8.0.8.jar" />
+  </library>
+  <library name="mysql-connector-java-8.0.12">
+    <archive path="C:/Program Files (x86)/MySQL/Connector J 8.0/mysql-connector-java-8.0.12.jar" />
+  </library>
+  <library name="sqlite-jdbc-3.7.2">
+    <archive path="D:/Vidsss/sqlite-jdbc-3.7.2.jar/sqlite-jdbc-3.7.2.jar" />
+  </library>
+</eclipse-userlibraries>
+
