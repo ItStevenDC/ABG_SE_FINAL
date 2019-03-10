@@ -102,4 +102,17 @@ public class TableController implements Initializable {
         stage.setScene(new Scene(root));
 
     }
+
+    @FXML
+    void editPage(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/app/view/Main.fxml"));
+
+        Node node = (Node) event.getSource();
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setScene(new Scene(root));
+
+    }
+
 }

@@ -37,7 +37,7 @@
                                     </Button>
                                     <HBox prefHeight="32.0" prefWidth="180.0">
                                        <children>
-                                          <Button mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: #fe4451; -fx-background-radius: 100px; -fx-text-fill: white;" text="Edit">
+                                          <Button mnemonicParsing="false" onMouseClicked="#editPage" prefWidth="100.0" style="-fx-background-color: #fe4451; -fx-background-radius: 100px; -fx-text-fill: white;" text="Edit">
                                              <HBox.margin>
                                                 <Insets left="20.0" />
                                              </HBox.margin>
