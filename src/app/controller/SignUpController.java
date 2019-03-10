@@ -1,12 +1,7 @@
 package app.controller;
 
-import app.helper.Const;
 import app.helper.DbConnect;
 import app.helper.UpdatableBCrypt;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.IntegerBinding;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableSet;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,6 +17,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ResourceBundle;
 
@@ -39,10 +36,10 @@ public class SignUpController implements Initializable {
     private TextField tf_lastname;
 
     @FXML
-    private CheckBox checkBoxMale;
+    private CheckBox isMale;
 
     @FXML
-    private CheckBox checkBoxFemale;
+    private CheckBox isFemale;
 
     @FXML
     private TextField tf_email;
@@ -85,8 +82,21 @@ public class SignUpController implements Initializable {
 
     }
 
+    public String getGender()  {
+
+        String gender = null;
+        if (isMale.isSelected()) {
+             gender = "Male";
+
+        } else if (isFemale.isSelected()) {
+             gender = "Female";
+        } else if (isFemale.isSelected() && isMale.isSelected()) {
+            System.out.println("Select Only One Gender");
+        }
+        return gender;
+    }
     @FXML
-    void signup(MouseEvent event) throws SQLException, ClassNotFoundException {
+    void signup(MouseEvent event) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
 
         /*
         String gender = "";
@@ -109,21 +119,20 @@ public class SignUpController implements Initializable {
         DbConnect DbConnect = new DbConnect();
         Connection connection = DbConnect.getConnection();
 
-        String gender = "Male";
+
+
         String password = String.valueOf(pf_password.getText());
 
-        pf_password.setText(UpdatableBCrypt.hashpw(password, UpdatableBCrypt.gensalt()));
+        String hashpw = (UpdatableBCrypt.hashpw(password, UpdatableBCrypt.gensalt()));
 
         DbConnect.signUpUser(tf_firstname.getText(),tf_lastname.getText(), tf_username.getText(),
-               tf_email.getText(), pf_password.getText(), gender);
+                tf_email.getText(), hashpw, getGender());
 
 
 
 
 
     }
-
-
 
 
 

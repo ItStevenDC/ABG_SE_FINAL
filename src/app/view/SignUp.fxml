@@ -132,16 +132,17 @@
                                 </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <JFXCheckBox selected="true" style="-fx-font-size: 1em; -fx-font-family: Quicksand;" text="MALE">
+                              <JFXCheckBox fx:id="isMale" selected="true" style="-fx-font-size: 1em; -fx-font-family: Quicksand;" text="MALE">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </JFXCheckBox>
-                              <JFXCheckBox style="-fx-font-family: Quicksand; -fx-font-size: 1em;" text="FEMALE">
+                              <JFXCheckBox fx:id="isFemale" style="-fx-font-family: Quicksand; -fx-font-size: 1em;" text="FEMALE">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </JFXCheckBox>
+                              <JFXCheckBox fx:id="isAdmin" style="-fx-font-family: Quicksand; -fx-font-size: 1em;" text="ADMIN" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

@@ -7,6 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -33,7 +35,34 @@ public class HomeController implements Initializable {
     @FXML
     private Button logout_button;
 
+    @FXML
+    private VBox Viewbox;
 
+    @FXML
+    private VBox InterpretBox;
+
+    @FXML
+    private Text UserWelcome;
+
+
+    double x = 0, y = 0;
+
+    @FXML
+    void pressed(MouseEvent event) {
+        x = event.getSceneX();
+        y = event.getSceneY();
+    }
+
+    @FXML
+    void dragged(MouseEvent event) {
+
+        Node node = (Node) event.getSource();
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setX(event.getScreenX() - x);
+        stage.setY(event.getScreenY() - y);
+    }
 
 
     @FXML
@@ -49,9 +78,39 @@ public class HomeController implements Initializable {
         System.out.println("User Logged Out");
     }
 
+    @FXML
+    void Viewpatients(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/app/view/ViewPatient.fxml"));
+
+        Node node = (Node) event.getSource();
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setScene(new Scene(root));
+
+    }
+
+    @FXML
+    void Interpretpatients(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/app/view/Main.fxml"));
+
+        Node node = (Node) event.getSource();
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setScene(new Scene(root));
+
+    }
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setUsername(LoginController.getInstance().firstname());
+    }
 
+    public void setUsername(String user)
+    {
+        this.UserWelcome.setText("Welcome, "+user.toUpperCase());
     }
 }

@@ -2,6 +2,7 @@
   <library name="fontawesomefx-8.9">
     <CLASSES>
       <root url="jar://D:/Vidsss/fontawesomefx-8.9.jar!/" />
+      <root url="jar://D:/Vidsss/controlsfx-8.40.14/controlsfx-8.40.14.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
