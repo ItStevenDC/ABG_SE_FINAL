@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="500.0" prefWidth="720.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainController">
+<AnchorPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="550.0" prefWidth="720.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainController">
     <children>
         <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
@@ -97,11 +97,20 @@
                                           <Insets left="10.0" right="15.0" top="12.0" />
                                        </HBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="Ofield" maxWidth="550.0" prefWidth="250.0" />
+                                    <JFXTextField fx:id="Ofield" maxWidth="550.0" prefWidth="250.0" promptText="( 90 - 100 )" />
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
+                        <HBox prefWidth="700.0">
+                           <children>
+                              <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;">
+                                 <HBox.margin>
+                                    <Insets left="10.0" top="20.0" />
+                                 </HBox.margin>
+                              </Text>
+                           </children>
+                        </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <Button fx:id="InterpretData" mnemonicParsing="false" onMouseClicked="#interpret" prefWidth="180.0" style="-fx-background-color: #7caeff; -fx-background-radius: 100PX; -fx-text-fill: white;" text="Submit">

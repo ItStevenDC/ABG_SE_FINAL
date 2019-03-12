@@ -9,22 +9,30 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javax.xml.crypto.Data;
+import javafx.scene.text.Text;
 
 public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+    @FXML
+    private Text errorText;
 
     @FXML
     private JFXTextField Namefield;
@@ -50,10 +58,35 @@ public class MainController implements Initializable {
     @FXML
     private Button prevButton;
 
+    double x = 0, y = 0;
+
+    @FXML
+    void pressed(MouseEvent event) {
+        x = event.getSceneX();
+        y = event.getSceneY();
+    }
+
+    @FXML
+    void dragged(MouseEvent event) {
+
+        Node node = (Node) event.getSource();
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setX(event.getScreenX() - x);
+        stage.setY(event.getScreenY() - y);
+    }
+
+
     @FXML
     void interpret (MouseEvent event) {
-        Datainterp();
-    }
+
+        if (Namefield.getText() != null && Agefield.getText() != null && Phfield.getText() != null && Cofield.getText() != null
+                && Hcofield.getText() != null && Ofield.getText() != null) {
+            Datainterp();
+        }else
+            errorText.setText("Please Input A Value to Interpret!");
+        }
 
 
     public void Datainterp() {
@@ -133,7 +166,7 @@ public class MainController implements Initializable {
                 System.out.println("Partly Compensated by Metabolic Alkalosis");
             }else if (HCO < 22)
             {
-                System.out.println("CombinedRespiratory and Metabolic Acidosis");
+                System.out.println("Combined Respiratory and Metabolic Acidosis");
             }
         }
         else if (Ph > 7.45 && (PCO >= 35 && PCO <= 45))
@@ -146,14 +179,16 @@ public class MainController implements Initializable {
                 System.out.println("Partly Compensated by Respiratory Acidosis");
             }
         } else if (Ph > 7.45 && PCO < 35){
-            if (HCO >= 22 && HCO <= 28){
+            if (PCO <35 && (HCO >= 22 && HCO <= 28)){
                 System.out.println("Uncompensated Respiratory Alkalosis");
-            }else if (HCO > 28)
+            }else if (PCO < 35 && HCO > 28)
             {
                 System.out.println("Combined Respiratory and Metabolic Alkalosis");
-                if (PCO > 45)
+                if (PCO > 45) {
+
                     System.out.println("Partly Compensated by Metabolic Alkalosis");
-            }else if (HCO < 22)
+                }
+            }else if (PCO <35 && HCO < 22)
             {
                 System.out.println("Partly Compensated Respiratory Alkalosis");
             }
@@ -173,6 +208,46 @@ public class MainController implements Initializable {
 
         stage.setScene(new Scene(root));
 
+    }
+
+    /*
+     * Validations
+     */
+    private boolean validate(String field, String value, String pattern){
+        if(!value.isEmpty()){
+            Pattern p = Pattern.compile(pattern);
+            Matcher m = p.matcher(value);
+            if(m.find() && m.group().equals(value)){
+                return true;
+            }else{
+                validationAlert(field, false);
+                return false;
+            }
+        }else{
+            validationAlert(field, true);
+            return false;
+        }
+    }
+
+    private boolean emptyValidation(String field, boolean empty){
+        if(!empty){
+            return true;
+        }else{
+            validationAlert(field, true);
+            return false;
+        }
+    }
+
+    private void validationAlert(String field, boolean empty){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Validation Error");
+        alert.setHeaderText(null);
+        if(field.equals("Role")) alert.setContentText("Please Select "+ field);
+        else{
+            if(empty) alert.setContentText("Please Enter "+ field);
+            else alert.setContentText("Please Enter Valid "+ field);
+        }
+        alert.showAndWait();
     }
 
 

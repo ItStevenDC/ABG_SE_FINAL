@@ -2,8 +2,12 @@ package app.controller;
 
 import app.helper.ModelTable;
 import app.helper.DbConnect;
+import com.jfoenix.controls.JFXTextField;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +18,7 @@ import javafx.scene.control.TableColumn;
 
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -24,8 +29,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Observable;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
+import java.util.logging.Logger;
 
 public class TableController implements Initializable {
+
+    @FXML
+    private JFXTextField searchField;
 
     @FXML
     private TableView<ModelTable> table;
@@ -54,10 +64,34 @@ public class TableController implements Initializable {
     @FXML
     private TableColumn<ModelTable, String> col_date;
 
+    double x = 0, y = 0;
+
+    @FXML
+    void pressed(MouseEvent event) {
+        x = event.getSceneX();
+        y = event.getSceneY();
+    }
+
+    @FXML
+    void dragged(MouseEvent event) {
+
+        Node node = (Node) event.getSource();
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setX(event.getScreenX() - x);
+        stage.setY(event.getScreenY() - y);
+    }
+
+
+
     ObservableList<ModelTable> oblist = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
+
 
         Connection connection = DbConnect.getInstance().getConnection();
 
@@ -66,14 +100,21 @@ public class TableController implements Initializable {
 
                 while (resultSet.next()) {
 
-                    oblist.add(new ModelTable(resultSet.getString("id"), resultSet.getString("fname"), resultSet.getString("lname"), resultSet.getString("age"),
-                            resultSet.getString("ph"),resultSet.getString("pco"), resultSet.getString("hco"), resultSet.getString("date")));
+                    oblist.add(new ModelTable(resultSet.getString("id"),
+                            resultSet.getString("fname"),
+                            resultSet.getString("lname"),
+                            resultSet.getString("age"),
+                            resultSet.getString("ph"),
+                            resultSet.getString("pco"),
+                            resultSet.getString("hco"),
+                            resultSet.getString("date")));
 
                 }
 
 
 
         } catch (SQLException e) {
+
             e.printStackTrace();
         }
 
@@ -87,8 +128,54 @@ public class TableController implements Initializable {
         col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
 
 
+
+
         table.setItems(oblist);
 
+
+
+
+
+    }
+
+    @FXML
+     void Filter(KeyEvent event) {
+        FilteredList<ModelTable> filteredData = new FilteredList<>(oblist, e -> true);
+        searchField.setOnKeyReleased(e ->{
+            searchField.textProperty().addListener((observableValue, oldValue, newValue) ->{
+                filteredData.setPredicate((Predicate<? super ModelTable >) modelTable->{
+
+                    if (newValue == null || newValue.isEmpty())
+                    {
+                        return true;
+                    }
+
+                    String lowerCaseFilter = newValue.toLowerCase();
+                    if (modelTable.getId().contains(newValue))
+                    {
+                        return true;
+                    }
+                    else if (modelTable.getFname().toLowerCase().contains(lowerCaseFilter))
+                    {
+                        return true;
+                    }
+                    else if (modelTable.getLname().toLowerCase().contains(lowerCaseFilter))
+                    {
+                        return true;
+                    }
+                    else if (modelTable.getDate().toLowerCase().contains(lowerCaseFilter))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                });
+            });
+            SortedList<ModelTable> sortedData = new SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(table.comparatorProperty());
+            table.setItems(sortedData);
+
+        });
     }
 
     @FXML
@@ -114,5 +201,6 @@ public class TableController implements Initializable {
         stage.setScene(new Scene(root));
 
     }
+
 
 }

@@ -111,6 +111,7 @@ public class HomeController implements Initializable {
 
     public void setUsername(String user)
     {
+
         this.UserWelcome.setText("Welcome, "+user.toUpperCase());
     }
 }

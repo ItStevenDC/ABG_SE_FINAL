@@ -2,10 +2,51 @@ package app.helper;
 
 public class ModelTable {
 
+
+    private static ModelTable Instance;
+
+    public ModelTable()
+    {
+        Instance = this;
+    }
+
+    public static ModelTable getInstance()
+    {
+        return Instance;
+    }
+
+    public String Pid()
+    {
+        return getId();
+    }
+
+    public String firstname()
+    {
+        return getFname();
+    }
+
+    public String lastname()
+    {
+        return getLname();
+    }
+
+
     String id,fname,lname,age,ph,pco,hco,date;
 
-    public ModelTable(String resultSetString, String string, String lname, String age, String ph, String pco, String id, String fname) {
+    public ModelTable(String id, String fname, String lname, String age, String ph, String pco, String hco, String date) {
+        this.id = id;
+        this.fname = fname;
+        this.lname = lname;
+        this.age = age;
+        this.ph = ph;
+        this.pco = pco;
+        this.hco = hco;
+        this.date = date;
+
+
     }
+
+
 
     public String getId() {
         return id;

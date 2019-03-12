@@ -91,30 +91,6 @@ public class LoginController implements Initializable {
     }
 
 
-    @FXML
-    void intialized() {
-
-
-
-        String loginText = tf_username.getText().trim();
-        String loginPwd  = pf_password.getText().trim();
-
-
-
-        login.setOnAction (event -> {
-            if (!loginText.equals("") || !loginPwd.equals("")) {
-            loginUser(loginText, loginPwd);
-            } else
-            {
-                System.out.println("Error Login in User");
-            }
-        });
-
-
-    }
-
-
-
 
     @FXML
     void login(MouseEvent event) throws SQLException, IOException {
@@ -130,32 +106,8 @@ public class LoginController implements Initializable {
         Statement statement = connection.createStatement();
 
         ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS_TABLE WHERE username" +
-                " = '" + usernameDB + "' AND password = '" + passwordDB + "'");
+                " = '" + usernameDB + "' AND password = '" + passwordDB + "' AND role = 0");
 
-
-if (tf_username.equals("admin")) {
-    String GetAdmin =("SELECT * FROM ADMIN_TABLE WHERE username" +
-            " ='" + usernameDB + "' AND password ='" + passwordDB +"'");
-    ResultSet getAdmin =statement.executeQuery(GetAdmin);
-
-    if (resultSet.next()) {
-        Parent root = FXMLLoader.load(getClass().getResource("/app/view/Main.fxml"));
-
-        Node node = (Node) event.getSource();
-
-        Stage stage = (Stage) node.getScene().getWindow();
-
-        stage.setScene(new Scene(root));
-    }
-    else {
-        Shaker shaker = new Shaker(tf_username);
-        shaker.shake();
-
-        errorLogin.setText("Incorrect Admin Account");
-
-    }
-}
-   else {
 
     if (resultSet.next()) {
         Parent root = FXMLLoader.load(getClass().getResource("/app/view/Home.fxml"));
@@ -184,7 +136,7 @@ if (tf_username.equals("admin")) {
     }
 }
 
-    }
+
 
 
 
@@ -205,14 +157,6 @@ if (tf_username.equals("admin")) {
         notificationBuilder.showConfirm();
     }
 
-
-
-    private void loginUser(String username, String password) {
-        //Check if the User Exists in the database
-        // if true -> Home page
-
-
-    }
 
 
     @Override
