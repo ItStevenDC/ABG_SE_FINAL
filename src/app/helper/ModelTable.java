@@ -31,9 +31,9 @@ public class ModelTable {
     }
 
 
-    String id,fname,lname,age,ph,pco,hco,date;
+    String id,fname,lname,age,ph,pco,hco,date,interpreter;
 
-    public ModelTable(String id, String fname, String lname, String age, String ph, String pco, String hco, String date) {
+    public ModelTable(String id, String fname, String lname, String age, String ph, String pco, String hco, String date, String interpreter) {
         this.id = id;
         this.fname = fname;
         this.lname = lname;
@@ -42,6 +42,7 @@ public class ModelTable {
         this.pco = pco;
         this.hco = hco;
         this.date = date;
+        this.interpreter = interpreter;
 
 
     }
@@ -110,5 +111,13 @@ public class ModelTable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getInterpreter() {
+        return interpreter;
+    }
+
+    public void setInterpreter(String interpreter) {
+        this.interpreter = interpreter;
     }
 }

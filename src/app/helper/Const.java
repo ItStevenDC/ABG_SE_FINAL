@@ -12,9 +12,29 @@ public class Const {
     public static final String USERS_USERNAME = "username";
     public static final String USERS_PASSWORD = "password";
     public static final String USERS_EMAIL = "email";
+    public static final String USERS_ROLE = "role";
     public static final String USERS_GENDER = "gender";
 
+
+
+    public static final String PATIENT_TABLE = "PATIENT_TABLE";
     //PATIENTS Table Column Names
+
+    public static final String PATIENT_FNAME = "fname";
+    public static final String PATIENT_LNAME = "lname";
+    public static final String PATIENT_AGE = "age";
+    public static final String PATIENT_PH = "ph";
+    public static final String PATIENT_PCO = "pco";
+    public static final String PATIENT_HCO = "hco";
+    public static final String PATIENT_FIO = "fio";
+    public static final String PATIENT_DATE = "date";
+    public static final String PATIENT_TIME = "time";
+    public static final String PATIENT_COMMENTS = "comments";
+    public static final String PATIENT_RESULT = "result";
+    public static final String PATIENT_INTERPRETER = "interpreter";
+
+
+
 
     /**
      *  public static final String PATIENT_ID = "idpatient";

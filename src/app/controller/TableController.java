@@ -64,6 +64,11 @@ public class TableController implements Initializable {
     @FXML
     private TableColumn<ModelTable, String> col_date;
 
+
+    @FXML
+    private TableColumn<ModelTable, String> col_interpreter;
+
+
     double x = 0, y = 0;
 
     @FXML
@@ -107,7 +112,8 @@ public class TableController implements Initializable {
                             resultSet.getString("ph"),
                             resultSet.getString("pco"),
                             resultSet.getString("hco"),
-                            resultSet.getString("date")));
+                            resultSet.getString("date"),
+                            resultSet.getString("interpreter")));
 
                 }
 
@@ -126,6 +132,7 @@ public class TableController implements Initializable {
         col_pco.setCellValueFactory(new PropertyValueFactory<>("pco"));
         col_hco.setCellValueFactory(new PropertyValueFactory<>("hco"));
         col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        col_interpreter.setCellValueFactory(new PropertyValueFactory<>("interpreter"));
 
 
 

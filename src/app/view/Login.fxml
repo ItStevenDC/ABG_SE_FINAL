@@ -6,6 +6,8 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -14,6 +16,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="720.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.LoginController">
     <children>
+      <Text fx:id="userfname" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: White;" />
         <StackPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
                 <DropShadow />
@@ -21,13 +24,28 @@
             <children>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <VBox onMouseDragged="#dragged" onMousePressed="#pressed" style="-fx-background-color: #fe4451;" HBox.hgrow="ALWAYS" />
-                        <VBox style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                        <VBox onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="480.0" prefWidth="284.0" style="-fx-background-color: fdfd96;" HBox.hgrow="ALWAYS" />
+                        <VBox alignment="CENTER" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
 
                             <children>
-
-
-                                <fx:include source="title_bar.fxml" />
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+      
+      
+                                      <fx:include source="title_bar.fxml" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="50.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <ImageView fitHeight="224.0" fitWidth="279.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/logo.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets bottom="120.0" />
+                           </VBox.margin>
+                        </ImageView>
 
                             </children>
                         </VBox>
@@ -43,7 +61,8 @@
                                 <DropShadow />
                             </effect>
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em; -fx-font-family: Quicksand; -fx-font-weight: bold; -fx-fill: #ff3b49;" text="Login" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em; -fx-font-family: Quicksand; -fx-font-weight: bold; -fx-fill: #000000;" text="UST Hospital Center For Respiratory Medicine" />
+                        <Text layoutX="20.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em; -fx-font-family: Quicksand; -fx-font-weight: bold; -fx-fill: #000000;" text="Arterial Blood Gas Information Reader" />
                                 <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefWidth="250.0" style="-fx-background-color: white; -fx-border-color: #a2a2a2; -fx-border-width: 0px 0px 2px 0px;">
                                     <VBox.margin>
                                         <Insets top="30.0" />
@@ -79,7 +98,7 @@
                                         <Insets top="30.0" />
                                     </VBox.margin>
                                 </HBox>
-                                <Button fx:id="login" mnemonicParsing="false" onMouseClicked="#login" prefWidth="180.0" style="-fx-background-color: #ff3b49; -fx-background-radius: 100PX; -fx-text-fill: white;" text="Login">
+                                <Button fx:id="login" mnemonicParsing="false" onMouseClicked="#login" prefWidth="180.0" style="-fx-background-color: #fdfd96; -fx-background-radius: 100PX; -fx-text-fill: black; -fx-font-weight: Bold;" text="Login">
                                     <VBox.margin>
                                         <Insets top="30.0" />
                                     </VBox.margin>

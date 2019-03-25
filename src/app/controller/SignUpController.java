@@ -2,18 +2,25 @@ package app.controller;
 
 import app.helper.DbConnect;
 import app.helper.UpdatableBCrypt;
+import com.jfoenix.controls.JFXRadioButton;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,6 +34,18 @@ public class SignUpController implements Initializable {
 
 
     @FXML
+    private JFXRadioButton RbAdmin;
+
+    @FXML
+    private JFXRadioButton RbMale;
+
+    @FXML
+    private ToggleGroup tgGender;
+
+    @FXML
+    private JFXRadioButton RbFemale;
+
+    @FXML
     private TextField tf_username;
 
     @FXML
@@ -34,12 +53,6 @@ public class SignUpController implements Initializable {
 
     @FXML
     private TextField tf_lastname;
-
-    @FXML
-    private CheckBox isMale;
-
-    @FXML
-    private CheckBox isFemale;
 
     @FXML
     private TextField tf_email;
@@ -85,18 +98,44 @@ public class SignUpController implements Initializable {
     public String getGender()  {
 
         String gender = null;
-        if (isMale.isSelected()) {
+        if (RbMale.isSelected()) {
              gender = "Male";
 
-        } else if (isFemale.isSelected()) {
+        } else if (RbFemale.isSelected()) {
              gender = "Female";
-        } else if (isFemale.isSelected() && isMale.isSelected()) {
-            System.out.println("Select Only One Gender");
         }
         return gender;
     }
+
+    public int isAdmin() {
+
+        int Admin = 0;
+
+        if (RbAdmin.isSelected()) {
+            Admin = 1;
+        } else {
+            Admin = 0;
+        }
+        return Admin;
+    }
+
     @FXML
-    void signup(MouseEvent event) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
+    void backPage (MouseEvent event) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException, IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/app/view/AdminLogin.fxml"));
+
+        Node node = (Node) event.getSource();
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setScene(new Scene(root));
+
+
+    }
+
+
+    @FXML
+    void signup(MouseEvent event) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException, IOException {
 
         /*
         String gender = "";
@@ -116,6 +155,8 @@ public class SignUpController implements Initializable {
 
 
 
+
+
         DbConnect DbConnect = new DbConnect();
         Connection connection = DbConnect.getConnection();
 
@@ -126,16 +167,54 @@ public class SignUpController implements Initializable {
         String hashpw = (UpdatableBCrypt.hashpw(password, UpdatableBCrypt.gensalt()));
 
         DbConnect.signUpUser(tf_firstname.getText(),tf_lastname.getText(), tf_username.getText(),
-                tf_email.getText(), hashpw, getGender());
+                tf_email.getText(), pf_password.getText(), isAdmin() , getGender());
 
 
 
+        if (RbAdmin.isSelected()) {
 
+            Parent root = FXMLLoader.load(getClass().getResource("/app/view/AdminLogin.fxml"));
+
+            Node node = (Node) event.getSource();
+
+            Stage stage = (Stage) node.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+
+            SucSign();
+
+
+        } else
+        {
+            Parent root = FXMLLoader.load(getClass().getResource("/app/view/Login.fxml"));
+
+            Node node = (Node) event.getSource();
+
+            Stage stage = (Stage) node.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+
+            SucSign();
+        }
 
     }
 
 
-
+void SucSign() {
+    Notifications notificationBuilder = Notifications.create()
+            .title("Sign Up Successful!")
+            .text("Please Login to continue using the System")
+            .graphic(null)
+            .hideAfter(Duration.seconds(5))
+            .position(Pos.CENTER)
+            .onAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    System.out.println("Sign Up Successfull!");
+                }
+            });
+    notificationBuilder.showConfirm();
+}
 
         /*
         DbConnect DbConnect = new DbConnect();

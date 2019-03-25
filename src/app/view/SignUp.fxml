@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.SignUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.SignUpController">
     <children>
         <StackPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
@@ -22,7 +23,7 @@
             <children>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <VBox style="-fx-background-color: #7caeff;" HBox.hgrow="ALWAYS" />
+                        <VBox style="-fx-background-color: fdfd96;" HBox.hgrow="ALWAYS" />
                         <VBox style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
 
                             <children>
@@ -44,7 +45,7 @@
                                 <DropShadow />
                             </effect>
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em; -fx-font-family: Quicksand; -fx-font-weight: bold; -fx-fill: #7caeff;" text="Sign Up" />
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em; -fx-font-family: Quicksand; -fx-font-weight: bold; -fx-fill: black;" text="Sign Up" />
                         <HBox alignment="CENTER_RIGHT" layoutX="60.0" layoutY="149.0" maxWidth="-Infinity" prefWidth="300.0" style="-fx-background-color: white; -fx-border-color: #a2a2a2; -fx-border-width: 0px 0px 2px 0px;">
                            <children>
                               <TextField fx:id="tf_firstname" promptText="First Name" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
@@ -131,50 +132,52 @@
                                     </VBox.margin>
                                 </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <JFXCheckBox fx:id="isMale" selected="true" style="-fx-font-size: 1em; -fx-font-family: Quicksand;" text="MALE">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </JFXCheckBox>
-                              <JFXCheckBox fx:id="isFemale" style="-fx-font-family: Quicksand; -fx-font-size: 1em;" text="FEMALE">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </JFXCheckBox>
-                              <JFXCheckBox fx:id="isAdmin" style="-fx-font-family: Quicksand; -fx-font-size: 1em;" text="ADMIN" />
-                           </children>
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
+                           <children>
+                              <JFXRadioButton fx:id="RbMale" selected="true" style="-fx-font-family: Quicksand; -fx-font-size: 14;" text="Male">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="tgGender" />
+                                 </toggleGroup>
+                              </JFXRadioButton>
+                              <JFXRadioButton fx:id="RbFemale" style="-fx-font-family: Quicksand; -fx-font-size: 14;" text="Female" toggleGroup="$tgGender" />
+                              <JFXRadioButton fx:id="RbAdmin" style="-fx-font-family: Quicksand; -fx-font-size: 14;" text="Admin">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </JFXRadioButton>
+                           </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fx:id="takenusername" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 12; -fx-fill: Red; -fx-font-family: Quicksand;" />
+                              <VBox prefHeight="39.0" prefWidth="440.0">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Text fx:id="takenusername" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 12; -fx-fill: Red; -fx-font-family: Quicksand;" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Button fx:id="signUpButton1" mnemonicParsing="false" onMouseClicked="#signup" prefWidth="180.0" style="-fx-background-color: fdfd96; -fx-background-radius: 100PX; -fx-text-fill: Black; -fx-font-weight: Bold;" text="Sign Up" />
+                                                  <Button mnemonicParsing="false" onMouseClicked="#backPage" prefWidth="180.0" style="-fx-background-color: fdfd96; -fx-background-radius: 100PX; -fx-text-fill: Black; -fx-font-weight: Bold;" text="Return">
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                                  </Button>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                              </VBox>
                            </children>
                         </HBox>
-                                <Button fx:id="signUpButton" mnemonicParsing="false" onMouseClicked="#signup" prefWidth="180.0" style="-fx-background-color: #7caeff; -fx-background-radius: 100PX; -fx-text-fill: white;" text="SignUp">
-                                    <VBox.margin>
-                                        <Insets top="25.0" />
-                                    </VBox.margin>
-                                </Button>
-                                <HBox alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
-                                    <padding>
-                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                    </padding>
-                                    <children>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-family: Quicksand;" text="Already have and account">
-                                            <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                            </HBox.margin>
-                                        </Text>
-                                        <Text onMouseClicked="#login" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-family: Quicksand; -fx-fill: #7caeff;" text="Login">
-                                            <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                            </HBox.margin>
-                                        </Text>
-                                    </children>
-                                </HBox>
                             </children>
                             <padding>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

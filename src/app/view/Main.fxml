@@ -3,6 +3,8 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -10,14 +12,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="550.0" prefWidth="720.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainController">
+<AnchorPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="750.0" prefWidth="720.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainController">
     <children>
-        <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <StackPane prefHeight="300.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
                 <DropShadow />
             </effect>
             <children>
-                <HBox prefHeight="100.0" prefWidth="200.0">
+                <HBox prefHeight="500.0" prefWidth="200.0">
                     <children>
                         <VBox style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
 
@@ -28,14 +30,31 @@
                                 <fx:include source="title_bar.fxml" />
                         <VBox prefHeight="400.0" prefWidth="100.0">
                            <children>
+                              <HBox prefHeight="33.0" prefWidth="700.0">
+                                 <children>
+                                    <Text fx:id="DInterpText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 14;" text="Interpreted By: ">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <Text fx:id="DInterpreter" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 14;">
+                                       <HBox.margin>
+                                          <Insets left="3.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="Name:">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="First name:">
                                        <HBox.margin>
                                           <Insets left="10.0" right="15.0" top="12.0" />
                                        </HBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="Namefield" maxWidth="550.0" prefWidth="250.0">
+                                    <JFXTextField fx:id="FNamefield" maxWidth="550.0" prefWidth="250.0">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
@@ -44,16 +63,29 @@
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="Age:">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="Last name:">
                                        <HBox.margin>
                                           <Insets left="10.0" right="15.0" top="12.0" />
                                        </HBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="Agefield" maxWidth="550.0" prefWidth="250.0">
+                                    <JFXTextField fx:id="LNamefield" maxWidth="550.0" prefWidth="250.0">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
                                     </JFXTextField>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="Date of Birth:">
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="15.0" top="12.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <DatePicker fx:id="bdayField" promptText="mm / dd / yyyy">
+                                       <HBox.margin>
+                                          <Insets top="8.0" />
+                                       </HBox.margin></DatePicker>
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
@@ -63,7 +95,7 @@
                                           <Insets left="10.0" right="15.0" top="12.0" />
                                        </HBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="Phfield" maxWidth="550.0" prefWidth="250.0" promptText="( 7.35 - 7.45 )">
+                                    <JFXTextField fx:id="Phfield" maxWidth="550.0" prefHeight="25.0" prefWidth="272.0" promptText="( 7.35 - 7.45 )">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
@@ -77,7 +109,7 @@
                                           <Insets left="10.0" right="15.0" top="12.0" />
                                        </HBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="Cofield" maxWidth="550.0" prefWidth="250.0" promptText="( 35 - 45 )" />
+                                    <JFXTextField fx:id="Cofield" maxWidth="550.0" prefHeight="25.0" prefWidth="259.0" promptText="( 35 - 45 )" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
@@ -87,28 +119,41 @@
                                           <Insets left="10.0" right="15.0" top="12.0" />
                                        </HBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="Hcofield" maxWidth="550.0" prefWidth="250.0" promptText="( 22 - 26 )" />
+                                    <JFXTextField fx:id="Hcofield" maxWidth="550.0" prefHeight="25.0" prefWidth="256.0" promptText="( 22 - 26 )" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="FiO2:">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="Oxygen Saturation:">
                                        <HBox.margin>
                                           <Insets left="10.0" right="15.0" top="12.0" />
                                        </HBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="Ofield" maxWidth="550.0" prefWidth="250.0" promptText="( 90 - 100 )" />
+                                    <JFXTextField fx:id="Ofield" maxWidth="550.0" prefHeight="25.0" prefWidth="263.0" promptText="( 90 - 100 )" />
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
                         <HBox prefWidth="700.0">
                            <children>
-                              <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;">
-                                 <HBox.margin>
-                                    <Insets left="10.0" top="20.0" />
-                                 </HBox.margin>
-                              </Text>
+                              <VBox prefHeight="200.0" prefWidth="600.0">
+                                 <children>
+                                    <VBox prefHeight="150.0" prefWidth="100.0">
+                                       <children>
+                                          <Text fx:id="commentsText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="COMMENTS:" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="10.0" />
+                                       </VBox.margin>
+                                    </VBox>
+                                    <TextArea fx:id="commentsBox" prefHeight="299.0" prefWidth="653.0">
+                                       <VBox.margin>
+                                          <Insets left="10.0" />
+                                       </VBox.margin>
+                                    </TextArea>
+                                    <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" />
+                                 </children>
+                              </VBox>
                            </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">

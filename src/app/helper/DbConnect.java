@@ -47,7 +47,7 @@ public class DbConnect extends Config {
 
 
     //Write
-    public void signUpUser(String firstname, String lastname, String username, String password, String email, String gender) throws SQLException {
+    public void signUpUser(String firstname, String lastname, String username, String password, String email, int role, String gender) throws SQLException {
 
 
         DbConnect DbConnect = new DbConnect();
@@ -59,8 +59,9 @@ public class DbConnect extends Config {
                 Const.USERS_USERNAME + "," +
                 Const.USERS_PASSWORD + "," +
                 Const.USERS_EMAIL + "," +
+                Const.USERS_ROLE + "," +
                 Const.USERS_GENDER + ")"
-                + "VALUES(?,?,?,?,?,?)";
+                + "VALUES(?,?,?,?,?,?,?)";
 
         PreparedStatement ps = null;
 
@@ -72,7 +73,8 @@ public class DbConnect extends Config {
             preparedStatement.setString(3, username);
             preparedStatement.setString(4, email);
             preparedStatement.setString(5, password);
-            preparedStatement.setString(6, gender);
+            preparedStatement.setInt(6, role);
+            preparedStatement.setString(7, gender);
 
             preparedStatement.executeUpdate();
 
@@ -100,6 +102,58 @@ public class DbConnect extends Config {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public void registerPatient(String fname, String lname, String age, String ph, String pco, String hco, String fio, String date, String time, String comments, String result, String interpreter) throws SQLException {
+
+        DbConnect DbConnect = new DbConnect();
+        Connection connection = DbConnect.getInstance().getConnection();
+
+        String insert = "INSERT INTO " + Const.PATIENT_TABLE + "(" +
+                Const.PATIENT_FNAME + "," +
+                Const.PATIENT_LNAME + "," +
+                Const.PATIENT_AGE + "," +
+                Const.PATIENT_PH + "," +
+                Const.PATIENT_PCO + "," +
+                Const.PATIENT_HCO + "," +
+                Const.PATIENT_FIO + "," +
+                Const.PATIENT_DATE + "," +
+                Const.PATIENT_TIME + "," +
+                Const.PATIENT_COMMENTS + "," +
+                Const.PATIENT_RESULT + "," +
+                Const.PATIENT_INTERPRETER + ")"
+                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        PreparedStatement ps = null;
+
+        try {
+            PreparedStatement preparedStatement = DbConnect.getConnection().prepareStatement(insert);
+
+            preparedStatement.setString(1, fname);
+            preparedStatement.setString(2, lname);
+            preparedStatement.setString(3, age);
+            preparedStatement.setString(4, ph);
+            preparedStatement.setString(5, pco);
+            preparedStatement.setString(6, hco);
+            preparedStatement.setString(7, fio);
+            preparedStatement.setString(8, date);
+            preparedStatement.setString(9, time);
+            preparedStatement.setString(10, comments);
+            preparedStatement.setString(11, result);
+            preparedStatement.setString(12, interpreter);
+
+            preparedStatement.executeUpdate();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
             if (ps != null) {
                 ps.close();
             }

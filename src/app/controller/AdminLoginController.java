@@ -32,7 +32,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+public class AdminLoginController implements Initializable {
 
     @FXML
     private Text userfname;
@@ -72,26 +72,6 @@ public class LoginController implements Initializable {
     }
 
 
-    private static LoginController Instance;
-
-    public LoginController()
-    {
-        Instance = this;
-    }
-
-
-    public static LoginController getInstance()
-    {
-        return Instance;
-    }
-
-
-    public String firstname()
-    {
-        return userfname.getText();
-    }
-
-
 
     @FXML
     void login(MouseEvent event) throws SQLException, IOException {
@@ -107,40 +87,39 @@ public class LoginController implements Initializable {
         Statement statement = connection.createStatement();
 
         ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS_TABLE WHERE username" +
-                " = '" + usernameDB + "' AND password = '" + passwordDB + "' AND role = 0");
+                " = '" + usernameDB + "' AND password = '" + passwordDB + "' AND role = 1");
 
 
-    if (resultSet.next()) {
-        Parent root = FXMLLoader.load(getClass().getResource("/app/view/Home.fxml"));
+        if (resultSet.next()) {
+            Parent root = FXMLLoader.load(getClass().getResource("/app/view/SignUp.fxml"));
+
+            Node node = (Node) event.getSource();
+
+            Stage stage = (Stage) node.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+
+        } else {
+            Shaker shaker = new Shaker(tf_username);
+            shaker.shake();
+
+            errorLogin.setText("Incorrect Username or Password!");
+
+        }
+    }
+
+
+    @FXML
+    void UserLogin(MouseEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/app/view/Login.fxml"));
 
         Node node = (Node) event.getSource();
 
         Stage stage = (Stage) node.getScene().getWindow();
 
         stage.setScene(new Scene(root));
-
-
-        String Getfname = "SELECT firstname FROM USERS_TABLE WHERE username" + "= '" + usernameDB + "'";
-        ResultSet getName = statement.executeQuery(Getfname);
-
-        while (getName.next()) {
-            String fName = getName.getString("firstname");
-            System.out.println("Login Successful");
-            userfname.setText(fName);
-            System.out.println("User " + fName + " logged in!");
-        }
-    } else {
-        Shaker shaker = new Shaker(tf_username);
-        shaker.shake();
-
-        errorLogin.setText("Incorrect Username or Password!");
-
     }
-}
-
-
-
-
 
     @FXML
     void signup(MouseEvent event) throws IOException {
