@@ -5,8 +5,9 @@
 	<contentEntry url="file://$MODULE_DIR$"/>
 	<levels>
 		<level name="fontawesomefx-8.9" value="project"/>
-		<level name="sqlite-jdbc-3.7.2" value="project"/>
 		<level name="jfoenix-8.0.8" value="project"/>
 		<level name="mysql-connector-java-8.0.12" value="project"/>
+		<level name="sqlite-jdbc-3.7.2" value="project"/>
+		<level name="controlsfx-samples-8.40.141" value="project"/>
 	</levels>
 </component>
