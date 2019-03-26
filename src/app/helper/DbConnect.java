@@ -111,7 +111,7 @@ public class DbConnect extends Config {
         }
     }
 
-    public void registerPatient(String fname, String lname, String age, String ph, String pco, String hco, String fio, String date, String time, String comments, String result, String interpreter) throws SQLException {
+    public void registerPatient(String fname, String lname, String age, String ph, String pco, String hco, String fio, String datem, String timem, String comments, String result, String interpreter) throws SQLException {
 
         DbConnect DbConnect = new DbConnect();
         Connection connection = DbConnect.getInstance().getConnection();
@@ -124,8 +124,8 @@ public class DbConnect extends Config {
                 Const.PATIENT_PCO + "," +
                 Const.PATIENT_HCO + "," +
                 Const.PATIENT_FIO + "," +
-                Const.PATIENT_DATE + "," +
-                Const.PATIENT_TIME + "," +
+                Const.PATIENT_DATEM + "," +
+                Const.PATIENT_TIMEM + "," +
                 Const.PATIENT_COMMENTS + "," +
                 Const.PATIENT_RESULT + "," +
                 Const.PATIENT_INTERPRETER + ")"
@@ -143,8 +143,8 @@ public class DbConnect extends Config {
             preparedStatement.setString(5, pco);
             preparedStatement.setString(6, hco);
             preparedStatement.setString(7, fio);
-            preparedStatement.setString(8, date);
-            preparedStatement.setString(9, time);
+            preparedStatement.setString(8, datem);
+            preparedStatement.setString(9, timem);
             preparedStatement.setString(10, comments);
             preparedStatement.setString(11, result);
             preparedStatement.setString(12, interpreter);

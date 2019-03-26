@@ -32,7 +32,7 @@ public class TitleBarController implements Initializable {
 
         Stage stage = (Stage) node.getScene().getWindow();
 
-        stage.setFullScreenExitHint(" ");
+        stage.setFullScreenExitHint("Press Escape To Exit Fullscreen");
         stage.setFullScreen(true);
 
     }

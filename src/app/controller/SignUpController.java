@@ -122,7 +122,7 @@ public class SignUpController implements Initializable {
     @FXML
     void backPage (MouseEvent event) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException, IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/app/view/AdminLogin.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/app/view/AdminHome.fxml"));
 
         Node node = (Node) event.getSource();
 

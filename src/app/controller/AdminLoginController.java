@@ -86,7 +86,7 @@ public class AdminLoginController implements Initializable {
 
 
         if (resultSet.next()) {
-            Parent root = FXMLLoader.load(getClass().getResource("/app/view/SignUp.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/app/view/AdminHome.fxml"));
 
             Node node = (Node) event.getSource();
 

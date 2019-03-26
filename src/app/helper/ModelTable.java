@@ -31,9 +31,9 @@ public class ModelTable {
     }
 
 
-    String id,fname,lname,age,ph,pco,hco,date,interpreter;
+    String id,fname,lname,age,ph,pco,hco,datem,comments,interpreter,results;
 
-    public ModelTable(String id, String fname, String lname, String age, String ph, String pco, String hco, String date, String interpreter) {
+    public ModelTable(String id, String fname, String lname, String age, String ph, String pco, String hco, String datem,String comments, String interpreter,String results) {
         this.id = id;
         this.fname = fname;
         this.lname = lname;
@@ -41,8 +41,10 @@ public class ModelTable {
         this.ph = ph;
         this.pco = pco;
         this.hco = hco;
-        this.date = date;
+        this.datem = datem;
+        this.comments = comments;
         this.interpreter = interpreter;
+        this.results = results;
 
 
     }
@@ -105,12 +107,20 @@ public class ModelTable {
         this.hco = hco;
     }
 
-    public String getDate() {
-        return date;
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public String getDatem() {
+        return datem;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        this.datem = datem;
     }
 
     public String getInterpreter() {
@@ -120,4 +130,8 @@ public class ModelTable {
     public void setInterpreter(String interpreter) {
         this.interpreter = interpreter;
     }
+
+    public String getResults() { return results;}
+
+    public void setResults(String results) {this.results = results;}
 }

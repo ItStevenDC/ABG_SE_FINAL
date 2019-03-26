@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import java.awt.TextArea;
 
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -93,6 +93,30 @@ public class HomeController implements Initializable {
     @FXML
     void Interpretpatients(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/app/view/Main.fxml"));
+
+        Node node = (Node) event.getSource();
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setScene(new Scene(root));
+
+    }
+
+    @FXML
+    void UpdateData(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/app/view/EditPatient.fxml"));
+
+        Node node = (Node) event.getSource();
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setScene(new Scene(root));
+
+    }
+
+    @FXML
+    void abgAlgo(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/app/view/Abgtree.fxml"));
 
         Node node = (Node) event.getSource();
 

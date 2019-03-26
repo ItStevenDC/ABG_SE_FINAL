@@ -11,14 +11,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="500.0" prefWidth="856.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.TableController">
+<AnchorPane maxHeight="500.0" maxWidth="958.0" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="500.0" prefWidth="922.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.TableController">
     <children>
-        <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <StackPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
                 <DropShadow />
             </effect>
             <children>
-                <HBox prefHeight="100.0" prefWidth="200.0">
+                <HBox>
                     <children>
                         <VBox style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
 
@@ -29,48 +29,61 @@
                                 <fx:include source="title_bar.fxml" />
                         <VBox prefHeight="36.0" prefWidth="700.0">
                            <children>
-                              <HBox prefHeight="100.0" prefWidth="200.0">
+                              <HBox>
                                  <children>
-                                    <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#backPage" prefWidth="100.0" style="-fx-background-color: #fe4451; -fx-background-radius: 100px; -fx-text-fill: white;" text="Return">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                    <HBox prefHeight="32.0" prefWidth="139.0">
-                                       <children>
-                                          <Button mnemonicParsing="false" onMouseClicked="#editPage" prefWidth="100.0" style="-fx-background-color: #fe4451; -fx-background-radius: 100px; -fx-text-fill: white;" text="Edit">
-                                             <HBox.margin>
-                                                <Insets left="20.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                       </children>
-                                    </HBox>
                                     <HBox prefHeight="100.0" prefWidth="300.0">
                                        <children>
-                                          <JFXTextField fx:id="searchField" onKeyReleased="#Filter" prefHeight="25.0" prefWidth="303.0" promptText="Search" style="-fx-font-family: Quicksand;" />
+                                          <JFXTextField fx:id="searchField" onKeyReleased="#Filter" prefHeight="25.0" prefWidth="303.0" promptText="Search" style="-fx-font-family: Quicksand;">
+                                             <HBox.margin>
+                                                <Insets bottom="10.0" left="10.0" />
+                                             </HBox.margin></JFXTextField>
                                        </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
                                     </HBox>
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
-                        <VBox prefHeight="400.0" prefWidth="100.0">
+                        <VBox>
                            <children>
-                              <TableView fx:id="table" prefHeight="404.0" prefWidth="700.0">
+                              <TableView fx:id="table">
                                 <columns>
-                                  <TableColumn fx:id="col_id" prefWidth="75.0" text="Patient ID" />
-                                  <TableColumn fx:id="col_fn" prefWidth="109.0" text="First Name" />
-                                    <TableColumn fx:id="col_ln" prefWidth="86.0" text="Last Name" />
-                                    <TableColumn fx:id="col_age" prefWidth="61.0" text="Age" />
-                                    <TableColumn fx:id="col_ph" prefWidth="68.0" text="Ph" />
-                                    <TableColumn fx:id="col_pco" prefWidth="69.0" text="pCO2" />
-                                    <TableColumn fx:id="col_hco" prefWidth="90.0" text="Bicarbonate" />
-                                    <TableColumn fx:id="col_date" prefWidth="138.0" text="Last Modified" />
-                                    <TableColumn fx:id="col_interpreter" prefWidth="138.0" text="Interpreted By" />
+                                  <TableColumn fx:id="col_id" maxWidth="100.0" prefWidth="100.0" text="Patient ID" />
+                                  <TableColumn fx:id="col_fn" maxWidth="100.0" prefWidth="100.0" text="First Name" />
+                                    <TableColumn fx:id="col_ln" maxWidth="100.0" prefWidth="100.0" text="Last Name" />
+                                    <TableColumn fx:id="col_age" maxWidth="100.0" prefWidth="100.0" text="Age" />
+                                    <TableColumn fx:id="col_ph" maxWidth="100.0" prefWidth="100.0" text="Ph" />
+                                    <TableColumn fx:id="col_pco" maxWidth="100.0" prefWidth="100.0" text="pCO2" />
+                                    <TableColumn fx:id="col_hco" maxWidth="100.0" prefWidth="100.0" text="Bicarbonate" />
+                                    <TableColumn fx:id="col_date" maxWidth="100.0" prefWidth="100.0" text="Last Modified" />
+                                    <TableColumn fx:id="col_interpreter" maxWidth="100.0" prefWidth="100.0" text="Interpreted By" />
                                 </columns>
                               </TableView>
                            </children>
                         </VBox>
+                        <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#backPage" prefWidth="100.0" style="-fx-background-color: #fe4451; -fx-background-radius: 100px; -fx-text-fill: white;" text="Return">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <HBox prefHeight="32.0" prefWidth="139.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onMouseClicked="#editPage" prefWidth="100.0" style="-fx-background-color: #fe4451; -fx-background-radius: 100px; -fx-text-fill: white;" text="Edit">
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>
 
 
                             </children>

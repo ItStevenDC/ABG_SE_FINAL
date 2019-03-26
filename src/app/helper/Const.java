@@ -27,8 +27,8 @@ public class Const {
     public static final String PATIENT_PCO = "pco";
     public static final String PATIENT_HCO = "hco";
     public static final String PATIENT_FIO = "fio";
-    public static final String PATIENT_DATE = "date";
-    public static final String PATIENT_TIME = "time";
+    public static final String PATIENT_DATEM = "datem";
+    public static final String PATIENT_TIMEM = "timem";
     public static final String PATIENT_COMMENTS = "comments";
     public static final String PATIENT_RESULT = "result";
     public static final String PATIENT_INTERPRETER = "interpreter";

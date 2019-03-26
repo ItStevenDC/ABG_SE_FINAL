@@ -112,8 +112,10 @@ public class TableController implements Initializable {
                             resultSet.getString("ph"),
                             resultSet.getString("pco"),
                             resultSet.getString("hco"),
-                            resultSet.getString("date"),
-                            resultSet.getString("interpreter")));
+                            resultSet.getString("datem"),
+                            resultSet.getString("comments"),
+                            resultSet.getString("interpreter"),
+                            resultSet.getString("result")));
 
                 }
 
@@ -131,7 +133,7 @@ public class TableController implements Initializable {
         col_ph.setCellValueFactory(new PropertyValueFactory<>("ph"));
         col_pco.setCellValueFactory(new PropertyValueFactory<>("pco"));
         col_hco.setCellValueFactory(new PropertyValueFactory<>("hco"));
-        col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        col_date.setCellValueFactory(new PropertyValueFactory<>("datem"));
         col_interpreter.setCellValueFactory(new PropertyValueFactory<>("interpreter"));
 
 
@@ -170,7 +172,7 @@ public class TableController implements Initializable {
                     {
                         return true;
                     }
-                    else if (modelTable.getDate().toLowerCase().contains(lowerCaseFilter))
+                    else if (modelTable.getDatem().toLowerCase().contains(lowerCaseFilter))
                     {
                         return true;
                     }
