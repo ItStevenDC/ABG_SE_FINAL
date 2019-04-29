@@ -160,14 +160,14 @@ public class SignUpController implements Initializable {
         DbConnect DbConnect = new DbConnect();
         Connection connection = DbConnect.getConnection();
 
-
+        int adminfirst = 0;
 
         String password = String.valueOf(pf_password.getText());
 
         String hashpw = (UpdatableBCrypt.hashpw(password, UpdatableBCrypt.gensalt()));
 
         DbConnect.signUpUser(tf_firstname.getText(),tf_lastname.getText(), tf_username.getText(),
-                tf_email.getText(), pf_password.getText(), isAdmin() , getGender());
+                tf_email.getText(), pf_password.getText(), isAdmin() , adminfirst, getGender());
 
 
 

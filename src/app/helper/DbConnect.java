@@ -47,7 +47,7 @@ public class DbConnect extends Config {
 
 
     //Write
-    public void signUpUser(String firstname, String lastname, String username, String password, String email, int role, String gender) throws SQLException {
+    public void signUpUser(String firstname, String lastname, String username, String password, String email, int role,int adminfirst, String gender) throws SQLException {
 
 
         DbConnect DbConnect = new DbConnect();
@@ -60,8 +60,9 @@ public class DbConnect extends Config {
                 Const.USERS_PASSWORD + "," +
                 Const.USERS_EMAIL + "," +
                 Const.USERS_ROLE + "," +
+                Const.USERS_ADMINFIRST + "," +
                 Const.USERS_GENDER + ")"
-                + "VALUES(?,?,?,?,?,?,?)";
+                + "VALUES(?,?,?,?,?,?,?,?)";
 
         PreparedStatement ps = null;
 
@@ -74,7 +75,8 @@ public class DbConnect extends Config {
             preparedStatement.setString(4, email);
             preparedStatement.setString(5, password);
             preparedStatement.setInt(6, role);
-            preparedStatement.setString(7, gender);
+            preparedStatement.setInt(7, adminfirst);
+            preparedStatement.setString(8, gender);
 
             preparedStatement.executeUpdate();
 
