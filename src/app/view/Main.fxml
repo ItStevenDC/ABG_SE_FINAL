@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="750.0" prefWidth="720.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainController">
+<AnchorPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="750.0" prefWidth="720.0" style="-fx-background-color: f1c40f;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainController">
     <children>
         <StackPane prefHeight="300.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
@@ -134,7 +134,7 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <HBox prefWidth="700.0">
+                        <HBox prefHeight="219.0" prefWidth="700.0">
                            <children>
                               <VBox prefHeight="200.0" prefWidth="600.0">
                                  <children>
@@ -151,19 +151,22 @@
                                           <Insets left="10.0" />
                                        </VBox.margin>
                                     </TextArea>
-                                    <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" />
+                                    <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;">
+                                       <VBox.margin>
+                                          <Insets left="10.0" top="5.0" />
+                                       </VBox.margin></Text>
                                  </children>
                               </VBox>
                            </children>
                         </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="66.0" prefWidth="700.0">
                            <children>
                               <Button fx:id="InterpretData" mnemonicParsing="false" onMouseClicked="#interpret" prefWidth="180.0" style="-fx-background-color: #7caeff; -fx-background-radius: 100PX; -fx-text-fill: white;" text="Submit">
                                  <HBox.margin>
                                     <Insets left="15.0" top="20.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button fx:id="prevButton" mnemonicParsing="false" onMouseClicked="#backPage" prefWidth="180.0" style="-fx-background-color: #fe4451; -fx-background-radius: 100PX; -fx-text-fill: white;" text="Return">
+                              <Button fx:id="prevButton" mnemonicParsing="false" onMouseClicked="#backPage" prefWidth="180.0" style="-fx-background-color: #fe4451; -fx-background-radius: 100PX; -fx-text-fill: white;" text="Back">
                                  <HBox.margin>
                                     <Insets left="20.0" top="20.0" />
                                  </HBox.margin>

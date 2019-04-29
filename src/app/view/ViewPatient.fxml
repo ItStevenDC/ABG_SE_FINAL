@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="500.0" maxWidth="958.0" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="500.0" prefWidth="922.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.TableController">
+<AnchorPane maxHeight="500.0" maxWidth="958.0" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="500.0" prefWidth="922.0" style="-fx-background-color: f1c40f;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.TableController">
     <children>
         <StackPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
@@ -65,7 +65,7 @@
                         </VBox>
                         <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#backPage" prefWidth="100.0" style="-fx-background-color: #fe4451; -fx-background-radius: 100px; -fx-text-fill: white;" text="Return">
+                              <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#backPage" prefWidth="100.0" style="-fx-background-color: #fe4451; -fx-background-radius: 100px; -fx-text-fill: white;" text="Back">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>

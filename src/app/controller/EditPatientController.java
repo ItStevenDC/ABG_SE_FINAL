@@ -28,16 +28,15 @@ import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Observable;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EditPatientController implements Initializable {
     @FXML
@@ -131,6 +130,7 @@ public class EditPatientController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
 
         EditValue();
         Connection connection = DbConnect.getInstance().getConnection();
@@ -238,8 +238,9 @@ public class EditPatientController implements Initializable {
             sortedData.comparatorProperty().bind(table.comparatorProperty());
             table.setItems(sortedData);
 
-        });
+             });
     }
+
     @FXML
     void backPage(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/app/view/Home.fxml"));
@@ -253,7 +254,7 @@ public class EditPatientController implements Initializable {
     }
 
     @FXML
-    void DeleteUser(MouseEvent event) throws IOException {
+    void DeleteUser(MouseEvent event) throws IOException, SQLException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
@@ -262,8 +263,9 @@ public class EditPatientController implements Initializable {
         Optional<ButtonType> action = alert.showAndWait();
 
         if(action.get() == ButtonType.OK) {
-            ModelTable ml = table.getItems().get(table.getSelectionModel().getSelectedIndex());
-            loadCellTable();
+            DeleteUserDB();
+
+            clearfields();
         }
     }
 
@@ -280,10 +282,17 @@ public class EditPatientController implements Initializable {
 
     }
 
+
+
     @FXML
      void updateUser(MouseEvent event) throws IOException {
 
 
+
+        updateData();
+
+    }
+    public void updateData(){
         try {
             ModelTable ml = table.getItems().get(table.getSelectionModel().getSelectedIndex());
                 LocalTime Rtime = LocalTime.now();
@@ -325,7 +334,8 @@ public class EditPatientController implements Initializable {
 
 
                     ps.close();
-                    refreshTable();
+                    RefreshTable();
+
                     clearfields();
                 }
 
@@ -348,9 +358,31 @@ public class EditPatientController implements Initializable {
         updateResultText.clear();
     }
 
-    private void refreshTable(){
+
+
+    private void DeleteUserDB() throws SQLException {
+        ModelTable ml = table.getItems().get(table.getSelectionModel().getSelectedIndex());
+        DbConnect DbConnect = new DbConnect();
+        Connection connection = DbConnect.getConnection();
+
+        String query = "DELETE FROM PATIENT_TABLE WHERE  id ='"+ml.getId()+"'";
+        PreparedStatement ps = connection.prepareStatement(query);
+
+        ps.executeUpdate();
+
+        RefreshTable();
+
+
+        ps.close();
+
+    }
+
+    private void RefreshTable() {
+
         oblist.clear();
+
         Connection connection = DbConnect.getInstance().getConnection();
+
         try {
             ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM PATIENT_TABLE");
 
@@ -376,7 +408,53 @@ public class EditPatientController implements Initializable {
             e.printStackTrace();
         }
 
+
+
+        table.setItems(oblist);
     }
+
+
+    /*
+     * Validations
+     */
+    private boolean validate(String field, String value, String pattern){
+        if(!value.isEmpty()){
+            Pattern p = Pattern.compile(pattern);
+            Matcher m = p.matcher(value);
+            if(m.find() && m.group().equals(value)){
+                return true;
+            }else{
+                validationAlert(field, false);
+                return false;
+            }
+        }else{
+            validationAlert(field, true);
+            return false;
+        }
+    }
+
+    private boolean emptyValidation(String field, boolean empty){
+        if(!empty){
+            return true;
+        }else{
+            validationAlert(field, true);
+            return false;
+        }
+    }
+
+    private void validationAlert(String field, boolean empty){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Validation Error");
+        alert.setHeaderText(null);
+        if(field.equals("Role")) alert.setContentText("Please Select "+ field);
+        else{
+            if(empty) alert.setContentText("Please Enter "+ field);
+            else alert.setContentText("Please Enter Valid "+ field);
+        }
+        alert.showAndWait();
+    }
+
+
     }
 
 

@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="520.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.UserStartController">
+<AnchorPane fx:id="anchorRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="665.0" prefWidth="975.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.UserStartController">
     <children>
-        <StackPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <StackPane fx:id="parentContainer" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
                 <DropShadow />
             </effect>
@@ -30,7 +30,7 @@
                         </VBox>
                     </children>
                 </HBox>
-                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #f2f2f2;">
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;">
                     <StackPane.margin>
                         <Insets bottom="45.0" left="45.0" right="45.0" top="45.0" />
                     </StackPane.margin>
@@ -49,9 +49,9 @@
                         <ImageView fitHeight="8.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </VBox>
-                  <VBox fx:id="adminSignin" alignment="CENTER" onMouseClicked="#goAdmin" prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: black; -fx-background-color: white;">
+                  <VBox fx:id="adminSignin" alignment="CENTER" onMouseClicked="#goAdmin" prefHeight="199.0" prefWidth="773.0" style="-fx-border-color: black; -fx-background-color: white;">
                      <children>
-                        <ImageView fitHeight="150.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="201.0" fitWidth="390.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../assets/Admin.jpg" />
                            </image>
@@ -59,6 +59,9 @@
                      </children>
                   </VBox>
                </children>
+               <effect>
+                  <DropShadow />
+               </effect>
                 </VBox>
             </children>
         </StackPane>

@@ -201,7 +201,7 @@ public class TableController implements Initializable {
 
     @FXML
     void editPage(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/app/view/Main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/app/view/EditPatient.fxml"));
 
         Node node = (Node) event.getSource();
 

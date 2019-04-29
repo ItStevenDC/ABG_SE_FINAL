@@ -32,6 +32,8 @@ import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
 
+
+
     @FXML
     private Button logout_button;
 
@@ -43,6 +45,12 @@ public class HomeController implements Initializable {
 
     @FXML
     private Text UserWelcome;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
 
 
     double x = 0, y = 0;
@@ -62,6 +70,11 @@ public class HomeController implements Initializable {
 
         stage.setX(event.getScreenX() - x);
         stage.setY(event.getScreenY() - y);
+    }
+
+    @FXML
+    void updateHome(MouseEvent event) {
+        UserWelcome.setText("Welcome, "+LoginController.getInstance().firstname()+"!");
     }
 
 
@@ -128,14 +141,5 @@ public class HomeController implements Initializable {
 
 
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        setUsername(LoginController.getInstance().firstname());
-    }
 
-    public void setUsername(String user)
-    {
-
-        this.UserWelcome.setText("Welcome, "+user.toUpperCase());
-    }
 }

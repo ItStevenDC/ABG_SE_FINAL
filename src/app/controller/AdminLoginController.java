@@ -2,6 +2,10 @@ package app.controller;
 
 import animation.Shaker;
 import app.helper.DbConnect;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,10 +15,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -25,6 +30,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminLoginController implements Initializable {
@@ -43,6 +49,15 @@ public class AdminLoginController implements Initializable {
 
     @FXML
     private Text errorLogin;
+
+    @FXML
+    private AnchorPane anchorRoot;
+
+    @FXML
+    private StackPane parentContainer;
+
+    @FXML
+    private HBox adminChangePW;
 
 
 
@@ -66,6 +81,25 @@ public class AdminLoginController implements Initializable {
         stage.setY(event.getScreenY() - y);
     }
 
+    private static AdminLoginController Instance;
+
+    public AdminLoginController()
+    {
+        Instance = this;
+    }
+
+
+    public static AdminLoginController getInstance()
+    {
+        return Instance;
+    }
+
+
+    public String usernme()
+    {
+        return tf_username.getText();
+    }
+
 
 
     @FXML
@@ -86,13 +120,38 @@ public class AdminLoginController implements Initializable {
 
 
         if (resultSet.next()) {
-            Parent root = FXMLLoader.load(getClass().getResource("/app/view/AdminHome.fxml"));
 
-            Node node = (Node) event.getSource();
+            String initial = AdminLoginController.getInstance().usernme();
 
-            Stage stage = (Stage) node.getScene().getWindow();
 
-            stage.setScene(new Scene(root));
+            ResultSet rSS = statement.executeQuery("SELECT * FROM USERS_TABLE WHERE username" +
+                    " = '" + initial + "' AND adminfirst = 1");
+
+            if (rSS.next()) {
+
+                Parent root = FXMLLoader.load(getClass().getResource("/app/view/AdminHome.fxml"));
+
+                Node node = (Node) event.getSource();
+
+                Stage stage = (Stage) node.getScene().getWindow();
+
+                stage.setScene(new Scene(root));
+                System.out.println("Admin Account Initialized...");
+
+            } else
+            {
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("First Time Sign In");
+                alert.setHeaderText("Change your password!");
+                alert.setContentText("Please change the default password given!");
+                Optional<ButtonType> action = alert.showAndWait();
+
+                if(action.get() == ButtonType.OK) {
+                    changePW();
+                }
+
+            }
 
         } else {
             Shaker shaker = new Shaker(tf_username);
@@ -132,6 +191,26 @@ public class AdminLoginController implements Initializable {
                 });
         notificationBuilder.showConfirm();
     }
+
+    public void changePW() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/app/view/ChangePW.fxml"));
+        Scene scene = adminChangePW.getScene();
+
+        root.translateYProperty().set(scene.getHeight());
+        parentContainer.getChildren().add(root);
+
+        Timeline timeline = new Timeline();
+        KeyValue kv = new KeyValue(root.translateYProperty(), 0 , Interpolator.EASE_IN);
+        KeyFrame kf = new KeyFrame(Duration.seconds(1),kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.setOnFinished(event1 -> {
+            parentContainer.getChildren().remove(anchorRoot);
+        });
+        timeline.play();
+    }
+
+
+
 
 
 

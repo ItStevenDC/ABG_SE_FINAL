@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="500.0" prefWidth="850.0" style="-fx-background-color: Transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.HomeController">
+<AnchorPane onMouseEntered="#updateHome" prefHeight="500.0" prefWidth="850.0" style="-fx-background-color: Transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.HomeController">
     <children>
         <StackPane alignment="TOP_LEFT" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
@@ -58,7 +58,7 @@
                                              <children>
                                                 <VBox prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                      <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0">
                                                          <children>
                                                             <Text fx:id="UserWelcome" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand;" text="Welcome,">
                                                                <VBox.margin>
@@ -66,11 +66,17 @@
                                                                </VBox.margin>
                                                             </Text>
                                                          </children>
+                                                         <VBox.margin>
+                                                            <Insets right="10.0" />
+                                                         </VBox.margin>
                                                       </VBox>
-                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                      <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0">
                                                          <children>
                                                             <Button fx:id="logout_button" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#logout" prefWidth="100.0" style="-fx-background-color: #ff3b49; -fx-background-radius: 100PX; -fx-text-fill: white; -fx-font-family: Quicksand;" text="Logout" />
                                                          </children>
+                                                         <VBox.margin>
+                                                            <Insets right="10.0" />
+                                                         </VBox.margin>
                                                       </VBox>
                                                    </children>
                                                    <HBox.margin>
@@ -106,13 +112,13 @@
                   <Insets top="110.0" />
                </StackPane.margin>
                <children>
-                  <HBox onMouseClicked="#Viewpatients" style="-fx-background-color: white;">
+                  <HBox onMouseClicked="#Interpretpatients" style="-fx-background-color: white;">
                      <children>
                         <VBox fx:id="Viewbox" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white;">
                            <children>
                               <ImageView fitHeight="385.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-color: black;">
                                  <image>
-                                    <Image url="@../assets/viewPatient.jpg" />
+                                    <Image url="@../assets/Interpret.jpg" />
                                  </image>
                               </ImageView>
                            </children>
@@ -122,13 +128,13 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox onMouseClicked="#Interpretpatients" style="-fx-background-color: #B0E0E6;">
+                  <HBox onMouseClicked="#Viewpatients" style="-fx-background-color: #B0E0E6;">
                      <children>
                         <VBox fx:id="InterpretBox" prefHeight="200.0" prefWidth="100.0">
                            <children>
                               <ImageView fitHeight="385.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../assets/Interpret.jpg" />
+                                    <Image url="@../assets/viewPatient.jpg" />
                                  </image>
                               </ImageView>
                            </children>
@@ -139,7 +145,7 @@
                      <children>
                         <ImageView fitHeight="385.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../assets/Update.jpg" />
+                              <Image url="@../assets/Update2.jpg" />
                            </image>
                         </ImageView>
                      </children>
