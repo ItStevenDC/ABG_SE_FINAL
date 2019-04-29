@@ -131,21 +131,5 @@ public class AdminHomeController implements Initializable {
         alert.showAndWait();
     }
 
-    public void changePW() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/app/view/ChangePW.fxml"));
-        Scene scene = adminChangePW.getScene();
-
-        root.translateYProperty().set(scene.getHeight());
-        parentContainer.getChildren().add(root);
-
-        Timeline timeline = new Timeline();
-        KeyValue kv = new KeyValue(root.translateYProperty(), 0 , Interpolator.EASE_IN);
-        KeyFrame kf = new KeyFrame(Duration.seconds(1),kv);
-        timeline.getKeyFrames().add(kf);
-        timeline.setOnFinished(event1 -> {
-            parentContainer.getChildren().remove(anchorRoot);
-        });
-        timeline.play();
-    }
 
 }
