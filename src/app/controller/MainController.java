@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.helper.DbConnect;
+import com.jfoenix.validation.RequiredFieldValidator;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
@@ -25,10 +26,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javafx.scene.text.Text;
+import org.controlsfx.control.textfield.TextFields;
 
 public class MainController implements Initializable {
 
@@ -38,6 +41,9 @@ public class MainController implements Initializable {
 
     @FXML
     private Text DInterpreter;
+
+    @FXML
+    private Text resultField;
 
     @FXML
     private JFXTextField FNamefield;
@@ -132,9 +138,22 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         setUsername(LoginController.getInstance().firstname());
 
-    }
+        LocalDate minDate = LocalDate.of(1900, 1 , 1);
+        LocalDate maxDate = LocalDate.now();
+        bdayField.setDayCellFactory(d ->
+                new DateCell() {
+            @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(maxDate) || item.isBefore(minDate));
+                    }});
+
+                    }
+
+
 
     public void setUsername(String user)
     {
@@ -148,6 +167,9 @@ public class MainController implements Initializable {
 
       //  if (!FNamefield.getText().isEmpty() && !Agefield.getText().isEmpty() && !Phfield.getText().isEmpty() && !Cofield.getText().isEmpty()
           //      && !Hcofield.getText().isEmpty() && !Ofield.getText().isEmpty()) {
+        RequiredFieldValidator validator = new RequiredFieldValidator();
+        validator.setMessage("No Input Given!");
+                    FNamefield.getValidators().add(validator);
 
                     Alert alert = new Alert(AlertType.CONFIRMATION);
                     alert.setTitle("Confirmation Dialog");
@@ -155,30 +177,33 @@ public class MainController implements Initializable {
                     alert.setContentText("Are you sure you want to interpret the data?");
                     Optional<ButtonType> action = alert.showAndWait();
 
-                    if(action.get() == ButtonType.OK) {
+             if ((action.get() == ButtonType.OK)) {
+                 if (((FNamefield != null) && (LNamefield != null))) {
 
-                        DataInterp();
+                     DataInterp();
 
 
+                     Parent root = FXMLLoader.load(getClass().getResource("/app/view/Result.fxml"));
 
-                        Parent root = FXMLLoader.load(getClass().getResource("/app/view/Result.fxml"));
+                     Node node = (Node) event.getSource();
 
-                        Node node = (Node) event.getSource();
+                     Stage stage = (Stage) node.getScene().getWindow();
 
-                        Stage stage = (Stage) node.getScene().getWindow();
-
-                        stage.setScene(new Scene(root));
-                    }
-                    else {
-                        errorText.setText("Submit the form when you are done.");
-                    }
+                     stage.setScene(new Scene(root));
+                 } else {
+                     errorText.setText("Incomplete Data Entered!");
+                 }
+             }
+            else{
+                     errorText.setText("Submit the form when you are done.");
+                 }
+        }
        //         } else {
        //     errorText.setText("PLEASE FILL OUT ALL OF THE BOXES!");
      //   }
 
 
-    }
-        void DataInterp () throws SQLException, IOException {
+        public void DataInterp () throws SQLException, IOException {
             String Pname = FNamefield.getText();
             String Page = showAge();
 
@@ -212,12 +237,12 @@ public class MainController implements Initializable {
             System.out.println(IResults);
 
             if (Ph >= 7.35 && Ph <= 7.45) {
-                    if (Ph < 7.4 && PCO < 35) {
+                if (Ph < 7.4 && PCO < 35) {
                     System.out.println("Compensated Metabolic Acidosis");
                     if (PCO < 35) {
                         IResults = "Metabolic Acidosis, fully compensated by Respiratory Alkalosis";
                         System.out.println("Compensated by Respiratory Alkalosis");
-                                }
+                    }
                 } else if (Ph < 7.4 && PCO > 45) {
 
                     System.out.println("Compensated Resperatory Acidosis");
@@ -240,90 +265,89 @@ public class MainController implements Initializable {
                         IResults = "Metabolic Alkalosis, fully compensated by Respiratory Acidosis";
                         System.out.println("Compensated by Respiratory Acidosis");
                     }
-                }
+                } else if ((Ph >= 7.35 && Ph <= 7.45) && (PCO >= 35 && PCO <= 45)) {
+                    IResults = "Normal Acid Base";
+                    System.out.println("Normal Acid Base");
 
-            } else if ((Ph >= 7.35 && Ph <= 7.45) && (PCO >= 35 && PCO <= 45)) {
-                IResults = "Normal Acid Base";
-                System.out.println("Normal Acid Base");
+                } else if ((Ph < 7.35) && (PCO >= 35 && PCO <= 45)) {
+                    IResults = "Uncompensated Metabolic Acidosis";
+                    System.out.println("Uncompensated Metabolic Acidosis");
+                } else if (Ph < 7.35 && PCO < 35) {
 
-            } else if ((Ph < 7.35) && (PCO >= 35 && PCO <= 45)) {
-                IResults = "Uncompensated Metabolic Acidosis";
-                System.out.println("Uncompensated Metabolic Acidosis");
-            } else if (Ph < 7.35 && PCO < 35) {
-
-                System.out.println("Partly Compensated Metabolic Acidosis");
-                if (PCO < 35) {
-                    IResults = "Metabolic Acidosis, partially compensated by Respiratory Alkalosis";
-                    System.out.println("Partly Compensated by Respiratory Alkalosis");
-                }
-            } else if (Ph < 7.35 && PCO > 45) {
-                if (HCO >= 22 && HCO <= 28) {
-                    IResults = "Uncompensated Respiratory Acidosis";
-                    System.out.println("Uncompensated Respiratory Acidosis");
-                } else if (HCO > 28) {
-
-                    System.out.println("Partly Compensated Respiratory Acidosis");
-                    if (PCO > 45) {
-                        IResults = "Respiratory Acidosis, partially compensated by Metabolic Alkalosis";
-                        System.out.println("Partly Compensated by Metabolic Alkalosis");
+                    System.out.println("Partly Compensated Metabolic Acidosis");
+                    if (PCO < 35) {
+                        IResults = "Metabolic Acidosis, partially compensated by Respiratory Alkalosis";
+                        System.out.println("Partly Compensated by Respiratory Alkalosis");
                     }
-                } else if (HCO < 22) {
-                    IResults = "Combine Respiratory and Metabolic Acidosis";
-                    System.out.println("Combined Respiratory and Metabolic Acidosis");
-                }
-            } else if (Ph > 7.45 && (PCO >= 35 && PCO <= 45)) {
-                IResults = "Uncompensated Metabolic Alkalosis";
-                System.out.println("Uncompensated Metabolic Alkalosis");
-            } else if (Ph > 7.45 && PCO > 45) {
+                } else if (Ph < 7.35 && PCO > 45) {
+                    if (HCO >= 22 && HCO <= 28) {
+                        IResults = "Uncompensated Respiratory Acidosis";
+                        System.out.println("Uncompensated Respiratory Acidosis");
+                    } else if (HCO > 28) {
 
-                System.out.println("Partly Compensated Metabolic Alkalosis");
-                if (PCO > 45) {
-                    IResults = "Metabolic Alkalosis, partially compensated by Respiratory Acidosis";
-                    System.out.println("Partly Compensated by Respiratory Acidosis");
-                }
-            } else if (Ph > 7.45 && PCO < 35) {
-                if (PCO < 35 && (HCO >= 22 && HCO <= 28)) {
-                    IResults = "Uncompensated Respiratory Alkalosis";
-                    System.out.println("Uncompensated Respiratory Alkalosis");
-                } else if (PCO < 35 && HCO > 28) {
-                    IResults = "Combined Respiratory and Metabolic Alkalosis";
-                    System.out.println("Combined Respiratory and Metabolic Alkalosis");
-                    if (PCO > 45) {
-
-
-                        System.out.println("Partly Compensated by Metabolic Alkalosis");
+                        System.out.println("Partly Compensated Respiratory Acidosis");
+                        if (PCO > 45) {
+                            IResults = "Respiratory Acidosis, partially compensated by Metabolic Alkalosis";
+                            System.out.println("Partly Compensated by Metabolic Alkalosis");
+                        }
+                    } else if (HCO < 22) {
+                        IResults = "Combine Respiratory and Metabolic Acidosis";
+                        System.out.println("Combined Respiratory and Metabolic Acidosis");
                     }
-                } else if (PCO < 35 && HCO < 22) {
-                    IResults = "Metabolic Alkalosis, partially compensated by Respiratory Acidosis";
-                    System.out.println("Partly Compensated Respiratory Acidosis");
+                } else if (Ph > 7.45 && (PCO >= 35 && PCO <= 45)) {
+                    IResults = "Uncompensated Metabolic Alkalosis";
+                    System.out.println("Uncompensated Metabolic Alkalosis");
+                } else if (Ph > 7.45 && PCO > 45) {
+
+                    System.out.println("Partly Compensated Metabolic Alkalosis");
+                    if (PCO > 45) {
+                        IResults = "Metabolic Alkalosis, partially compensated by Respiratory Acidosis";
+                        System.out.println("Partly Compensated by Respiratory Acidosis");
+                    }
+                } else if (Ph > 7.45 && PCO < 35) {
+                    if (PCO < 35 && (HCO >= 22 && HCO <= 28)) {
+                        IResults = "Uncompensated Respiratory Alkalosis";
+                        System.out.println("Uncompensated Respiratory Alkalosis");
+                    } else if (PCO < 35 && HCO > 28) {
+                        IResults = "Combined Respiratory and Metabolic Alkalosis";
+                        System.out.println("Combined Respiratory and Metabolic Alkalosis");
+                        if (PCO > 45) {
+
+
+                            System.out.println("Partly Compensated by Metabolic Alkalosis");
+                        }
+                    } else if (PCO < 35 && HCO < 22) {
+                        IResults = "Metabolic Alkalosis, partially compensated by Respiratory Acidosis";
+                        System.out.println("Partly Compensated Respiratory Acidosis");
+                    }
+
+
                 }
-
-
             }
 
 
             DIResult = IResults;
 
 
-                    DbConnect DbConnect = new DbConnect();
-                    Connection connection = DbConnect.getConnection();
 
+             DbConnect DbConnect = new DbConnect();
+            Connection connection = DbConnect.getConnection();
+
+            Ofield.setOnKeyPressed(e -> {
+        System.out.println("System Output: "+ DIResult);
+        resultField.setText("Interpreted Result: " + DIResult + "!");
+            });
 
                     DbConnect.registerPatient(FNamefield.getText(), LNamefield.getText(), showAge(),
                     Phfield.getText(), Cofield.getText(), Hcofield.getText(), Ofield.getText(), Rdate.toString(),
                     Rtime.toString(), commentsBox.getText(), DIResult, DInterpreter.getText());
 
-
-
-
-
-
             errorText.setText("The patient data is now recorded!");
 
 
-
-
         }
+
+
 
 
 
@@ -335,7 +359,14 @@ public class MainController implements Initializable {
         alert.setContentText("Are you sure you want to interpret the data?");
         Optional<ButtonType> action = alert.showAndWait();
 
-        if(action.get() == ButtonType.OK) DataInterp();
+        if ((action.get() == ButtonType.OK)) {
+            if ((FNamefield != null && LNamefield != null)) {
+
+                DataInterp();
+            } else {
+                errorText.setText("Incomplete Data Entered!");
+            }
+        }
     }
 
     @FXML
@@ -391,6 +422,10 @@ public class MainController implements Initializable {
         }
         alert.showAndWait();
     }
+
+
+
+
 
 
 
