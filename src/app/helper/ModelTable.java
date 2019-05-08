@@ -5,9 +5,15 @@ public class ModelTable {
 
     private static ModelTable Instance;
 
-    public ModelTable()
+    String id, firstname, lastname, email, gender, role;
+    public ModelTable(String id, String firstname, String lastname, String email, String gender, String role)
     {
-        Instance = this;
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.gender = gender;
+        this.role = role;
     }
 
     public static ModelTable getInstance()
@@ -31,7 +37,7 @@ public class ModelTable {
     }
 
 
-    String id,fname,lname,age,ph,pco,hco,datem,comments,interpreter,results;
+    String fname,lname,age,ph,pco,hco,datem,comments,interpreter,results;
 
     public ModelTable(String id, String fname, String lname, String age, String ph, String pco, String hco, String datem,String comments, String interpreter,String results) {
         this.id = id;
@@ -50,6 +56,46 @@ public class ModelTable {
     }
 
 
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String firstname) {
+        this.email = email;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public String getId() {
         return id;

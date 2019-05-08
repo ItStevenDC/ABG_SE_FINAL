@@ -40,6 +40,9 @@ public class SignUpController implements Initializable {
     private JFXRadioButton RbMale;
 
     @FXML
+    private JFXRadioButton RbSuper;
+
+    @FXML
     private ToggleGroup tgGender;
 
     @FXML
@@ -119,6 +122,46 @@ public class SignUpController implements Initializable {
         return Admin;
     }
 
+    public int isVirg() {
+        int adminfirst = 0;
+
+        if (RbAdmin.isSelected()) {
+            adminfirst = 0;
+        } else
+        {
+            adminfirst = 1;
+        }
+        return adminfirst;
+    }
+
+
+    public int isSuper() throws SQLException {
+        int SuperRole = 0;
+        String usernameDB = AdminLoginController.getInstance().usernme();
+        String passwordDB = AdminLoginController.getInstance().psswrd();
+
+        DbConnect DbConnect = new DbConnect();
+        Connection connection = DbConnect.getConnection();
+
+
+        Statement statement = connection.createStatement();
+
+        ResultSet resultSet = statement.executeQuery("SELECT ROLE FROM USERS_TABLE WHERE username" +
+                " = '" + usernameDB + "' AND password = '" + passwordDB + "'");
+
+
+        while (resultSet.next()) {
+
+
+            int checkRole = resultSet.getInt("role");
+
+            SuperRole = checkRole;
+            System.out.println(SuperRole + " "+checkRole);
+        }
+
+        return SuperRole;
+    }
+
     @FXML
     void backPage (MouseEvent event) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException, IOException {
 
@@ -137,37 +180,23 @@ public class SignUpController implements Initializable {
     @FXML
     void signup(MouseEvent event) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException, IOException {
 
-        /*
-        String gender = "";
-
-        if (checkBoxMale.isSelected()) {
-
-            gender += checkBoxMale.getText() + "";
-        }
-        else if (checkBoxFemale.isSelected()){
-
-            gender += checkBoxFemale.getText() + "";
-        } else
-        {
-            System.out.println("Error Gender");
-        }
-*/
-
-
-
 
 
         DbConnect DbConnect = new DbConnect();
         Connection connection = DbConnect.getConnection();
 
-        int adminfirst = 0;
+
+        Statement statement = connection.createStatement();
+
+
 
         String password = String.valueOf(pf_password.getText());
 
         String hashpw = (UpdatableBCrypt.hashpw(password, UpdatableBCrypt.gensalt()));
 
         DbConnect.signUpUser(tf_firstname.getText(),tf_lastname.getText(), tf_username.getText(),
-                tf_email.getText(), pf_password.getText(), isAdmin() , adminfirst, getGender());
+                tf_email.getText(), pf_password.getText(), isAdmin() , isVirg(), getGender());
+
 
 
 
@@ -290,6 +319,22 @@ void SucSign() {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+      try {
+           int Supercheck = isSuper();
+           int check = Supercheck;
+            System.out.println(check);
+           if (check == 2){
+               RbSuper.setDisable(false);
+           } else if (check == 1) {
+               RbSuper.setDisable(true);
+           } else {
+               RbSuper.setDisable(true);
+           }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 }

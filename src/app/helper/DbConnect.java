@@ -113,7 +113,7 @@ public class DbConnect extends Config {
         }
     }
 
-    public void registerPatient(String fname, String lname, String age, String ph, String pco, String hco, String fio, String datem, String timem, String comments, String result, String interpreter) throws SQLException {
+    public void registerPatient(String fname, String lname, int age, String ph, String pco, String hco, String fio, String datem, String timem, String comments, String result, String interpreter) throws SQLException {
 
         DbConnect DbConnect = new DbConnect();
         Connection connection = DbConnect.getInstance().getConnection();
@@ -140,7 +140,7 @@ public class DbConnect extends Config {
 
             preparedStatement.setString(1, fname);
             preparedStatement.setString(2, lname);
-            preparedStatement.setString(3, age);
+            preparedStatement.setInt(3, age);
             preparedStatement.setString(4, ph);
             preparedStatement.setString(5, pco);
             preparedStatement.setString(6, hco);

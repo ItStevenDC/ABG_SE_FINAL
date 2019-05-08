@@ -147,9 +147,13 @@
                               <JFXRadioButton fx:id="RbFemale" style="-fx-font-family: Quicksand; -fx-font-size: 14;" text="Female" toggleGroup="$tgGender" />
                               <JFXRadioButton fx:id="RbAdmin" style="-fx-font-family: Quicksand; -fx-font-size: 14;" text="Admin">
                                  <HBox.margin>
-                                    <Insets left="5.0" />
+                                    <Insets left="5.0" right="5.0" />
                                  </HBox.margin>
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="admin" />
+                                 </toggleGroup>
                               </JFXRadioButton>
+                              <JFXRadioButton fx:id="RbSuper" disable="true" layoutX="256.0" layoutY="15.0" style="-fx-font-family: Quicksand; -fx-font-size: 14;" text="Super" toggleGroup="$admin" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">

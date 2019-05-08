@@ -2,6 +2,7 @@ package app.controller;
 
 import app.helper.DbConnect;
 import app.helper.ModelTable;
+import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import javafx.collections.FXCollections;
@@ -22,6 +23,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import sun.rmi.runtime.Log;
+
 import java.awt.*;
 
 import java.awt.Button;
@@ -103,6 +106,21 @@ public class EditPatientController implements Initializable {
     @FXML
     private Button updateUser;
 
+    @FXML
+    private JFXRadioButton rbFname;
+
+    @FXML
+    private JFXRadioButton rbLname;
+
+    @FXML
+    private JFXRadioButton rbDate;
+
+    @FXML
+    private JFXRadioButton rbInter;
+
+    @FXML
+    private Text patientInterp;
+
 
 
     double x = 0, y = 0;
@@ -130,6 +148,8 @@ public class EditPatientController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        patientInterp.setText(LoginController.getInstance().firstname());
 
 
         EditValue();
@@ -190,7 +210,7 @@ public class EditPatientController implements Initializable {
                     updatePcofield.setText(ml.getPco());
                     updateHcofield.setText(ml.getHco());
                     updateCommentArea.setText(ml.getComments());
-                    updateInterpreterfield.setText(ml.getInterpreter());
+                    patientInterp.setText(LoginController.getInstance().firstname());
                     updateResultText.setText(ml.getResults());
 
 
@@ -220,15 +240,32 @@ public class EditPatientController implements Initializable {
                     }
                     else if (modelTable.getFname().toLowerCase().contains(lowerCaseFilter))
                     {
-                        return true;
+                        if (rbFname.isSelected()){
+                            return true;
+                        }
+
                     }
                     else if (modelTable.getLname().toLowerCase().contains(lowerCaseFilter))
                     {
-                        return true;
+                        if (rbLname.isSelected()){
+                            return true;
+                        }
+
                     }
                     else if (modelTable.getDatem().toLowerCase().contains(lowerCaseFilter))
                     {
-                        return true;
+                        if (rbDate.isSelected()){
+                            return true;
+                        }
+
+                    }
+
+                    else if (modelTable.getInterpreter().toLowerCase().contains(lowerCaseFilter))
+                    {
+                        if (rbInter.isSelected()){
+                            return true;
+                        }
+
                     }
 
                     return false;
@@ -298,6 +335,7 @@ public class EditPatientController implements Initializable {
                 LocalTime Rtime = LocalTime.now();
                 LocalDate Rdate = LocalDate.now();
                String modifiedDate = Rdate.toString();
+               String interp = LoginController.getInstance().firstname();
                String modifiedtime = Rtime.toString();
                 DbConnect DbConnect = new DbConnect();
                 Connection connection = DbConnect.getConnection();
@@ -315,7 +353,7 @@ public class EditPatientController implements Initializable {
                 ps.setString(8, modifiedtime);
                 ps.setString(9, updateCommentArea.getText());
                 ps.setString(10, updateResultText.getText());
-                ps.setString(11,updateInterpreterfield.getText());
+                ps.setString(11,interp);
 
 
                 Alert alertC = new Alert(Alert.AlertType.CONFIRMATION);
@@ -353,7 +391,6 @@ public class EditPatientController implements Initializable {
         updatePhfield.clear();
         updatePcofield.clear();
         updateHcofield.clear();
-        updateInterpreterfield.clear();
         updateCommentArea.clear();
         updateResultText.clear();
     }

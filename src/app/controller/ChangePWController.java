@@ -14,18 +14,23 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ChangePWController  implements Initializable {
     @FXML
     private PasswordField Pfc_field;
+
+    @FXML
+    private PasswordField NPfc_field;
+
+    @FXML
+    private PasswordField NPfcc_field;
 
 
     public void changePW() throws SQLException
@@ -86,9 +91,78 @@ public class ChangePWController  implements Initializable {
             Stage stage = (Stage) node.getScene().getWindow();
 
             stage.setScene(new Scene(root));
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Password updated successfully.");
+            alert.setHeaderText(null);
+            alert.setContentText("You have successfully updated your password! Your new password will take effect in the next log-in!");
+            alert.showAndWait();
         }
 
             }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void upwChanged (MouseEvent event) throws IOException, SQLException {
+        try {
+            String cPass = Pfc_field.getText();
+            String nPass = NPfc_field.getText();
+            String cfPass = NPfcc_field.getText();
+
+            String usernme = LoginController.getInstance().usrnme();
+
+            String psswrd = LoginController.getInstance().pwsrd();
+
+            DbConnect DbConnect = new DbConnect();
+
+            Connection connection = DbConnect.getConnection();
+
+            Statement statement = connection.createStatement();
+
+
+                    if (cPass.equals(psswrd) && !nPass.equals(null) && nPass.equals(cfPass)) {
+                        String query = "UPDATE USERS_TABLE SET password= ? WHERE username='" + usernme + "'";
+                        PreparedStatement ps = connection.prepareStatement(query);
+
+                        ps.setString(1, cfPass);
+
+                        Alert alertC = new Alert(Alert.AlertType.CONFIRMATION);
+                        alertC.setTitle("Confirmation Dialog");
+                        alertC.setHeaderText(null);
+                        alertC.setContentText("Are you sure with your new password?");
+                        Optional<ButtonType> action = alertC.showAndWait();
+                        if (action.get() == ButtonType.OK) {
+                            ps.execute();
+
+                            ps.close();
+
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Password updated successfully.");
+                            alert.setHeaderText(null);
+                            alert.setContentText("You have successfully updated your password! Your new password will take effect in the next log-in!");
+                            alert.showAndWait();
+
+                            Parent root = FXMLLoader.load(getClass().getResource("/app/view/Home.fxml"));
+
+                            Node node = (Node) event.getSource();
+
+                            Stage stage = (Stage) node.getScene().getWindow();
+
+                            stage.setScene(new Scene(root));
+
+                        }
+
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Invalid Password Field");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Please make sure you have entered the correct password!");
+                        alert.showAndWait();
+                    }
+
+        }catch (SQLException e) {
             e.printStackTrace();
         }
     }

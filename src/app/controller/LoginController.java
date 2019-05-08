@@ -91,6 +91,14 @@ public class LoginController implements Initializable {
         return userfname.getText();
     }
 
+    public String usrnme() {
+        return tf_username.getText();
+    }
+
+    public String pwsrd() {
+        return pf_password.getText();
+    }
+
 
 
     @FXML
@@ -107,7 +115,7 @@ public class LoginController implements Initializable {
         Statement statement = connection.createStatement();
 
         ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS_TABLE WHERE username" +
-                " = '" + usernameDB + "' AND password = '" + passwordDB + "' AND role = 0");
+                " = '" + usernameDB + "' AND password = '" + passwordDB + "' AND role = 0 OR role = 2");
 
 
     if (resultSet.next()) {
@@ -159,6 +167,19 @@ public class LoginController implements Initializable {
         notificationBuilder.showConfirm();
     }
 
+
+
+    @FXML
+    void AdminLogin(MouseEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/app/view/AdminLogin.fxml"));
+
+        Node node = (Node) event.getSource();
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setScene(new Scene(root));
+    }
 
 
 

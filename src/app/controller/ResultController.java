@@ -77,12 +77,6 @@ public class ResultController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        try {
-            UpdateResult();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         PatientFname(MainController.getInstance().firstname());
         PatientLname(MainController.getInstance().lastname());
 

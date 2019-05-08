@@ -56,6 +56,7 @@ public class AdminLoginController implements Initializable {
     @FXML
     private StackPane parentContainer;
 
+
     @FXML
     private HBox adminChangePW;
 
@@ -100,6 +101,8 @@ public class AdminLoginController implements Initializable {
         return tf_username.getText();
     }
 
+    public String psswrd() { return pf_password.getText();}
+
 
 
     @FXML
@@ -116,7 +119,7 @@ public class AdminLoginController implements Initializable {
         Statement statement = connection.createStatement();
 
         ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS_TABLE WHERE username" +
-                " = '" + usernameDB + "' AND password = '" + passwordDB + "' AND role = 1");
+                " = '" + usernameDB + "' AND password = '" + passwordDB + "' AND role = 1 OR role = 2");
 
 
         if (resultSet.next()) {

@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.helper.DbConnect;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.validation.RequiredFieldValidator;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,8 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -26,12 +26,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javafx.scene.text.Text;
-import org.controlsfx.control.textfield.TextFields;
 
 public class MainController implements Initializable {
 
@@ -65,6 +63,9 @@ public class MainController implements Initializable {
 
     @FXML
     private JFXTextField Ofield;
+
+    @FXML
+    private JFXDatePicker birthField;
 
     @FXML
     private Button InterpretData;
@@ -128,12 +129,29 @@ public class MainController implements Initializable {
 
 
 
-    private String showAge() {
+    private int showAge() {
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
-        int byear = (bdayField.getValue().getYear());
-        int age = year - byear;
-        return String.valueOf(age);
+        int byear = birthField.getValue().getYear();
+        int bmonth = birthField.getValue().getMonthValue();
+        int bday = birthField.getValue().getDayOfMonth();
+        LocalDate dte = LocalDate.of(byear,bmonth,bday);
+        LocalDate today = LocalDate.now();
+        Period diff = Period.between(dte, today);
+
+        int age = diff.getYears();
+
+        if (age > 0){
+            return age;
+        }
+        else
+        {
+            commentsBox.appendText("\nPatient is still a baby! Current Age is: "+diff.getMonths()+" Month/s and "+diff.getDays()+" Day/s!");
+        }
+
+        System.out.println("Date" + bday + bmonth + byear +diff);
+            return age;
+
     }
 
     @Override
@@ -143,7 +161,8 @@ public class MainController implements Initializable {
 
         LocalDate minDate = LocalDate.of(1900, 1 , 1);
         LocalDate maxDate = LocalDate.now();
-        bdayField.setDayCellFactory(d ->
+
+        birthField.setDayCellFactory(d ->
                 new DateCell() {
             @Override
                     public void updateItem(LocalDate item, boolean empty) {
@@ -164,40 +183,50 @@ public class MainController implements Initializable {
     @FXML
     void interpret(MouseEvent event) throws SQLException, IOException {
 
-
-      //  if (!FNamefield.getText().isEmpty() && !Agefield.getText().isEmpty() && !Phfield.getText().isEmpty() && !Cofield.getText().isEmpty()
-          //      && !Hcofield.getText().isEmpty() && !Ofield.getText().isEmpty()) {
-        RequiredFieldValidator validator = new RequiredFieldValidator();
-        validator.setMessage("No Input Given!");
-                    FNamefield.getValidators().add(validator);
-
-                    Alert alert = new Alert(AlertType.CONFIRMATION);
-                    alert.setTitle("Confirmation Dialog");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Are you sure you want to interpret the data?");
-                    Optional<ButtonType> action = alert.showAndWait();
-
-             if ((action.get() == ButtonType.OK)) {
-                 if (((FNamefield != null) && (LNamefield != null))) {
-
-                     DataInterp();
+        int Page = showAge();
 
 
-                     Parent root = FXMLLoader.load(getClass().getResource("/app/view/Result.fxml"));
+        if (FNamefield.getText() != null && LNamefield.getText() != null && (Page > -1) && Phfield != null && Cofield != null && Hcofield != null && Ofield != null ) {
+            //  if (!FNamefield.getText().isEmpty() && !Agefield.getText().isEmpty() && !Phfield.getText().isEmpty() && !Cofield.getText().isEmpty()
+            //      && !Hcofield.getText().isEmpty() && !Ofield.getText().isEmpty()) {
+            RequiredFieldValidator validator = new RequiredFieldValidator();
+            validator.setMessage("No Input Given!");
+            FNamefield.getValidators().add(validator);
 
-                     Node node = (Node) event.getSource();
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to interpret the data?");
+            Optional<ButtonType> action = alert.showAndWait();
 
-                     Stage stage = (Stage) node.getScene().getWindow();
+            if ((action.get() == ButtonType.OK)) {
+                if (FNamefield.getText() != null && LNamefield.getText() != null && (Page > -1) && Phfield != null && Cofield != null && Hcofield != null && Ofield != null ) {
+                    DataInterp();
 
-                     stage.setScene(new Scene(root));
-                 } else {
-                     errorText.setText("Incomplete Data Entered!");
-                 }
-             }
-            else{
-                     errorText.setText("Submit the form when you are done.");
-                 }
+
+                    Parent root = FXMLLoader.load(getClass().getResource("/app/view/Result.fxml"));
+
+                    Node node = (Node) event.getSource();
+
+                    Stage stage = (Stage) node.getScene().getWindow();
+
+                    stage.setScene(new Scene(root));
+                } else {
+                    errorText.setText("Invalid Data!");
+                }
+            } else {
+                errorText.setText("Submit the form when you are done.");
+            }
+
+        }else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Invalid Data Detected!");
+            alert.setHeaderText(null);
+            alert.setContentText("Error! Invalid Data please check your inputs!");
+            alert.showAndWait();
         }
+
+    }
        //         } else {
        //     errorText.setText("PLEASE FILL OUT ALL OF THE BOXES!");
      //   }
@@ -205,7 +234,7 @@ public class MainController implements Initializable {
 
         public void DataInterp () throws SQLException, IOException {
             String Pname = FNamefield.getText();
-            String Page = showAge();
+            int Page = showAge();
 
 
             String Comments = commentsBox.getText();
@@ -338,12 +367,12 @@ public class MainController implements Initializable {
         resultField.setText("Interpreted Result: " + DIResult + "!");
             });
 
-                    DbConnect.registerPatient(FNamefield.getText(), LNamefield.getText(), showAge(),
-                    Phfield.getText(), Cofield.getText(), Hcofield.getText(), Ofield.getText(), Rdate.toString(),
-                    Rtime.toString(), commentsBox.getText(), DIResult, DInterpreter.getText());
 
-            errorText.setText("The patient data is now recorded!");
+                DbConnect.registerPatient(FNamefield.getText(), LNamefield.getText(), Page,
+                Phfield.getText(), Cofield.getText(), Hcofield.getText(), Ofield.getText(), Rdate.toString(),
+                Rtime.toString(), commentsBox.getText(), DIResult, DInterpreter.getText());
 
+                errorText.setText("The patient data is now recorded!");
 
         }
 
@@ -353,6 +382,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void InterpAlert() throws IOException, SQLException {
+        if (((FNamefield != null) && (LNamefield != null) && (birthField.getValue() == LocalDate.now()))) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
         alert.setHeaderText(null);
@@ -360,12 +390,15 @@ public class MainController implements Initializable {
         Optional<ButtonType> action = alert.showAndWait();
 
         if ((action.get() == ButtonType.OK)) {
-            if ((FNamefield != null && LNamefield != null)) {
 
-                DataInterp();
-            } else {
-                errorText.setText("Incomplete Data Entered!");
+            DataInterp();
+        }
+             else {
+                errorText.setText("Please Submit the form when you are done!");
             }
+        }else
+        {
+            errorText.setText("Error! Please Check the values!");
         }
     }
 

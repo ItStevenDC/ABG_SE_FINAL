@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -38,10 +39,10 @@ public class UserStartController implements Initializable {
     private StackPane parentContainer;
 
     @FXML
-    private VBox userSignin;
+    private HBox userSignin;
 
     @FXML
-    private VBox adminSignin;
+    private VBox yeetBox;
 
     @FXML
     void pressed(MouseEvent event) {
@@ -88,7 +89,7 @@ public class UserStartController implements Initializable {
     @FXML
     void goAdmin(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/app/view/AdminLogin.fxml"));
-        Scene scene = adminSignin.getScene();
+        Scene scene = yeetBox.getScene();
 
         root.translateYProperty().set(scene.getHeight());
         parentContainer.getChildren().add(root);

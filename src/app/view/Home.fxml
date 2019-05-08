@@ -11,54 +11,83 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane onMouseEntered="#updateHome" prefHeight="500.0" prefWidth="850.0" style="-fx-background-color: Transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.HomeController">
+<AnchorPane fx:id="anchorRoot" onMouseEntered="#updateHome" prefHeight="515.0" prefWidth="861.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.HomeController">
     <children>
-        <StackPane alignment="TOP_LEFT" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <ImageView fitHeight="581.0" fitWidth="864.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/bghome.jpg" />
+         </image>
+      </ImageView>
+        <StackPane fx:id="parentContainer" alignment="TOP_LEFT" layoutX="9.0" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="548.0" prefWidth="842.0" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="10.0">
             <effect>
                 <DropShadow />
             </effect>
             <children>
-            <HBox maxHeight="180.0" prefHeight="104.0" prefWidth="830.0" style="-fx-background-color: white;">
+            <HBox fx:id="userChangePW" maxHeight="180.0" prefHeight="154.0" prefWidth="842.0" style="-fx-background-color: white;">
                <StackPane.margin>
                   <Insets />
                </StackPane.margin>
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <VBox prefHeight="176.0" prefWidth="344.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 3em;" text="Arterial Blood Gas " />
+                              <HBox prefHeight="97.0" prefWidth="431.0">
+                                 <children>
+                                    <ImageView fitHeight="97.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../assets/logo.png" />
+                                       </image>
+                                    </ImageView>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 3em;" text="Arterial Blood Gas ">
+                                             <VBox.margin>
+                                                <Insets left="5.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <HBox prefHeight="100.0" prefWidth="200.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 3em;" text="Information Reader">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" />
+                                                   </HBox.margin>
+                                                </Text>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="90.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
                            </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 3em;" text="Information Reader" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="90.0" />
-                           </VBox.margin>
-                        </HBox>
+                        </VBox>
                      </children>
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </VBox>
-                      <HBox alignment="TOP_RIGHT" prefHeight="42.0" prefWidth="471.0">
+                      <HBox alignment="TOP_RIGHT" prefHeight="119.0" prefWidth="471.0">
                           <children>
-                        <HBox alignment="BASELINE_RIGHT" maxHeight="100.0" prefHeight="100.0" prefWidth="226.0">
+                        <HBox alignment="BASELINE_RIGHT" maxHeight="108.0" prefHeight="108.0" prefWidth="274.0">
                            <children>
-                              <VBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="208.0">
+                              <VBox alignment="TOP_RIGHT" prefHeight="108.0" prefWidth="275.0">
                                  <children>
-                                    <VBox prefHeight="112.0" prefWidth="170.0">
+                                    <VBox prefHeight="112.0" prefWidth="206.0">
                                        <children>
                   
                         
                                                   <fx:include source="title_bar.fxml" />
                                           <HBox prefHeight="100.0" prefWidth="300.0">
                                              <children>
-                                                <VBox prefHeight="100.0" prefWidth="200.0">
+                                                <VBox prefHeight="52.0" prefWidth="268.0">
                                                    <children>
-                                                      <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0">
+                                                      <VBox alignment="TOP_RIGHT" prefHeight="19.0" prefWidth="222.0">
                                                          <children>
                                                             <Text fx:id="UserWelcome" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand;" text="Welcome,">
                                                                <VBox.margin>
@@ -70,9 +99,17 @@
                                                             <Insets right="10.0" />
                                                          </VBox.margin>
                                                       </VBox>
-                                                      <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0">
+                                                      <VBox alignment="TOP_RIGHT" prefHeight="23.0" prefWidth="172.0">
                                                          <children>
-                                                            <Button fx:id="logout_button" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#logout" prefWidth="100.0" style="-fx-background-color: #ff3b49; -fx-background-radius: 100PX; -fx-text-fill: white; -fx-font-family: Quicksand;" text="Logout" />
+                                                            <HBox prefHeight="100.0" prefWidth="200.0">
+                                                               <children>
+                                                                  <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#changePW" prefHeight="23.0" prefWidth="133.0" style="-fx-background-color: #ff3b49; -fx-background-radius: 100PX; -fx-text-fill: white; -fx-font-family: Quicksand;" text="Change Password">
+                                                                     <HBox.margin>
+                                                                        <Insets right="7.0" />
+                                                                     </HBox.margin></Button>
+                                                                  <Button fx:id="logout_button" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="23.0" prefWidth="112.0" style="-fx-background-color: #ff3b49; -fx-background-radius: 100PX; -fx-text-fill: white; -fx-font-family: Quicksand;" text="Logout" />
+                                                               </children>
+                                                            </HBox>
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets right="10.0" />
@@ -107,7 +144,7 @@
                       </HBox>
                </children>
             </HBox>
-            <HBox maxHeight="400.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white;" StackPane.alignment="CENTER">
+            <HBox maxHeight="400.0" prefHeight="392.0" prefWidth="843.0" style="-fx-background-color: white;" StackPane.alignment="CENTER">
                <StackPane.margin>
                   <Insets top="110.0" />
                </StackPane.margin>
@@ -128,7 +165,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox onMouseClicked="#Viewpatients" style="-fx-background-color: #B0E0E6;">
+                  <HBox onMouseClicked="#Viewpatients">
                      <children>
                         <VBox fx:id="InterpretBox" prefHeight="200.0" prefWidth="100.0">
                            <children>
@@ -141,7 +178,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox onMouseClicked="#UpdateData" style="-fx-background-color: #E0FFFF;">
+                  <HBox onMouseClicked="#UpdateData">
                      <children>
                         <ImageView fitHeight="385.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -150,7 +187,7 @@
                         </ImageView>
                      </children>
                   </HBox>
-                  <HBox onMouseClicked="#abgAlgo" style="-fx-background-color: #B0E0E6;">
+                  <HBox onMouseClicked="#abgAlgo">
                      <children>
                         <ImageView fitHeight="385.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true">
                            <image>

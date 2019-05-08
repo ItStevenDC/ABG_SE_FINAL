@@ -132,4 +132,17 @@ public class AdminHomeController implements Initializable {
     }
 
 
+    @FXML
+    void updateData (MouseEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/app/view/EditUser.fxml"));
+
+        Node node = (Node) event.getSource();
+
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setScene(new Scene(root));
+
+    }
+
 }

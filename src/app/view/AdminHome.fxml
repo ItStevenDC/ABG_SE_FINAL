@@ -130,11 +130,11 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox onMouseClicked="#UserLogs" style="-fx-background-color: white;">
+                  <HBox onMouseClicked="#updateData" style="-fx-background-color: white;">
                      <children>
                         <ImageView fitHeight="385.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../assets/UAL.jpg" />
+                              <Image url="@../assets/Update.jpg" />
                            </image>
                         </ImageView>
                      </children>

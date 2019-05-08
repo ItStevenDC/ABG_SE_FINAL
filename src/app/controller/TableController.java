@@ -2,6 +2,7 @@ package app.controller;
 
 import app.helper.ModelTable;
 import app.helper.DbConnect;
+import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import javafx.collections.FXCollections;
@@ -67,6 +68,18 @@ public class TableController implements Initializable {
 
     @FXML
     private TableColumn<ModelTable, String> col_interpreter;
+
+    @FXML
+    private JFXRadioButton rbFname;
+
+    @FXML
+    private JFXRadioButton rbLname;
+
+    @FXML
+    private JFXRadioButton rbDate;
+
+    @FXML
+    private JFXRadioButton rbInter;
 
 
     double x = 0, y = 0;
@@ -162,19 +175,37 @@ public class TableController implements Initializable {
                     String lowerCaseFilter = newValue.toLowerCase();
                     if (modelTable.getId().contains(newValue))
                     {
+
                         return true;
                     }
                     else if (modelTable.getFname().toLowerCase().contains(lowerCaseFilter))
                     {
-                        return true;
+                        if (rbFname.isSelected()){
+                            return true;
+                        }
+
                     }
                     else if (modelTable.getLname().toLowerCase().contains(lowerCaseFilter))
                     {
-                        return true;
+                        if (rbLname.isSelected()){
+                            return true;
+                        }
+
                     }
                     else if (modelTable.getDatem().toLowerCase().contains(lowerCaseFilter))
                     {
-                        return true;
+                        if (rbDate.isSelected()){
+                            return true;
+                        }
+
+                    }
+
+                    else if (modelTable.getInterpreter().toLowerCase().contains(lowerCaseFilter))
+                    {
+                        if (rbInter.isSelected()){
+                            return true;
+                        }
+
                     }
 
                     return false;

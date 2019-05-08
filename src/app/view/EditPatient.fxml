@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -29,13 +31,18 @@
 
 
                                 <fx:include source="title_bar.fxml" />
+                        <VBox alignment="CENTER" prefHeight="50.0" prefWidth="861.0">
+                           <children>
+                              <Text fx:id="DInterpText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 23;" text="MEDICAL RECORDS" wrappingWidth="220.593017578125" />
+                           </children>
+                        </VBox>
                         <VBox prefHeight="36.0" prefWidth="700.0">
                            <children>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="300.0">
                                        <children>
-                                          <JFXTextField fx:id="searchField" onKeyReleased="#Filter" prefHeight="25.0" prefWidth="303.0" promptText="Search" style="-fx-font-family: Quicksand;">
+                                          <JFXTextField fx:id="searchField" onKeyReleased="#Filter" prefHeight="25.0" prefWidth="303.0" promptText="Search Patient" style="-fx-font-family: Quicksand;">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" />
                                              </HBox.margin></JFXTextField>
@@ -44,6 +51,29 @@
                                           <Insets />
                                        </HBox.margin>
                                     </HBox>
+                                    <JFXRadioButton fx:id="rbLname" mnemonicParsing="false" selected="true" text="Patient Last Name">
+                                       <HBox.margin>
+                                          <Insets left="5.0" top="10.0" />
+                                       </HBox.margin>
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="searchF" />
+                                       </toggleGroup>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="rbFname" layoutX="310.0" layoutY="10.0" mnemonicParsing="false" text="Patient First Name" toggleGroup="$searchF">
+                                       <HBox.margin>
+                                          <Insets left="5.0" top="10.0" />
+                                       </HBox.margin>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="rbDate" layoutX="403.0" layoutY="10.0" mnemonicParsing="false" text="Date" toggleGroup="$searchF">
+                                       <HBox.margin>
+                                          <Insets left="5.0" top="10.0" />
+                                       </HBox.margin>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="rbInter" layoutX="496.0" layoutY="10.0" mnemonicParsing="false" text="Interpreter" toggleGroup="$searchF">
+                                       <HBox.margin>
+                                          <Insets left="5.0" top="10.0" />
+                                       </HBox.margin>
+                                    </JFXRadioButton>
                                  </children>
                               </HBox>
                            </children>
@@ -160,10 +190,11 @@
                                                 <Insets left="10.0" top="15.0" />
                                              </HBox.margin>
                                           </Text>
-                                          <JFXTextField fx:id="updateInterpreterfield" style="-fx-font-family: Quicksand; -fx-font-size: 15;">
+                                          <Text fx:id="patientInterp" layoutX="20.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 15;">
                                              <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin></JFXTextField>
+                                                <Insets left="5.0" top="15.0" />
+                                             </HBox.margin>
+                                          </Text>
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="244.0" prefWidth="368.0">
