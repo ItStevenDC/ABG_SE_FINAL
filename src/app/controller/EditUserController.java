@@ -2,6 +2,7 @@ package app.controller;
 
 import app.helper.DbConnect;
 import app.helper.ModelTable;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
@@ -14,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,6 +26,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 import sun.rmi.runtime.Log;
 
 import java.awt.*;
@@ -81,10 +85,10 @@ public class EditUserController implements Initializable {
     private JFXTextField updateEmailfield;
 
     @FXML
-    private JFXTextField updateOldfield;
+    private JFXPasswordField updateOldfield;
 
     @FXML
-    private JFXTextField updateNewfield;
+    private JFXPasswordField updateNewfield;
 
     @FXML
     private Button updateUser;
@@ -103,6 +107,8 @@ public class EditUserController implements Initializable {
 
     @FXML
     private Text patientInterp;
+
+    String temp = null;
 
 
 
@@ -147,7 +153,8 @@ public class EditUserController implements Initializable {
                         resultSet.getString("lastname"),
                         resultSet.getString("email"),
                         resultSet.getString("gender"),
-                        resultSet.getString("role")));
+                        resultSet.getString("role"),
+                        resultSet.getString("password")));
 
                           }
 
@@ -170,9 +177,8 @@ public class EditUserController implements Initializable {
     }
 
     private void EditValue() {
-        table.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+
+            table.setOnMouseClicked(event -> {
                 ModelTable ml = table.getItems().get(table.getSelectionModel().getSelectedIndex());
                 String admin = ml.getRole();
                 updateFNamefield.setText(ml.getFirstname());
@@ -180,22 +186,10 @@ public class EditUserController implements Initializable {
                 updateEmailfield.setText(ml.getEmail());
                 updateGenderfield.setText(ml.getGender());
 
-                if (admin.equals("0")){
 
-                }else if (admin.equals("1")){
-                    rbAdmin.isSelected();
-                }else if (admin.equals("2")){
-                    rbSAdmin.isSelected();
-                }else
-                { System.out.println("Error");}
-
-
-
-
-            }
-        });
-
+            });
     }
+
 
 
     @FXML
@@ -290,45 +284,122 @@ public class EditUserController implements Initializable {
     @FXML
     void updateUser(MouseEvent event) throws IOException {
 
+        if (!updateNewfield.getText().isEmpty() && !updateOldfield.getText().isEmpty()) {
 
 
-        updateData();
+            updateDatawPW();
 
+        } else if (!updateNewfield.getText().isEmpty() && updateOldfield.getText().isEmpty()) {
+            passwordAlert();
+        } else if (!updateOldfield.getText().isEmpty() && updateNewfield.getText().isEmpty()) {
+            passwordAlert();
+        } else if (updateOldfield.getText().isEmpty() && updateNewfield.getText().isEmpty()){
+
+            updateData();
+        }
     }
+
+
+
     public void updateData(){
+
+        try {
+            if (!updateNewfield.getText().isEmpty() && !updateOldfield.getText().isEmpty()) {
+                updateDatawPW();
+            } else {
+                ModelTable ml = table.getItems().get(table.getSelectionModel().getSelectedIndex());
+                DbConnect DbConnect = new DbConnect();
+                Connection connection = DbConnect.getConnection();
+                if (validateMail()) {
+                    String query = "UPDATE USERS_TABLE SET firstname= ?, lastname= ?, email= ?,gender= ? WHERE id='" + ml.getId() + "'";
+                    PreparedStatement ps = connection.prepareStatement(query);
+
+                    ps.setString(1, updateFNamefield.getText());
+                    ps.setString(2, updateLNamefield.getText());
+                    ps.setString(3, updateEmailfield.getText());
+                    ps.setString(4, updateGenderfield.getText());
+
+
+                    Alert alertC = new Alert(Alert.AlertType.CONFIRMATION);
+                    alertC.setTitle("Confirmation Dialog");
+                    alertC.setHeaderText(null);
+                    alertC.setContentText("Are you sure you want to edit the data?");
+                    Optional<ButtonType> action = alertC.showAndWait();
+                    if (action.get() == ButtonType.OK) {
+                        ps.execute();
+
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("User updated successfully.");
+                        alert.setHeaderText(null);
+                        alert.setContentText("The User " + updateFNamefield.getText() + " " + updateLNamefield.getText() + " has updated their data.");
+                        alert.showAndWait();
+
+
+                        ps.close();
+                        RefreshTable();
+
+                        clearfields();
+                    }
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        loadCellTable();
+    }
+
+    public void updateDatawPW(){
         try {
             ModelTable ml = table.getItems().get(table.getSelectionModel().getSelectedIndex());
-            DbConnect DbConnect = new DbConnect();
-            Connection connection = DbConnect.getConnection();
-            String query = "UPDATE USERS_TABLE SET firstname= ?, lastname= ?, email= ?,gender= ? WHERE id='"+ml.getId()+"'";
-            PreparedStatement ps = connection.prepareStatement(query);
-
-            ps.setString(1, updateFNamefield.getText());
-            ps.setString(2, updateLNamefield.getText());
-            ps.setString(3, updateEmailfield.getText());
-            ps.setString(4, updateGenderfield.getText());
-
-
-            Alert alertC = new Alert(Alert.AlertType.CONFIRMATION);
-            alertC.setTitle("Confirmation Dialog");
-            alertC.setHeaderText(null);
-            alertC.setContentText("Are you sure you want to edit the data?");
-            Optional<ButtonType> action = alertC.showAndWait();
-            if(action.get() == ButtonType.OK) {
-                ps.execute();
+            temp = ml.getPassword();
+            String validate = temp;
+            String npass = updateNewfield.getText();
+            if (!updateOldfield.getText().equals(temp)){
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("User updated successfully.");
+                alert.setTitle("Incorrect Password!");
                 alert.setHeaderText(null);
-                alert.setContentText("The User "+updateFNamefield.getText()+" "+updateLNamefield.getText()+" has updated their data.");
+                alert.setContentText("It seems that you have the wrong password!");
                 alert.showAndWait();
 
+            }else if (updateOldfield.getText().equals(temp)){
 
-                ps.close();
-                RefreshTable();
+                ml = table.getItems().get(table.getSelectionModel().getSelectedIndex());
+                DbConnect DbConnect = new DbConnect();
+                Connection connection = DbConnect.getConnection();
 
-                clearfields();
-            }
+                    String query = "UPDATE USERS_TABLE SET firstname= ?, lastname= ?, email= ?,gender= ?, password=? WHERE id='" + ml.getId() + "'";
+                    PreparedStatement ps = connection.prepareStatement(query);
+
+                    ps.setString(1, updateFNamefield.getText());
+                    ps.setString(2, updateLNamefield.getText());
+                    ps.setString(3, updateEmailfield.getText());
+                    ps.setString(4, updateGenderfield.getText());
+                    ps.setString(5, npass);
+
+
+                    Alert alertC = new Alert(Alert.AlertType.CONFIRMATION);
+                    alertC.setTitle("Confirmation Dialog");
+                    alertC.setHeaderText(null);
+                    alertC.setContentText("Are you sure you want to edit the data?");
+                    Optional<ButtonType> action = alertC.showAndWait();
+                    if (action.get() == ButtonType.OK) {
+                        ps.execute();
+
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("User updated successfully.");
+                        alert.setHeaderText(null);
+                        alert.setContentText("The User " + updateFNamefield.getText() + " " + updateLNamefield.getText() + " has updated their data!");
+                        alert.showAndWait();
+
+
+                        ps.close();
+                        RefreshTable();
+
+                        clearfields();
+                    }
+                }
 
 
         } catch (SQLException e) {
@@ -336,6 +407,7 @@ public class EditUserController implements Initializable {
         }
         loadCellTable();
     }
+
     private void clearfields(){
 
         updateFNamefield.clear();
@@ -381,7 +453,8 @@ public class EditUserController implements Initializable {
                         resultSet.getString("lastname"),
                         resultSet.getString("email"),
                         resultSet.getString("gender"),
-                        resultSet.getString("role")));
+                        resultSet.getString("role"),
+                        resultSet.getString("password")));
 
 
             }
@@ -396,45 +469,43 @@ public class EditUserController implements Initializable {
         table.setItems(oblist);
     }
 
-
-    /*
-     * Validations
-     */
-    private boolean validate(String field, String value, String pattern){
-        if(!value.isEmpty()){
-            Pattern p = Pattern.compile(pattern);
-            Matcher m = p.matcher(value);
-            if(m.find() && m.group().equals(value)){
-                return true;
-            }else{
-                validationAlert(field, false);
-                return false;
-            }
-        }else{
-            validationAlert(field, true);
-            return false;
-        }
+    private void passwordAlert() {
+        Notifications notificationBuilder = Notifications.create()
+                .title ("Error Updating Data!")
+                .text ("Please make sure you to all the text fields are correct!")
+                .graphic(null)
+                .hideAfter(Duration.seconds(5))
+                .position(Pos.CENTER)
+                .onAction(new EventHandler<javafx.event.ActionEvent>() {
+                    @Override
+                    public void handle(javafx.event.ActionEvent event) {
+                        System.out.println("Error Password");
+                    }
+                });
+        notificationBuilder.showConfirm();
     }
 
-    private boolean emptyValidation(String field, boolean empty){
-        if(!empty){
+    private boolean validateMail() {
+
+        Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+");
+
+        Matcher m =  p.matcher(updateEmailfield.getText());
+
+        if (m.find() && m.group().equals(updateEmailfield.getText())){
             return true;
-        }else{
-            validationAlert(field, true);
+
+
+
+        }else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Invalid Mail Detected!");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter a valid email!");
+            alert.showAndWait();
+
             return false;
         }
-    }
 
-    private void validationAlert(String field, boolean empty){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Validation Error");
-        alert.setHeaderText(null);
-        if(field.equals("Role")) alert.setContentText("Please Select "+ field);
-        else{
-            if(empty) alert.setContentText("Please Enter "+ field);
-            else alert.setContentText("Please Enter Valid "+ field);
-        }
-        alert.showAndWait();
     }
 
 

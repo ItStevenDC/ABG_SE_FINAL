@@ -119,7 +119,7 @@ public class AdminLoginController implements Initializable {
         Statement statement = connection.createStatement();
 
         ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS_TABLE WHERE username" +
-                " = '" + usernameDB + "' AND password = '" + passwordDB + "' AND role = 1 OR role = 2");
+                " = '" + usernameDB + "' AND password = '" + passwordDB + "' AND role > '" + 0 + "'");
 
 
         if (resultSet.next()) {

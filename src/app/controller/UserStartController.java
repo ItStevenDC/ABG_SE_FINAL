@@ -28,6 +28,8 @@ import java.util.ResourceBundle;
 
 public class UserStartController implements Initializable {
 
+    java.net.URL url = ClassLoader.getSystemResource("/app/assets/168611.png");
+
     double x = 0, y = 0;
     @FXML
     private Button button;

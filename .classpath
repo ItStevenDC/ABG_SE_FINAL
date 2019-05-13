@@ -6,7 +6,18 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/jfoenix-8.0.8"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/mysql-connector-java-8.0.12"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/sqlite-jdbc-3.7.2"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/controlsfx-samples-8.40.14"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/controlsfx-samples-8.40.141"/>
-	<classpathentry kind="output" path="out/production/JavaFX_Practice"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/xmlbeans-3.1.0"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/poi-4.1.0"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/poi-ooxml-4.1.0"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/poi-ooxml-schemas-4.1.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/xmlbeans-3.1.01"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-collections4-4.3"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-compress-1.18"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jasperreports-6.8.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jasperreports-fonts-6.8.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jasperreports-javaflow-6.8.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/log4j-1.2.17"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Java EE 6-Java EE 6"/>
+	<classpathentry kind="output" path="out/production/ABGIR"/>
 </classpath>

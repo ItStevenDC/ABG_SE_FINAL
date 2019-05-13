@@ -23,6 +23,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 import sun.rmi.runtime.Log;
 
 import java.awt.*;
@@ -41,7 +42,11 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class EditPatientController implements Initializable {
+    private static final Logger Log = Logger.getLogger(Log.class);
+
+
     @FXML
     private JFXTextField searchField;
 
@@ -178,6 +183,7 @@ public class EditPatientController implements Initializable {
         } catch (SQLException e) {
 
             e.printStackTrace();
+            Log.error(e);
         }
 
         col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -380,6 +386,7 @@ public class EditPatientController implements Initializable {
 
             } catch (SQLException e) {
                 e.printStackTrace();
+                Log.error(e);
             }
             loadCellTable();
     }
@@ -443,6 +450,7 @@ public class EditPatientController implements Initializable {
         } catch (SQLException e) {
 
             e.printStackTrace();
+            Log.error(e);
         }
 
 

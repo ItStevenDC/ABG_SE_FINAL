@@ -14,6 +14,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 import sun.rmi.runtime.Log;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ChangePWController  implements Initializable {
+    private static final Logger Log = Logger.getLogger(Log.class);
     @FXML
     private PasswordField Pfc_field;
 
@@ -100,6 +102,7 @@ public class ChangePWController  implements Initializable {
         }
 
             }catch (SQLException e) {
+            Log.error(e);
             e.printStackTrace();
         }
     }
@@ -163,6 +166,7 @@ public class ChangePWController  implements Initializable {
                     }
 
         }catch (SQLException e) {
+            Log.error(e);
             e.printStackTrace();
         }
     }

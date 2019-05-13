@@ -15,6 +15,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 
 import javafx.scene.control.TableView;
@@ -22,12 +24,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.ibex.nestedvm.util.Seekable;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.Observable;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
@@ -80,6 +85,9 @@ public class TableController implements Initializable {
 
     @FXML
     private JFXRadioButton rbInter;
+
+    @FXML
+            private Button exportXL;
 
 
     double x = 0, y = 0;
@@ -243,4 +251,86 @@ public class TableController implements Initializable {
     }
 
 
+    public void exportPage(MouseEvent event) {
+        LocalDate date = LocalDate.now();
+
+        exportXL.setOnAction( e -> {
+
+            try {
+                DbConnect DbConnect = new DbConnect();
+
+                Connection connection = DbConnect.getConnection();
+
+                Statement statement = connection.createStatement();
+                String query = "SELECT * FROM PATIENT_TABLE";
+                PreparedStatement ps = connection.prepareStatement(query);
+                ResultSet resultSet = ps.executeQuery();
+
+
+                XSSFWorkbook wb = new XSSFWorkbook();
+                XSSFSheet sheet = wb.createSheet("Patient_Data_"+date+"");
+                XSSFRow header = sheet.createRow(0);
+                header.createCell(0).setCellValue("ID");
+                header.createCell(1).setCellValue("First Name");
+                header.createCell(2).setCellValue("Last Name");
+                header.createCell(3).setCellValue("Age");
+                header.createCell(4).setCellValue("Ph");
+                header.createCell(5).setCellValue("pCO2");
+                header.createCell(6).setCellValue("HCO3");
+                header.createCell(7).setCellValue("Result");
+                header.createCell(8).setCellValue("Interpreted By:");
+
+                sheet.autoSizeColumn(1);
+                sheet.autoSizeColumn(2);
+                sheet.autoSizeColumn(3);
+                sheet.autoSizeColumn(4);
+                sheet.autoSizeColumn(5);
+                sheet.autoSizeColumn(6);
+                sheet.setColumnWidth(7, 256*60);
+                sheet.autoSizeColumn(8);
+
+                sheet.setZoom(120);
+
+
+                int index = 1;
+                while (resultSet.next()) {
+
+                    XSSFRow row = sheet.createRow(index);
+
+                    row.createCell(0).setCellValue(resultSet.getString("id"));
+                    row.createCell(1).setCellValue(resultSet.getString("fname"));
+                    row.createCell(2).setCellValue(resultSet.getString("lname"));
+                    row.createCell(3).setCellValue(resultSet.getString("age"));
+                    row.createCell(4).setCellValue(resultSet.getString("ph"));
+                    row.createCell(5).setCellValue(resultSet.getString("pco"));
+                    row.createCell(6).setCellValue(resultSet.getString("hco"));
+                    row.createCell(7).setCellValue(resultSet.getString("result"));
+                    row.createCell(8).setCellValue(resultSet.getString("interpreter"));
+                    index++;
+
+                }
+
+                FileOutputStream fileOut = new FileOutputStream(new File("C:\\Users\\"+System.getProperty("user.name")+"\\Desktop\\Patient_Data_"+date+".xlsx"));
+
+
+                wb.write(fileOut);
+                fileOut.close();
+
+                Alert alertC = new Alert(Alert.AlertType.CONFIRMATION);
+                alertC.setTitle("Exported Successfully!");
+                alertC.setHeaderText(null);
+                alertC.setContentText("Patient Data as of "+date+" is successfully exported!");
+                alertC.showAndWait();
+
+                ps.close();
+                resultSet.close();
+
+            } catch (SQLException | IOException e1) {
+                e1.printStackTrace();
+            }
+
+
+        });
+
+    }
 }

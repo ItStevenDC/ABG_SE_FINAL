@@ -5,8 +5,8 @@ public class ModelTable {
 
     private static ModelTable Instance;
 
-    String id, firstname, lastname, email, gender, role;
-    public ModelTable(String id, String firstname, String lastname, String email, String gender, String role)
+    String id, firstname, lastname, email, gender, role, password;
+    public ModelTable(String id, String firstname, String lastname, String email, String gender, String role, String password)
     {
         this.id = id;
         this.firstname = firstname;
@@ -14,6 +14,7 @@ public class ModelTable {
         this.email = email;
         this.gender = gender;
         this.role = role;
+        this.password = password;
     }
 
     public static ModelTable getInstance()
@@ -56,6 +57,10 @@ public class ModelTable {
     }
 
 
+
+    public String getPassword() { return password;}
+
+    public void setPassword (String password) {this.password = password;}
 
     public String getFirstname() {
         return firstname;

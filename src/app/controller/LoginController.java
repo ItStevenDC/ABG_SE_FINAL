@@ -1,6 +1,7 @@
 package app.controller;
 
 import animation.Shaker;
+import app.helper.UpdatableBCrypt;
 import app.helper.DbConnect;
 import app.helper.UpdatableBCrypt;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
@@ -109,33 +111,61 @@ public class LoginController implements Initializable {
 
         usernameDB = tf_username.getText();
         passwordDB = pf_password.getText();
+        String hashPWDB = passwordDB;
+
 
         Connection connection = DbConnect.getInstance().getConnection();
 
         Statement statement = connection.createStatement();
-
+                               int count = 0;   
         ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS_TABLE WHERE username" +
-                " = '" + usernameDB + "' AND password = '" + passwordDB + "' AND role = 0 OR role = 2");
+                " = '" + usernameDB + "' AND role < '" + 2 + "'");
+        //  AND role = 0 OR role = 2");
+
+
 
 
     if (resultSet.next()) {
-        Parent root = FXMLLoader.load(getClass().getResource("/app/view/Home.fxml"));
+         if (UpdatableBCrypt.checkpw(passwordDB, resultSet.getString("password"))) {
+             count = 1;
+         }                                                                                      
+        if (tf_username.getText().isEmpty() || pf_password.getText().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Uh-oh! Error!");
+            alert.setHeaderText(null);
+            alert.setContentText("Please don't leave any of the blank text fields empty!");
+            alert.showAndWait();
 
-        Node node = (Node) event.getSource();
 
-        Stage stage = (Stage) node.getScene().getWindow();
+        }else {
+            if (count == 1) {
+                Parent root = FXMLLoader.load(getClass().getResource("/app/view/Home.fxml"));
 
-        stage.setScene(new Scene(root));
+                Node node = (Node) event.getSource();
+
+                Stage stage = (Stage) node.getScene().getWindow();
+
+                stage.setScene(new Scene(root));
 
 
-        String Getfname = "SELECT firstname FROM USERS_TABLE WHERE username" + "= '" + usernameDB + "'";
-        ResultSet getName = statement.executeQuery(Getfname);
+                String Getfname = "SELECT * FROM USERS_TABLE WHERE username" + "= '" + usernameDB + "'";
+                ResultSet getName = statement.executeQuery(Getfname);
 
-        while (getName.next()) {
-            String fName = getName.getString("firstname");
-            System.out.println("Login Successful");
-            userfname.setText(fName);
-            System.out.println("User " + fName + " logged in!");
+                while (getName.next()) {
+
+                    String fName = getName.getString("firstname");
+                    String lName = getName.getString("lastname");    
+                    System.out.println("Login Successful");
+                    userfname.setText(fName +" "+lName);
+                    System.out.println("User " + fName + lName+ " logged in!");
+                }
+            }
+            else {
+                Shaker shaker = new Shaker(tf_username);
+                shaker.shake();
+
+                errorLogin.setText("Incorrect Username or Password!");
+            }
         }
     } else {
         Shaker shaker = new Shaker(tf_username);

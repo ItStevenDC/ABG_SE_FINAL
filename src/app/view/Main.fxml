@@ -87,7 +87,7 @@
                                           <Insets left="10.0" right="15.0" top="12.0" />
                                        </HBox.margin>
                                     </Text>
-                                    <JFXDatePicker fx:id="birthField" defaultColor="#f1c40f" promptText="mm / dd / yyyy">
+                                    <JFXDatePicker fx:id="birthField" defaultColor="#edc213" promptText="mm / dd / yyyy">
                                        <HBox.margin>
                                           <Insets top="8.0" />
                                        </HBox.margin>
@@ -96,7 +96,7 @@
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="Ph:">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="pH:">
                                        <HBox.margin>
                                           <Insets left="10.0" right="15.0" top="12.0" />
                                        </HBox.margin>
@@ -110,22 +110,22 @@
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="PCO2:">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="PaCO₂:">
                                        <HBox.margin>
                                           <Insets left="10.0" right="15.0" top="12.0" />
                                        </HBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="Cofield" maxWidth="550.0" prefHeight="25.0" prefWidth="259.0" promptText="( 35 - 45 )" />
+                                    <JFXTextField fx:id="Cofield" maxWidth="550.0" prefHeight="25.0" prefWidth="259.0" promptText="( 35 - 45 ) mmHg" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="HCO3:">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 16;" text="HCO₃⁻:">
                                        <HBox.margin>
                                           <Insets left="10.0" right="15.0" top="12.0" />
                                        </HBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="Hcofield" maxWidth="550.0" prefHeight="25.0" prefWidth="256.0" promptText="( 22 - 26 )" />
+                                    <JFXTextField fx:id="Hcofield" maxWidth="550.0" prefHeight="25.0" prefWidth="256.0" promptText="( 22 - 26 ) mEq/L" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">

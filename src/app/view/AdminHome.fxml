@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -11,39 +12,49 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="500.0" prefWidth="850.0" style="-fx-background-color: Transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.AdminHomeController">
+<AnchorPane prefHeight="515.0" prefWidth="885.0" style="-fx-background-color: transparent;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.AdminHomeController">
     <children>
-        <StackPane alignment="TOP_LEFT" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <ImageView fitHeight="515.0" fitWidth="899.0" pickOnBounds="true">
+         <image>
+            <Image url="@../assets/redbg.png" />
+         </image>
+      </ImageView>
+        <StackPane alignment="TOP_LEFT" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="495.0" prefWidth="879.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
                 <DropShadow />
             </effect>
             <children>
-            <HBox maxHeight="180.0" prefHeight="104.0" prefWidth="830.0" style="-fx-background-color: white;">
+            <HBox maxHeight="180.0" prefHeight="137.0" prefWidth="880.0" style="-fx-background-color: white;">
                <StackPane.margin>
                   <Insets />
                </StackPane.margin>
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox prefHeight="128.0" prefWidth="495.0">
                      <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="127.0" prefWidth="384.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 3em;" text="Arterial Blood Gas " />
+                              <ImageView fitHeight="110.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/logo.png" />
+                                 </image></ImageView>
+                              <VBox prefHeight="127.0" prefWidth="377.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 3em;" text="Arterial Blood Gas " />
+                                    <HBox prefHeight="47.0" prefWidth="349.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 3em;" text="Information Reader" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
                            </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 3em;" text="Information Reader" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="90.0" />
-                           </VBox.margin>
                         </HBox>
                      </children>
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </VBox>
-                      <HBox alignment="TOP_RIGHT" prefHeight="42.0" prefWidth="471.0">
+                      <HBox alignment="TOP_RIGHT" prefHeight="110.0" prefWidth="391.0">
                           <children>
                         <HBox alignment="BASELINE_RIGHT" maxHeight="100.0" prefHeight="100.0" prefWidth="226.0">
                            <children>
@@ -51,8 +62,8 @@
                                  <children>
                                     <VBox prefHeight="112.0" prefWidth="170.0">
                                        <children>
-                  
-                        
+
+
                                                   <fx:include source="title_bar.fxml" />
                                           <HBox prefHeight="100.0" prefWidth="300.0">
                                              <children>
@@ -96,7 +107,7 @@
                       </HBox>
                </children>
             </HBox>
-            <HBox maxHeight="400.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white;" StackPane.alignment="CENTER">
+            <HBox maxHeight="445.0" prefHeight="385.0" prefWidth="844.0" style="-fx-background-color: white;" StackPane.alignment="CENTER">
                <StackPane.margin>
                   <Insets top="110.0" />
                </StackPane.margin>
@@ -125,6 +136,9 @@
                                  <image>
                                     <Image url="@../assets/CreateAccount.jpg" />
                                  </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                            </children>
                         </VBox>
@@ -136,6 +150,9 @@
                            <image>
                               <Image url="@../assets/Update.jpg" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                      </children>
                   </HBox>
