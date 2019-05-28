@@ -1,19 +1,26 @@
 package app.controller;
 
+import app.Main;
 import app.helper.DbConnect;
+
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.validation.RequiredFieldValidator;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.*;
-import java.util.Calendar;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +37,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class MainController implements Initializable {
 
@@ -41,6 +49,9 @@ public class MainController implements Initializable {
     private Text DInterpreter;
 
     @FXML
+    private Text clack;
+
+    @FXML
     private Text resultField;
 
     @FXML
@@ -49,8 +60,6 @@ public class MainController implements Initializable {
     @FXML
     private JFXTextField LNamefield;
 
-    @FXML
-    private JFXTextField Agefield;
 
     @FXML
     private JFXTextField Phfield;
@@ -67,14 +76,10 @@ public class MainController implements Initializable {
     @FXML
     private JFXDatePicker birthField;
 
-    @FXML
-    private Button InterpretData;
-
-    @FXML
-    private Button prevButton;
 
     @FXML
     private TextArea commentsBox;
+
 
 
     double x = 0, y = 0;
@@ -152,7 +157,6 @@ public class MainController implements Initializable {
             } else {
                 commentsBox.appendText("\nPatient is still a baby! Current Age is: " + diff.getMonths() + " Month/s and " + diff.getDays() + " Day/s!");
 
-
                 System.out.println("Date" + bday + bmonth + byear + diff);
                 return age;
             }
@@ -161,10 +165,28 @@ public class MainController implements Initializable {
     }
 
 
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+
         setUsername(LoginController.getInstance().firstname());
+
+        try {
+            Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+
+                int second = LocalDateTime.now().getSecond();
+                int minute = LocalDateTime.now().getMinute();
+                int hour = LocalDateTime.now().getHour();
+
+                clack.setText(hour + ":" + (minute) + ":" + second);
+
+            }), new KeyFrame(Duration.seconds(1)));
+            clock.setCycleCount(Animation.INDEFINITE);
+            clock.play();
+        }catch (Exception e){System.err.println(e);}
+
 
         LocalDate minDate = LocalDate.of(1900, 1 , 1);
         LocalDate maxDate = LocalDate.now();
@@ -185,6 +207,9 @@ public class MainController implements Initializable {
     {
         this.DInterpreter.setText(user);
     }
+
+
+
 
 
     @FXML
@@ -246,6 +271,11 @@ public class MainController implements Initializable {
        //     errorText.setText("PLEASE FILL OUT ALL OF THE BOXES!");
      //   }
 
+    public String IResults() {
+
+
+        return IResults();
+    }
 
         public void DataInterp () throws SQLException, IOException {
             String Pname = FNamefield.getText();
@@ -253,17 +283,21 @@ public class MainController implements Initializable {
 
 
             String Comments = commentsBox.getText();
-            LocalTime Rtime = LocalTime.now();
+
+
+            String Rtime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
             LocalDate Rdate = LocalDate.now();
-            float Ph = Float.parseFloat(Phfield.getText());
-            float PCO = Float.parseFloat(Cofield.getText());
-            float HCO = Float.parseFloat(Hcofield.getText());
-            float FIO = Float.parseFloat(Ofield.getText());
+
+            float ph = Float.parseFloat(Phfield.getText());
+            float co2 = Float.parseFloat(Cofield.getText());
+            float hco3 = Float.parseFloat(Hcofield.getText());
+            float fio = Float.parseFloat(Ofield.getText());
             String IResults = "";
             String DIResult;
 
 
-            double Basebalance = (HCO / (0.03 * PCO));
+            double Basebalance = (hco3 / (0.03 * co2));
 
             double ABbalance = 6.1 + Math.log10(Basebalance);
 
@@ -278,121 +312,148 @@ public class MainController implements Initializable {
             System.out.println("Acid - Base Balance: " + ABbalance);
             System.out.println("Interpreted by: " + DInterpreter.getText());
             System.out.println("Interpreted Result: ");
-            System.out.println(IResults);
-
-            if (Ph >= 7.35 && Ph <= 7.45) {
-                if (Ph < 7.4 && PCO < 35) {
-                    System.out.println("Compensated Metabolic Acidosis");
-                    if (PCO < 35) {
-                        IResults = "Metabolic Acidosis, fully compensated by Respiratory Alkalosis";
-                        System.out.println("Compensated by Respiratory Alkalosis");
-                    }
-                } else if (Ph < 7.4 && PCO > 45) {
-
-                    System.out.println("Compensated Resperatory Acidosis");
-                    if (HCO > 26) {
-                        IResults = "Resperatory Acidosis, fully compensated by Metabolic Alkalosis";
-                        System.out.println("Compensated by Metabolic Alkalosis");
-                    }
-                } else if (Ph > 7.4 && PCO < 35) {
-
-                    System.out.println("Compensated Respiratory Alkalosis");
-                    if (PCO < 35) {
-                        IResults = "Respiratory Alkalosis, fully compensated by Metabolic Acidosis";
-                        System.out.println("Compensated by Metabolic Acidosis");
-                    }
-
-                } else if (Ph > 7.4 && PCO > 45) {
-
-                    System.out.println("Compensated Metabolic Alkalosis");
-                    if (HCO > 28) {
-                        IResults = "Metabolic Alkalosis, fully compensated by Respiratory Acidosis";
-                        System.out.println("Compensated by Respiratory Acidosis");
-                    }
-                }
-
-            } else if ((Ph >= 7.35 && Ph <= 7.45) && (PCO >= 35 && PCO <= 45)) {
-                IResults = "Normal Acid Base";
-                System.out.println("Normal Acid Base");
-
-            } else if ((Ph < 7.35) && (PCO >= 35 && PCO <= 45)) {
-                IResults = "Uncompensated Metabolic Acidosis";
-                System.out.println("Uncompensated Metabolic Acidosis");
-            } else if (Ph < 7.35 && PCO < 35) {
-
-                System.out.println("Partly Compensated Metabolic Acidosis");
-                if (PCO < 35) {
-                    IResults = "Metabolic Acidosis, partially compensated by Respiratory Alkalosis";
-                    System.out.println("Partly Compensated by Respiratory Alkalosis");
-                }
-            } else if (Ph < 7.35 && PCO > 45) {
-                if (HCO >= 22 && HCO <= 28) {
-                    IResults = "Uncompensated Respiratory Acidosis";
-                    System.out.println("Uncompensated Respiratory Acidosis");
-                } else if (HCO > 28) {
-
-                    System.out.println("Partly Compensated Respiratory Acidosis");
-                    if (PCO > 45) {
-                        IResults = "Respiratory Acidosis, partially compensated by Metabolic Alkalosis";
-                        System.out.println("Partly Compensated by Metabolic Alkalosis");
-                    }
-                } else if (HCO < 22) {
-                    IResults = "Combine Respiratory and Metabolic Acidosis";
-                    System.out.println("Combined Respiratory and Metabolic Acidosis");
-                }
-            } else if (Ph > 7.45 && (PCO >= 35 && PCO <= 45)) {
-                IResults = "Uncompensated Metabolic Alkalosis";
-                System.out.println("Uncompensated Metabolic Alkalosis");
-            } else if (Ph > 7.45 && PCO > 45) {
-
-                System.out.println("Partly Compensated Metabolic Alkalosis");
-                if (PCO > 45) {
-                    IResults = "Metabolic Alkalosis, partially compensated by Respiratory Acidosis";
-                    System.out.println("Partly Compensated by Respiratory Acidosis");
-                }
-            } else if (Ph > 7.45 && PCO < 35) {
-                if (PCO < 35 && (HCO >= 22 && HCO <= 28)) {
-                    IResults = "Uncompensated Respiratory Alkalosis";
-                    System.out.println("Uncompensated Respiratory Alkalosis");
-                } else if (PCO < 35 && HCO > 28) {
-                    IResults = "Combined Respiratory and Metabolic Alkalosis";
-                    System.out.println("Combined Respiratory and Metabolic Alkalosis");
-                    if (PCO > 45) {
-
-
-                        System.out.println("Partly Compensated by Metabolic Alkalosis");
-                    }
-                } else if (PCO < 35 && HCO < 22) {
-                    IResults = "Metabolic Alkalosis, partially compensated by Respiratory Acidosis";
-                    System.out.println("Partly Compensated Respiratory Acidosis");
-                }
-
-
-            }
-
-
-            DIResult = IResults;
-
+            System.out.println(returnResult());
 
 
              DbConnect DbConnect = new DbConnect();
             Connection connection = DbConnect.getConnection();
 
             Ofield.setOnKeyPressed(e -> {
-        System.out.println("System Output: "+ DIResult);
-        resultField.setText("Interpreted Result: " + DIResult + "!");
+        System.out.println("System Output: "+ returnResult());
+        resultField.setText("Interpreted Result: " + returnResult() + "!");
             });
 
+            char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+            Random rnd = new Random();
+            int n = 100000 + rnd.nextInt(900000);
+            int uniqueID = n;
+            StringBuilder sb = new StringBuilder("ABG-" +( 0 + rnd.nextInt(900000)) + "-");
+            for (int i = 0; i < 3; i++)
+                sb.append(chars[rnd.nextInt(chars.length)]);
 
-                DbConnect.registerPatient(FNamefield.getText(), LNamefield.getText(), Page,
+            PreparedStatement st = connection.prepareStatement("SELECT * FROM PATIENT_TABLE WHERE id = ? ");
+            st.setString(1, sb.toString());
+            ResultSet r1=st.executeQuery();
+            if(r1.next()) {
+                sb = new StringBuilder((0 + rnd.nextInt(900000)) + "-");
+                for (int i = 0; i < 3; i++)
+                    sb.append(chars[rnd.nextInt(chars.length)]);
+
+                System.out.println("Redoing similar id found");
+            }else
+
+                DbConnect.registerPatient(sb.toString(),FNamefield.getText(), LNamefield.getText(), Page,
                 Phfield.getText(), Cofield.getText(), Hcofield.getText(), Ofield.getText(), Rdate.toString(),
-                Rtime.toString(), commentsBox.getText(), DIResult, DInterpreter.getText());
+                Rtime.toString(), commentsBox.getText(), returnResult(), DInterpreter.getText());
 
                 errorText.setText("The patient data is now recorded!");
 
         }
 
 
+
+
+    public String returnResult(){
+
+        String ABGresult;
+        float ph = Float.parseFloat(Phfield.getText());
+        float co2 = Float.parseFloat(Cofield.getText());
+        float hco3 = Float.parseFloat(Hcofield.getText());
+
+        if ((ph < 7.35) && (co2 > 45) && (hco3 >=22 && hco3 <=28)) {
+            ABGresult ="Acute Respiratory Acidosis";
+            return ABGresult;
+        }
+
+        else if (((co2 - 35) < (hco3 - 22)) && (ph >= 7.35 && ph <= 7.45) && (co2 < 35) && (hco3 <22)) {
+            ABGresult ="Compensated Respiratory Alkalosis";
+            return ABGresult;
+        }
+
+        else if (((co2 - 35) > (hco3 - 22)) && (ph >= 7.35 && ph <= 7.45) && (co2 < 35) && (hco3 <22)) {
+            ABGresult ="Compensated Metabolic Acidosis";
+            return ABGresult;
+        }
+
+        else if (((co2 - 35) == (hco3 - 22)) && (ph >= 7.35 && ph <= 7.45) && (co2 < 35) && (hco3 <22)) {
+            ABGresult ="Compensated Metabolic Acidosis or Compensated Respiratory Alkalosis";
+            return ABGresult;
+        }
+
+        else if ((ph > 7.45) && (co2 < 35) && (hco3 >=22 && hco3 <=28)) {
+            ABGresult ="Acute Respiratory Alkalosis";
+            return ABGresult;
+        }
+
+        else if (((co2 - 45) < (hco3 - 28)) && (ph >= 7.35 && ph <= 7.45) && (co2 > 45) && (hco3 >28)) {
+            ABGresult ="Compensated Metabolic Alkalosis";
+            return ABGresult;
+        }
+
+        else if (((co2 - 45) > (hco3 - 28)) && (ph >= 7.35 && ph <= 7.45) && (co2 > 45) && (hco3 >28)) {
+            ABGresult ="Compensated Respiratory Acidosis";
+            return ABGresult;
+        }
+
+        else if (((co2 - 45) == (hco3 - 28)) && (ph >= 7.35 && ph <= 7.45) && (co2 > 45) && (hco3 >28)) {
+            ABGresult ="Compensated Respiratory Acidosis or Compensated Metabolic Alkalosis";
+            return ABGresult;
+        }
+
+        else if ((ph <7.35) && (co2 >=35 && co2 <=45) && (hco3 <22)) {
+            ABGresult ="Acute Metabolic Acidosis";
+            return ABGresult;
+        }
+
+        else if ((ph <7.35) && !(ph==0) && (co2 <35) && (hco3 <22)) {
+            ABGresult ="Partly Compensated Metabolic Acidosis";
+            return ABGresult;
+        }
+
+        else if ((ph >7.45) && (co2 >=35 && co2 <=45) && (hco3 >28)) {
+            ABGresult ="Acute Metabolic Alkalosis";
+            return ABGresult;
+        }
+
+        else if ((ph >7.45) && (co2 >45) && (hco3 >28)) {
+            ABGresult ="Partly Compensated Metabolic Alkalosis";
+            return ABGresult;
+        }
+
+        else if ((ph >= 7.34 && ph <= 7.46) && (co2 >=34 && co2 <=46) && (hco3 >=21 && hco3 <=29)) {
+            ABGresult ="Normal Arterial Blood Gas";
+            return ABGresult;
+        }
+
+        else if ((ph < 7.35) && (co2 >45) && (hco3 >28)) {
+            ABGresult ="Partly Compensated Respiratory Acidosis";
+            return ABGresult;
+        }
+
+        else if (( ph > 7.45) && (co2 <35) && (hco3 <22)) {
+            ABGresult ="Partly Compensated Respiratory Alkalosis";
+            return ABGresult;
+        }
+
+        else if ((ph < 7.35) && (co2 >= 44) && (hco3 <= 21))
+        {
+            ABGresult = "Combined Respiratory and Metabolic Acidosis";
+            return ABGresult;
+        }
+
+        else if ((ph > 7.45) && (co2 <= 34) && (hco3 >= 28))
+        {
+            ABGresult = "Combined Respiratory and Metabolic Acidosis";
+            return ABGresult;
+        }
+
+        else {
+            ABGresult ="Unable to determine.";
+            return ABGresult;
+        }
+
+
+    }
 
 
 
