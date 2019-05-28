@@ -2,6 +2,7 @@ package app.controller;
 
 import app.helper.DbConnect;
 import app.helper.ModelTable;
+import app.helper.UpdatableBCrypt;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
@@ -138,41 +139,42 @@ public class EditUserController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        String userName = AdminLoginController.getInstance().usernme();
 
         EditValue();
         Connection connection = DbConnect.getInstance().getConnection();
 
 
         try {
-            ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM USERS_TABLE");
+                    ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM USERS_TABLE WHERE role = 0 OR role = 2"); //WHERE role >= '"+0+"'"
 
-            while (resultSet.next()) {
+                    while (resultSet.next()) {
 
-                oblist.add(new ModelTable(resultSet.getString("id"),
-                        resultSet.getString("firstname"),
-                        resultSet.getString("lastname"),
-                        resultSet.getString("email"),
-                        resultSet.getString("gender"),
-                        resultSet.getString("role"),
-                        resultSet.getString("password")));
+                        oblist.add(new ModelTable(resultSet.getString("id"),
+                                resultSet.getString("firstname"),
+                                resultSet.getString("lastname"),
+                                resultSet.getString("email"),
+                                resultSet.getString("gender"),
+                                resultSet.getString("role"),
+                                resultSet.getString("password")));
 
-                          }
+                    }
 
-        } catch (SQLException e) {
 
+                col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+                col_fn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
+                col_ln.setCellValueFactory(new PropertyValueFactory<>("lastname"));
+                col_mail.setCellValueFactory(new PropertyValueFactory<>("email"));
+                col_gen.setCellValueFactory(new PropertyValueFactory<>("gender"));
+                col_admin.setCellValueFactory(new PropertyValueFactory<>("role"));
+
+
+                table.setItems(oblist);
+
+            } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        col_fn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
-        col_ln.setCellValueFactory(new PropertyValueFactory<>("lastname"));
-        col_mail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        col_gen.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        col_admin.setCellValueFactory(new PropertyValueFactory<>("role"));
-
-
-
-        table.setItems(oblist);
 
     }
 
@@ -282,7 +284,9 @@ public class EditUserController implements Initializable {
 
 
     @FXML
-    void updateUser(MouseEvent event) throws IOException {
+    void updateUser(MouseEvent event) throws IOException, SQLException {
+        DbConnect DbConnect = new DbConnect();
+        Connection connection = DbConnect.getConnection();
 
         if (!updateNewfield.getText().isEmpty() && !updateOldfield.getText().isEmpty()) {
 
@@ -349,25 +353,37 @@ public class EditUserController implements Initializable {
         loadCellTable();
     }
 
-    public void updateDatawPW(){
+    public void updateDatawPW() throws SQLException {
+
+        DbConnect DbConnect = new DbConnect();
+        Connection connection = DbConnect.getConnection();
+        Statement statement = connection.createStatement();
         try {
-            ModelTable ml = table.getItems().get(table.getSelectionModel().getSelectedIndex());
+           ModelTable ml = table.getItems().get(table.getSelectionModel().getSelectedIndex());
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS_TABLE WHERE id" +
+                    " = '" + ml.getId() + "'");
+
+
             temp = ml.getPassword();
             String validate = temp;
             String npass = updateNewfield.getText();
-            if (!updateOldfield.getText().equals(temp)){
+            if (resultSet.next()) {
+                int count = 0;
+                if (UpdatableBCrypt.checkpw(updateOldfield.getText(), resultSet.getString("password"))) {
+                    count = 1;
+                }
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Incorrect Password!");
-                alert.setHeaderText(null);
-                alert.setContentText("It seems that you have the wrong password!");
-                alert.showAndWait();
+                if (count == 0) {
 
-            }else if (updateOldfield.getText().equals(temp)){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Incorrect Password!");
+                    alert.setHeaderText(null);
+                    alert.setContentText("It seems that you have the wrong password!");
+                    alert.showAndWait();
+                    clearfields();
 
-                ml = table.getItems().get(table.getSelectionModel().getSelectedIndex());
-                DbConnect DbConnect = new DbConnect();
-                Connection connection = DbConnect.getConnection();
+                } else if (count == 1) {
+                    ml = table.getItems().get(table.getSelectionModel().getSelectedIndex());
 
                     String query = "UPDATE USERS_TABLE SET firstname= ?, lastname= ?, email= ?,gender= ?, password=? WHERE id='" + ml.getId() + "'";
                     PreparedStatement ps = connection.prepareStatement(query);
@@ -376,7 +392,7 @@ public class EditUserController implements Initializable {
                     ps.setString(2, updateLNamefield.getText());
                     ps.setString(3, updateEmailfield.getText());
                     ps.setString(4, updateGenderfield.getText());
-                    ps.setString(5, npass);
+                    ps.setString(5, hashPassword(npass));
 
 
                     Alert alertC = new Alert(Alert.AlertType.CONFIRMATION);
@@ -400,6 +416,7 @@ public class EditUserController implements Initializable {
                         clearfields();
                     }
                 }
+            }
 
 
         } catch (SQLException e) {
@@ -444,7 +461,7 @@ public class EditUserController implements Initializable {
         Connection connection = DbConnect.getInstance().getConnection();
 
         try {
-            ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM USERS_TABLE");
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM USERS_TABLE WHERE ROLE = 0 OR ROLE = 2");
 
             while (resultSet.next()) {
 
@@ -506,6 +523,11 @@ public class EditUserController implements Initializable {
             return false;
         }
 
+    }
+
+    private static String hashPassword(String plainPass){
+
+        return UpdatableBCrypt.hashpw(plainPass, UpdatableBCrypt.gensalt());
     }
 
 

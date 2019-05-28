@@ -17,9 +17,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.apache.log4j.Logger;
+
 import org.controlsfx.control.Notifications;
-import sun.rmi.runtime.Log;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,7 +32,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignUpController implements Initializable {
-    private static final Logger Log = Logger.getLogger(sun.rmi.runtime.Log.class);
 
 
     @FXML
@@ -141,7 +140,8 @@ public class SignUpController implements Initializable {
 
         int SuperRole = 0;
         String usernameDB = AdminLoginController.getInstance().usernme();
-        String passwordDB = AdminLoginController.getInstance().psswrd();
+        String passwordDB = (AdminLoginController.getInstance().psswrd());
+
 
         DbConnect DbConnect = new DbConnect();
         Connection connection = DbConnect.getConnection();
@@ -149,21 +149,16 @@ public class SignUpController implements Initializable {
 
         Statement statement = connection.createStatement();
 
+            ResultSet resultSet = statement.executeQuery("SELECT ROLE FROM USERS_TABLE WHERE username ='"+usernameDB+"'");
 
-        ResultSet resultSet = statement.executeQuery("SELECT ROLE FROM USERS_TABLE WHERE username" +
-                " = '" + usernameDB + "' AND password = '" + passwordDB + "'");
+            while (resultSet.next()) {
 
+                int checkRole = resultSet.getInt("role");
 
-        while (resultSet.next()) {
-
-
-            int checkRole = resultSet.getInt("role");
-
-            SuperRole = checkRole;
-            System.out.println(SuperRole + " "+checkRole);
-        }
-
-        return SuperRole;
+                SuperRole = checkRole;
+                System.out.println(SuperRole + " " + checkRole);
+            }
+            return SuperRole;
     }
 
     @FXML
@@ -181,6 +176,9 @@ public class SignUpController implements Initializable {
     }
 
 
+    int usertaken = 0;
+    int mailtaken = 0;
+
     @FXML
     void signup(MouseEvent event) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException, IOException {
 
@@ -197,25 +195,46 @@ public class SignUpController implements Initializable {
 
         if (validateMail()) {
             try {
-         /*       String query = String.valueOf(statement.executeUpdate("INSERT INTO USERS_TABLE(firstname,lastname,username,email,password,role,adminfirst,gender)"
-                        + "VALUES (?,?,?,?,?,?,?,?)"));
-                //"INSERT INTO USERS_TABLE SET firstname=?, lastname=?, username=?, email=?, password=?, role=?,adminfirst=?,gender=?");
-                PreparedStatement ps = connection.prepareStatement(query);
 
-                ps.setString(1, tf_firstname.getText());
-                ps.setString(2, tf_lastname.getText());
-                ps.setString(3, tf_username.getText());
-                ps.setString(4, tf_email.getText());
-                ps.setString(5, hashPassword(pf_password.getText()));
-                ps.setString(6, String.valueOf(isAdmin()));
-                ps.setString(7, String.valueOf(isVirg()));
-                ps.setString(8, getGender());
+                PreparedStatement st = connection.prepareStatement("SELECT * FROM USERS_TABLE WHERE username = ? ");
+                st.setString(1, tf_username.getText());
+                ResultSet r1=st.executeQuery();
+                if(r1.next()){
+                    usertaken = 0;
+                    System.out.println("Username Is Already Taken!");
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Username is Already Taken!");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Username is already taken!");
+                    alert.showAndWait();
+                    System.out.println("user already exist in database!");
+                }
+                else
+                {
+                    usertaken = 1;
+                }
 
-                ps.execute();
+                PreparedStatement et = connection.prepareStatement("SELECT * FROM USERS_TABLE WHERE email = ? ");
+                et.setString(1, tf_email.getText());
+                ResultSet rt=st.executeQuery();
+                if(rt.next()){
+                    mailtaken = 0;
+                    System.out.println("Email Is Already Taken!");
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Email is Already Taken!");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Email is already taken!");
+                    alert.showAndWait();
+                    System.out.println("Email already exist in database!");
+                }else {
+                    mailtaken =1;
+                }
 
-*/
-                DbConnect.signUpUser(tf_firstname.getText(), tf_lastname.getText(), tf_username.getText(), tf_email.getText(), hashPassword(pf_password.getText()), isAdmin(), isVirg(), getGender());
 
+
+                if (usertaken == 1 && mailtaken == 1) {
+                    DbConnect.signUpUser(tf_firstname.getText(), tf_lastname.getText(), tf_username.getText(), tf_email.getText(), hashPassword(pf_password.getText()), isAdmin(), isVirg(), getGender());
+                }
 
                 if (RbAdmin.isSelected()) {
 
@@ -284,75 +303,6 @@ void SucSign() {
     notificationBuilder.showConfirm();
 }
 
-        /*
-        DbConnect DbConnect = new DbConnect();
-        Connection connection = DbConnect.getInstance().getConnection();
-
-        PreparedStatement ps = null;
-
-        int recordCounter = 0;
-
-        try {
-
-            String firstname = tf_firstname.getText();
-            String lastname = tf_lastname.getText();
-            String username = tf_username.getText();
-            String email = tf_email.getText();
-            String password = pf_password.getText();
-
-
-            Statement statement = connection.createStatement();
-
-            int status = statement.executeUpdate("insert into USERS_TABLE (firstname,lastname,username,email,password)" +
-                    " values(' " + firstname + "',' " + lastname + "','" + username + "','" + email + "','" + password + "','" + "MALE" + "')");
-
-            ps.setString(1,firstname);
-            ps.setString(2,lastname);
-            ps.setString(3,username);
-            ps.setString(4,email);
-            ps.setString(5,password);
-
-
-            recordCounter = ps.executeUpdate();
-
-            if (status > 0) {
-                System.out.println("user registered");
-            }
-
-        } catch (SQLIntegrityConstraintViolationException e) {
-            if (e.getSQLState().equals("23000")) {
-                if (e.getMessage().contains("Duplicate")) {
-                    {
-                        System.out.println("Username Is Already Taken!");
-                    }
-                } else {
-                    {
-                        System.err.println("SQL STATE" + e.getSQLState());
-                        System.err.println("exception on update: " + e.getMessage());
-                        throw e;
-                    }
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.err.println("SQL STATE" + e.getSQLState());
-            System.err.println("exception on update: " + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (ps != null) {
-                ps.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
-
-        return recordCounter;
-    }
-
-*/
 
 
 
@@ -372,7 +322,6 @@ void SucSign() {
            }
 
         } catch (SQLException e) {
-          Log.error(e);
 
             e.printStackTrace();
         }

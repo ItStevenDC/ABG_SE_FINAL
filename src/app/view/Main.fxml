@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="759.0" prefWidth="726.0" style="-fx-background-color: f1c40f;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainController">
+<AnchorPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="759.0" prefWidth="726.0" style="-fx-background-color: f1c40f;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainController">
     <children>
         <StackPane prefHeight="300.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
@@ -31,6 +32,27 @@
                         <VBox alignment="CENTER" prefHeight="66.0" prefWidth="700.0">
                            <children>
                               <Text fx:id="DInterpText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 23;" text="INTERPRET ABG DATA" />
+                              <HBox prefHeight="27.0" prefWidth="706.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 14;" text="Time:">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <Text fx:id="clack" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14; -fx-font-family: Quicksand;" text="TIME">
+                                       <HBox.margin>
+                                          <Insets left="7.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" />
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <JFXComboBox fx:id="hospField" prefHeight="25.0" prefWidth="173.0" HBox.hgrow="NEVER" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                         <VBox prefHeight="400.0" prefWidth="100.0">
@@ -152,7 +174,7 @@
                                           <Insets left="10.0" />
                                        </VBox.margin>
                                     </VBox>
-                                    <TextArea fx:id="commentsBox" prefHeight="299.0" prefWidth="653.0">
+                                    <TextArea fx:id="commentsBox" prefHeight="299.0" prefWidth="653.0" style="-fx-font-size: 16;">
                                        <VBox.margin>
                                           <Insets left="10.0" />
                                        </VBox.margin>

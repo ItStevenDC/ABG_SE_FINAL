@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="513.0" maxWidth="958.0" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="513.0" prefWidth="932.0" style="-fx-background-color: f1c40f;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.TableController">
+<AnchorPane maxHeight="513.0" maxWidth="958.0" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="513.0" prefWidth="932.0" style="-fx-background-color: f1c40f;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.TableController">
     <children>
         <StackPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
@@ -112,6 +112,15 @@
                                        <HBox.margin>
                                           <Insets left="20.0" right="5.0" />
                                        </HBox.margin></JFXButton>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="29.0" prefWidth="140.0">
+                                 <children>
+                                    <JFXButton fx:id="tableDelete" mnemonicParsing="false" onMouseClicked="#tableTruncate" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: #fe4451; -fx-background-radius: 100px; -fx-text-fill: white;" text="Delete Table">
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
                                  </children>
                               </HBox>
                               <HBox layoutX="783.0" layoutY="10.0" prefHeight="29.0" prefWidth="125.0">

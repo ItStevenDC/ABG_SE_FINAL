@@ -9,10 +9,25 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        try {
+            GraphicsEnvironment ge =
+                    GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/Quicksand-Regular.otf")));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/Quicksand-Bold.otf")));
+        } catch (IOException |FontFormatException e) {
+            //Handle exception
+        }
+
+
         Parent root = FXMLLoader.load(getClass().getResource("view/UserStart.fxml"));
         java.net.URL url = ClassLoader.getSystemResource("app/assets/168611.png");
         Image icon = new Image(getClass().getResourceAsStream("/app/assets/168611.png"));

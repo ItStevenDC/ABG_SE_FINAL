@@ -157,7 +157,7 @@ public class LoginController implements Initializable {
                     String lName = getName.getString("lastname");    
                     System.out.println("Login Successful");
                     userfname.setText(fName +" "+lName);
-                    System.out.println("User " + fName + lName+ " logged in!");
+                    System.out.println("User " + fName +" "+ lName+ " logged in!");
                 }
             }
             else {

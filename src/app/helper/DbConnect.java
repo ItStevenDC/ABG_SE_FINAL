@@ -113,12 +113,13 @@ public class DbConnect extends Config {
         }
     }
 
-    public void registerPatient(String fname, String lname, int age, String ph, String pco, String hco, String fio, String datem, String timem, String comments, String result, String interpreter) throws SQLException {
+    public void registerPatient(String id, String fname, String lname, int age, String ph, String pco, String hco, String fio, String datem, String timem, String comments, String result, String interpreter) throws SQLException {
 
         DbConnect DbConnect = new DbConnect();
         Connection connection = DbConnect.getInstance().getConnection();
 
         String insert = "INSERT INTO " + Const.PATIENT_TABLE + "(" +
+                Const.PATIENT_ID + "," +
                 Const.PATIENT_FNAME + "," +
                 Const.PATIENT_LNAME + "," +
                 Const.PATIENT_AGE + "," +
@@ -131,25 +132,28 @@ public class DbConnect extends Config {
                 Const.PATIENT_COMMENTS + "," +
                 Const.PATIENT_RESULT + "," +
                 Const.PATIENT_INTERPRETER + ")"
-                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement ps = null;
 
         try {
             PreparedStatement preparedStatement = DbConnect.getConnection().prepareStatement(insert);
 
-            preparedStatement.setString(1, fname);
-            preparedStatement.setString(2, lname);
-            preparedStatement.setInt(3, age);
-            preparedStatement.setString(4, ph);
-            preparedStatement.setString(5, pco);
-            preparedStatement.setString(6, hco);
-            preparedStatement.setString(7, fio);
-            preparedStatement.setString(8, datem);
-            preparedStatement.setString(9, timem);
-            preparedStatement.setString(10, comments);
-            preparedStatement.setString(11, result);
-            preparedStatement.setString(12, interpreter);
+
+            preparedStatement.setString(1, id);
+            preparedStatement.setString(2, fname);
+            preparedStatement.setString(3, lname);
+            preparedStatement.setInt(4, age);
+            preparedStatement.setString(5, ph);
+            preparedStatement.setString(6, pco);
+            preparedStatement.setString(7, hco);
+            preparedStatement.setString(8, fio);
+            preparedStatement.setString(9, datem);
+            preparedStatement.setString(10, timem);
+            preparedStatement.setString(11, comments);
+            preparedStatement.setString(12, result);
+            preparedStatement.setString(13, interpreter);
+
 
             preparedStatement.executeUpdate();
 

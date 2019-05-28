@@ -15,11 +15,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -34,6 +31,7 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.Observable;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -333,4 +331,101 @@ public class TableController implements Initializable {
         });
 
     }
+
+    //Boolean function to double check if Patient data will be deleted!
+    int Conf = 0;
+
+    @FXML
+    public void tableTruncate (MouseEvent event) throws SQLException {
+        DbConnect DbConnect = new DbConnect();
+        Connection connection = DbConnect.getConnection();
+        String query = "DELETE FROM patient_table WHERE fio > 0"; //Patient Data to Delete All
+     //   String query = "TRUNCATE TABLE patient_table";
+        PreparedStatement ps = connection.prepareStatement(query);
+        Alert alertC = new Alert(Alert.AlertType.CONFIRMATION);
+        alertC.setTitle("Confirmation Dialog");
+        alertC.setHeaderText(null);
+        alertC.setContentText("By clicking this button you are DELETING all the data! Are you sure you want to proceed? ");
+        Optional<ButtonType> action = alertC.showAndWait();
+        if (action.get() == ButtonType.OK) {
+
+            Confirm();
+            if (Conf == 1) {
+
+              //  ps.setInt(1, 0);
+                int del = ps.executeUpdate();
+                RefreshTable();
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Patient Data Deleted Successfully!!");
+                alert.setHeaderText(null);
+                alert.setContentText("Number of Deleted Data: " + del);
+                alert.showAndWait();
+
+                ps.close();
+            }
+            else if (Conf == 0)
+            {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Reminder!");
+                alert.setHeaderText(null);
+                alert.setContentText("Please export your data first before trying to delete!");
+                alert.showAndWait();
+            }
+        }
+    }
+
+    public void Confirm () {
+        Alert alertC = new Alert(Alert.AlertType.CONFIRMATION);
+        alertC.setTitle("Confirmation Dialog");
+        alertC.setHeaderText(null);
+        alertC.setContentText("Are you sure you want to delete all the data? ");
+        Optional<ButtonType> action = alertC.showAndWait();
+        if (action.get() == ButtonType.OK) {
+            Conf = 1;
+            System.out.println("TABLE DELETED!!!");
+        } else
+        {
+            Conf = 0;
+            System.out.println("Table Delete Function Cancelled!");
+        }
+    }
+
+    private void RefreshTable() {
+
+        oblist.clear();
+
+        Connection connection = DbConnect.getInstance().getConnection();
+
+        try {
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM PATIENT_TABLE");
+
+            while (resultSet.next()) {
+
+                oblist.add(new ModelTable(resultSet.getString("id"),
+                        resultSet.getString("fname"),
+                        resultSet.getString("lname"),
+                        resultSet.getString("age"),
+                        resultSet.getString("ph"),
+                        resultSet.getString("pco"),
+                        resultSet.getString("hco"),
+                        resultSet.getString("datem"),
+                        resultSet.getString("comments"),
+                        resultSet.getString("interpreter"),
+                        resultSet.getString("result")));
+
+
+            }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }
+
+
+
+        table.setItems(oblist);
+    }
+
 }

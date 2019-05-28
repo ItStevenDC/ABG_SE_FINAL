@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.helper.DbConnect;
+import app.helper.UpdatableBCrypt;
 import com.jfoenix.controls.JFXPasswordField;
 
 import javafx.fxml.FXML;
@@ -14,7 +15,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+
 import sun.rmi.runtime.Log;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ChangePWController  implements Initializable {
-    private static final Logger Log = Logger.getLogger(Log.class);
+
     @FXML
     private PasswordField Pfc_field;
 
@@ -72,7 +73,7 @@ public class ChangePWController  implements Initializable {
         String query = "UPDATE USERS_TABLE SET password= ?, adminfirst=? WHERE username='" + userID + "'";
         PreparedStatement ps = connection.prepareStatement(query);
 
-        ps.setString(1, AdmPass);
+        ps.setString(1, hashPassword(AdmPass));
         ps.setString(2, validated);
 
 
@@ -102,7 +103,6 @@ public class ChangePWController  implements Initializable {
         }
 
             }catch (SQLException e) {
-            Log.error(e);
             e.printStackTrace();
         }
     }
@@ -129,7 +129,7 @@ public class ChangePWController  implements Initializable {
                         String query = "UPDATE USERS_TABLE SET password= ? WHERE username='" + usernme + "'";
                         PreparedStatement ps = connection.prepareStatement(query);
 
-                        ps.setString(1, cfPass);
+                        ps.setString(1, hashPassword(cfPass));
 
                         Alert alertC = new Alert(Alert.AlertType.CONFIRMATION);
                         alertC.setTitle("Confirmation Dialog");
@@ -166,7 +166,6 @@ public class ChangePWController  implements Initializable {
                     }
 
         }catch (SQLException e) {
-            Log.error(e);
             e.printStackTrace();
         }
     }
@@ -174,5 +173,11 @@ public class ChangePWController  implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+
+    private static String hashPassword(String plainPass){
+
+        return UpdatableBCrypt.hashpw(plainPass, UpdatableBCrypt.gensalt());
     }
 }

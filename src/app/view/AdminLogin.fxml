@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
@@ -116,15 +117,21 @@
                                         <Insets top="30.0" />
                                     </VBox.margin>
                                 </HBox>
-                                <Button fx:id="login" mnemonicParsing="false" onMouseClicked="#login" prefWidth="180.0" style="-fx-background-color: #ff3b49; -fx-background-radius: 100PX; -fx-text-fill: white; -fx-font-weight: Bold;" text="Login">
-                                    <VBox.margin>
-                                        <Insets top="30.0" />
-                                    </VBox.margin>
-                                </Button>
+                        <JFXButton fx:id="login" mnemonicParsing="false" onMouseClicked="#login" prefWidth="180.0" style="-fx-background-color: #ff3b49; -fx-background-radius: 100px; -fx-text-fill: White; -fx-font-weight: bold;" text="Login">
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
                         <Text layoutX="248.0" layoutY="154.0" onMouseClicked="#UserLogin" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 13; -fx-fill: Red;" text="Sign in as User">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Text>
                             </children>
                             <padding>

@@ -22,6 +22,7 @@ public class Const {
     public static final String PATIENT_TABLE = "PATIENT_TABLE";
     //PATIENTS Table Column Names
 
+    public static final String PATIENT_ID = "id";
     public static final String PATIENT_FNAME = "fname";
     public static final String PATIENT_LNAME = "lname";
     public static final String PATIENT_AGE = "age";

@@ -2,6 +2,7 @@ package app.controller;
 
 import animation.Shaker;
 import app.helper.DbConnect;
+import app.helper.UpdatableBCrypt;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -117,12 +118,15 @@ public class AdminLoginController implements Initializable {
         Connection connection = DbConnect.getInstance().getConnection();
 
         Statement statement = connection.createStatement();
-
+        int count = 0;
         ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS_TABLE WHERE username" +
-                " = '" + usernameDB + "' AND password = '" + passwordDB + "' AND role > '" + 0 + "'");
+                " = '" + usernameDB +  "' AND role > '" + 0 + "'");
 
 
         if (resultSet.next()) {
+            if (UpdatableBCrypt.checkpw(passwordDB, resultSet.getString("password"))) {
+                count = 1;
+            }
 
             String initial = AdminLoginController.getInstance().usernme();
 
@@ -131,15 +135,21 @@ public class AdminLoginController implements Initializable {
                     " = '" + initial + "' AND adminfirst = 1");
 
             if (rSS.next()) {
+                if (count ==1) {
+                    Parent root = FXMLLoader.load(getClass().getResource("/app/view/AdminHome.fxml"));
 
-                Parent root = FXMLLoader.load(getClass().getResource("/app/view/AdminHome.fxml"));
+                    Node node = (Node) event.getSource();
 
-                Node node = (Node) event.getSource();
+                    Stage stage = (Stage) node.getScene().getWindow();
 
-                Stage stage = (Stage) node.getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    System.out.println("Admin Account Initialized...");
+                } else {
+                    Shaker shaker = new Shaker(tf_username);
+                    shaker.shake();
 
-                stage.setScene(new Scene(root));
-                System.out.println("Admin Account Initialized...");
+                    errorLogin.setText("Incorrect Username or Password!");
+                }
 
             } else
             {
