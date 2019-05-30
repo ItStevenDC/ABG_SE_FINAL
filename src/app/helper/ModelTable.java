@@ -38,25 +38,39 @@ public class ModelTable {
     }
 
 
-    String fname,lname,age,ph,pco,hco,datem,comments,interpreter,results;
+    String fname,lname,age,ph,pco,po,hco,fio,datem,comments,interpreter,results,oxy;
 
-    public ModelTable(String id, String fname, String lname, String age, String ph, String pco, String hco, String datem,String comments, String interpreter,String results) {
+    public ModelTable(String id, String fname, String lname, String age, String ph, String pco,String po, String hco,String fio, String datem,String comments, String interpreter,String results,String oxy) {
         this.id = id;
         this.fname = fname;
         this.lname = lname;
         this.age = age;
         this.ph = ph;
         this.pco = pco;
+        this.po = po;
         this.hco = hco;
+        this.fio = fio;
         this.datem = datem;
         this.comments = comments;
         this.interpreter = interpreter;
         this.results = results;
+        this.oxy = oxy;
 
 
     }
 
 
+    public String getOxy() {return oxy;}
+
+    public void setOxy (String oxy) {this.oxy=oxy;}
+
+    public String getPo() {return po;}
+
+    public void setPo (String po) {this.po=po;}
+
+    public String getFio() {return fio;}
+
+    public void setFio (String fio) {this.fio=fio;}
 
     public String getPassword() { return password;}
 

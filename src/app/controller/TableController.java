@@ -63,6 +63,9 @@ public class TableController implements Initializable {
     private TableColumn<ModelTable, String> col_pco;
 
     @FXML
+    private TableColumn<ModelTable, String> col_po;
+
+    @FXML
     private TableColumn<ModelTable, String> col_hco;
 
     @FXML
@@ -130,11 +133,14 @@ public class TableController implements Initializable {
                             resultSet.getString("age"),
                             resultSet.getString("ph"),
                             resultSet.getString("pco"),
+                            resultSet.getString("po"),
                             resultSet.getString("hco"),
+                            resultSet.getString("fio"),
                             resultSet.getString("datem"),
                             resultSet.getString("comments"),
                             resultSet.getString("interpreter"),
-                            resultSet.getString("result")));
+                            resultSet.getString("result"),
+                            resultSet.getString("oxy")));
 
                 }
 
@@ -151,6 +157,7 @@ public class TableController implements Initializable {
         col_age.setCellValueFactory(new PropertyValueFactory<>("age"));
         col_ph.setCellValueFactory(new PropertyValueFactory<>("ph"));
         col_pco.setCellValueFactory(new PropertyValueFactory<>("pco"));
+        col_po.setCellValueFactory(new PropertyValueFactory<>("po"));
         col_hco.setCellValueFactory(new PropertyValueFactory<>("hco"));
         col_date.setCellValueFactory(new PropertyValueFactory<>("datem"));
         col_interpreter.setCellValueFactory(new PropertyValueFactory<>("interpreter"));
@@ -408,11 +415,14 @@ public class TableController implements Initializable {
                         resultSet.getString("age"),
                         resultSet.getString("ph"),
                         resultSet.getString("pco"),
+                        resultSet.getString("po"),
                         resultSet.getString("hco"),
+                        resultSet.getString("fio"),
                         resultSet.getString("datem"),
                         resultSet.getString("comments"),
                         resultSet.getString("interpreter"),
-                        resultSet.getString("result")));
+                        resultSet.getString("result"),
+                        resultSet.getString("oxy")));
 
 
             }

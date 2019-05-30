@@ -28,12 +28,15 @@ public class Const {
     public static final String PATIENT_AGE = "age";
     public static final String PATIENT_PH = "ph";
     public static final String PATIENT_PCO = "pco";
+    public static final String PATIENT_PO = "po";
     public static final String PATIENT_HCO = "hco";
+    public static final String PATIENT_OSAT = "Osat";
     public static final String PATIENT_FIO = "fio";
     public static final String PATIENT_DATEM = "datem";
     public static final String PATIENT_TIMEM = "timem";
     public static final String PATIENT_COMMENTS = "comments";
     public static final String PATIENT_RESULT = "result";
+    public static final String PATIENT_OXY = "oxy";
     public static final String PATIENT_INTERPRETER = "interpreter";
 
 

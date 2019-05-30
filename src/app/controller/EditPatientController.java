@@ -71,6 +71,9 @@ public class EditPatientController implements Initializable {
     private TableColumn<ModelTable, String> col_pco;
 
     @FXML
+    private TableColumn<ModelTable, String> col_po;
+
+    @FXML
     private TableColumn<ModelTable, String> col_hco;
 
     @FXML
@@ -96,7 +99,13 @@ public class EditPatientController implements Initializable {
     private JFXTextField updatePcofield;
 
     @FXML
+    private JFXTextField updatePofield;
+
+    @FXML
     private JFXTextField updateHcofield;
+
+    @FXML
+    private JFXTextField updatefiofield;
 
     @FXML
     private JFXTextField updateInterpreterfield;
@@ -170,11 +179,14 @@ public class EditPatientController implements Initializable {
                         resultSet.getString("age"),
                         resultSet.getString("ph"),
                         resultSet.getString("pco"),
+                                 resultSet.getString("po"),
                         resultSet.getString("hco"),
+                                 resultSet.getString("fio"),
                         resultSet.getString("datem"),
                         resultSet.getString("comments"),
                         resultSet.getString("interpreter"),
-                        resultSet.getString("result")));
+                        resultSet.getString("result"),
+                                 resultSet.getString("oxy")));
 
 
             }
@@ -191,6 +203,7 @@ public class EditPatientController implements Initializable {
         col_age.setCellValueFactory(new PropertyValueFactory<>("age"));
         col_ph.setCellValueFactory(new PropertyValueFactory<>("ph"));
         col_pco.setCellValueFactory(new PropertyValueFactory<>("pco"));
+        col_po.setCellValueFactory(new PropertyValueFactory<>("po"));
         col_hco.setCellValueFactory(new PropertyValueFactory<>("hco"));
         col_date.setCellValueFactory(new PropertyValueFactory<>("datem"));
         col_interpreter.setCellValueFactory(new PropertyValueFactory<>("interpreter"));
@@ -208,16 +221,20 @@ public class EditPatientController implements Initializable {
                 public void handle(MouseEvent event) {
                     ModelTable ml = table.getItems().get(table.getSelectionModel().getSelectedIndex());
 
+
                     updateFNamefield.setText(ml.getFname());
                     updateLNamefield.setText(ml.getLname());
                     updateAgefield.setText(ml.getAge());
                     updatePhfield.setText(ml.getPh());
                     updatePcofield.setText(ml.getPco());
+                    updatePofield.setText(ml.getPo());
                     updateHcofield.setText(ml.getHco());
+                    updatefiofield.setText((ml.getFio()));
                     updateCommentArea.setText(ml.getComments());
                     patientInterp.setText(LoginController.getInstance().firstname());
                     updateResultText.setText(ml.getResults());
 
+                    updateResultText.appendText(". "+ml.getOxy());
 
 
                 }
@@ -437,12 +454,14 @@ public class EditPatientController implements Initializable {
                         resultSet.getString("age"),
                         resultSet.getString("ph"),
                         resultSet.getString("pco"),
+                        resultSet.getString("po"),
                         resultSet.getString("hco"),
+                        resultSet.getString("fio"),
                         resultSet.getString("datem"),
                         resultSet.getString("comments"),
                         resultSet.getString("interpreter"),
-                        resultSet.getString("result")));
-
+                        resultSet.getString("result"),
+                        resultSet.getString("oxy")));
 
             }
 

@@ -113,7 +113,7 @@ public class DbConnect extends Config {
         }
     }
 
-    public void registerPatient(String id, String fname, String lname, int age, String ph, String pco, String hco, String fio, String datem, String timem, String comments, String result, String interpreter) throws SQLException {
+    public void registerPatient(String id, String fname, String lname, int age, String ph, String pco,String po, String hco,String Osat, String fio, String datem, String timem, String comments, String result,String oxy, String interpreter) throws SQLException {
 
         DbConnect DbConnect = new DbConnect();
         Connection connection = DbConnect.getInstance().getConnection();
@@ -125,14 +125,17 @@ public class DbConnect extends Config {
                 Const.PATIENT_AGE + "," +
                 Const.PATIENT_PH + "," +
                 Const.PATIENT_PCO + "," +
+                Const.PATIENT_PO + "," +
                 Const.PATIENT_HCO + "," +
+                Const.PATIENT_OSAT + "," +
                 Const.PATIENT_FIO + "," +
                 Const.PATIENT_DATEM + "," +
                 Const.PATIENT_TIMEM + "," +
                 Const.PATIENT_COMMENTS + "," +
                 Const.PATIENT_RESULT + "," +
+                Const.PATIENT_OXY + "," +
                 Const.PATIENT_INTERPRETER + ")"
-                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement ps = null;
 
@@ -146,13 +149,16 @@ public class DbConnect extends Config {
             preparedStatement.setInt(4, age);
             preparedStatement.setString(5, ph);
             preparedStatement.setString(6, pco);
-            preparedStatement.setString(7, hco);
-            preparedStatement.setString(8, fio);
-            preparedStatement.setString(9, datem);
-            preparedStatement.setString(10, timem);
-            preparedStatement.setString(11, comments);
-            preparedStatement.setString(12, result);
-            preparedStatement.setString(13, interpreter);
+            preparedStatement.setString(7, po);
+            preparedStatement.setString(8, hco);
+            preparedStatement.setString(9, Osat);
+            preparedStatement.setString(10, fio);
+            preparedStatement.setString(11, datem);
+            preparedStatement.setString(12, timem);
+            preparedStatement.setString(13, comments);
+            preparedStatement.setString(14, result);
+            preparedStatement.setString(15, oxy);
+            preparedStatement.setString(16, interpreter);
 
 
             preparedStatement.executeUpdate();

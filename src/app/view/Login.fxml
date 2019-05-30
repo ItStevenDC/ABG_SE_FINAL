@@ -76,7 +76,7 @@
                                         <Insets top="30.0" />
                                     </VBox.margin>
                                     <children>
-                                        <TextField fx:id="tf_username" promptText="Username" style="-fx-background-color: transparent; -fx-font-size: 15;" HBox.hgrow="ALWAYS">
+                                        <TextField fx:id="tf_username" promptText="Username" style="-fx-background-color: transparent; -fx-font-size: 15;" text="user" HBox.hgrow="ALWAYS">
                                             <HBox.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                             </HBox.margin>
@@ -91,7 +91,7 @@
                         <Text fx:id="errorLogin" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 12; -fx-fill: Red;" />
                                 <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="37.0" prefWidth="309.0" style="-fx-background-color: white; -fx-border-color: #a2a2a2; -fx-border-width: 0px 0px 2px 0px;">
                                     <children>
-                                        <PasswordField fx:id="pf_password" promptText="Password" style="-fx-background-color: transparent; -fx-font-size: 15;" HBox.hgrow="ALWAYS">
+                                        <PasswordField fx:id="pf_password" promptText="Password" style="-fx-background-color: transparent; -fx-font-size: 15;" text="1234" HBox.hgrow="ALWAYS">
                                             <HBox.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                             </HBox.margin>

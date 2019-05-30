@@ -2,13 +2,13 @@ package app.controller;
 
 import app.Main;
 import app.helper.DbConnect;
-
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.validation.RequiredFieldValidator;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-
+import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
@@ -39,6 +39,7 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+
 public class MainController implements Initializable {
 
 
@@ -60,6 +61,8 @@ public class MainController implements Initializable {
     @FXML
     private JFXTextField LNamefield;
 
+    @FXML
+    private JFXTextField Agefield;
 
     @FXML
     private JFXTextField Phfield;
@@ -74,11 +77,26 @@ public class MainController implements Initializable {
     private JFXTextField Ofield;
 
     @FXML
+    private JFXTextField Otfield;
+
+    @FXML
+    private JFXTextField FOfield;
+
+    @FXML
     private JFXDatePicker birthField;
 
+    @FXML
+    private JFXComboBox hospField;
+
+    @FXML
+    private Button InterpretData;
+
+    @FXML
+    private Button prevButton;
 
     @FXML
     private TextArea commentsBox;
+
 
 
 
@@ -179,6 +197,7 @@ public class MainController implements Initializable {
                 int second = LocalDateTime.now().getSecond();
                 int minute = LocalDateTime.now().getMinute();
                 int hour = LocalDateTime.now().getHour();
+
 
                 clack.setText(hour + ":" + (minute) + ":" + second);
 
@@ -285,21 +304,21 @@ public class MainController implements Initializable {
             String Comments = commentsBox.getText();
 
 
-            String Rtime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            String Rtime = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss a"));
 
             LocalDate Rdate = LocalDate.now();
 
+            String Oxygenation = "";
             float ph = Float.parseFloat(Phfield.getText());
             float co2 = Float.parseFloat(Cofield.getText());
             float hco3 = Float.parseFloat(Hcofield.getText());
-            float fio = Float.parseFloat(Ofield.getText());
-            String IResults = "";
-            String DIResult;
-
+            int FiO = Integer.parseInt(FOfield.getText());
 
             double Basebalance = (hco3 / (0.03 * co2));
 
             double ABbalance = 6.1 + Math.log10(Basebalance);
+
+
 
             System.out.println("Name: " + Pname);
             System.out.println("Age: " + Page);
@@ -313,6 +332,9 @@ public class MainController implements Initializable {
             System.out.println("Interpreted by: " + DInterpreter.getText());
             System.out.println("Interpreted Result: ");
             System.out.println(returnResult());
+            System.out.println("Oxygenation: "+returnOxygenation());
+
+
 
 
              DbConnect DbConnect = new DbConnect();
@@ -342,9 +364,12 @@ public class MainController implements Initializable {
                 System.out.println("Redoing similar id found");
             }else
 
+
+
+
                 DbConnect.registerPatient(sb.toString(),FNamefield.getText(), LNamefield.getText(), Page,
-                Phfield.getText(), Cofield.getText(), Hcofield.getText(), Ofield.getText(), Rdate.toString(),
-                Rtime.toString(), commentsBox.getText(), returnResult(), DInterpreter.getText());
+                Phfield.getText(), Cofield.getText(), Otfield.getText(), Hcofield.getText(),  Ofield.getText(),FOfield.getText(), Rdate.toString(),
+                Rtime.toString(), commentsBox.getText(), returnResult(), returnOxygenation(), DInterpreter.getText());
 
                 errorText.setText("The patient data is now recorded!");
 
@@ -361,7 +386,7 @@ public class MainController implements Initializable {
         float hco3 = Float.parseFloat(Hcofield.getText());
 
         if ((ph < 7.35) && (co2 > 45) && (hco3 >=22 && hco3 <=28)) {
-            ABGresult ="Acute Respiratory Acidosis";
+            ABGresult ="Uncompensated Respiratory Acidosis";
             return ABGresult;
         }
 
@@ -381,7 +406,7 @@ public class MainController implements Initializable {
         }
 
         else if ((ph > 7.45) && (co2 < 35) && (hco3 >=22 && hco3 <=28)) {
-            ABGresult ="Acute Respiratory Alkalosis";
+            ABGresult ="Uncompensated Respiratory Alkalosis";
             return ABGresult;
         }
 
@@ -400,22 +425,22 @@ public class MainController implements Initializable {
             return ABGresult;
         }
 
-        else if ((ph <7.35) && (co2 >=35 && co2 <=45) && (hco3 <22)) {
-            ABGresult ="Acute Metabolic Acidosis";
+        else if ((ph <7.35) && (co2 >=35 && co2 <=45)) {
+            ABGresult ="Uncompensated Metabolic Acidosis";
             return ABGresult;
         }
 
-        else if ((ph <7.35) && !(ph==0) && (co2 <35) && (hco3 <22)) {
+        else if (((ph <7.35) && !(ph==0)) && (co2 <35) ) {
             ABGresult ="Partly Compensated Metabolic Acidosis";
             return ABGresult;
         }
 
-        else if ((ph >7.45) && (co2 >=35 && co2 <=45) && (hco3 >28)) {
-            ABGresult ="Acute Metabolic Alkalosis";
+        else if ((ph > 7.45) && (co2 >=35 && co2 <=45)) {
+            ABGresult ="Uncompensated Metabolic Alkalosis";
             return ABGresult;
         }
 
-        else if ((ph >7.45) && (co2 >45) && (hco3 >28)) {
+        else if ((ph >7.45) && (co2 > 45) ) {
             ABGresult ="Partly Compensated Metabolic Alkalosis";
             return ABGresult;
         }
@@ -533,6 +558,137 @@ public class MainController implements Initializable {
         alert.showAndWait();
     }
 
+    private String returnOxygenation(){
+        String oxy;
+        int fio = Integer.parseInt(FOfield.getText());
+
+        if (fio == 21)
+        {
+            oxy = oxygenationRA();
+            return oxy;
+        }
+        else {
+            oxy = oxygenationSO();
+            return  oxy;
+        }
+
+    }
+
+    private String oxygenationRA () {
+        String oxygenOutcome;
+
+        int pAge = showAge();
+        int botRange = 0;
+        int topRange = 100;
+        int counter = 0;
+        int po2 = Integer.parseInt(Otfield.getText());
+
+        if (pAge <= 60) {
+            botRange = 80;
+
+            if (po2 < botRange) {
+                oxygenOutcome = "Hypoxemia at Room Air.";
+                return oxygenOutcome;
+            } else if (po2 > topRange) {
+                oxygenOutcome = "More than Adequate at Room Air.";
+                return oxygenOutcome;
+            } else if (po2 >= botRange && po2 <= topRange) {
+                oxygenOutcome = "Normal at Room Air.";
+                return oxygenOutcome;
+            } else {
+                oxygenOutcome = "Cannot Determine.";
+                return oxygenOutcome;
+            }
+
+
+
+
+        } else if (pAge > 60) {
+
+            counter = pAge - 60;
+
+            botRange = 80 - counter;
+
+
+            if (po2 < botRange) {
+                oxygenOutcome = "Hypoxemia at Room Air.";
+                return oxygenOutcome;
+            } else if (po2 > topRange) {
+                oxygenOutcome = "More than Adequate at Room Air.";
+                return oxygenOutcome;
+            } else if (po2 >= botRange && po2 <= topRange) {
+                oxygenOutcome = "Normal at Room Air.";
+                return oxygenOutcome;
+            } else {
+                oxygenOutcome = "Cannot Determine.";
+                return oxygenOutcome;
+            }
+
+
+        } else {
+            oxygenOutcome = "Cannot Determine.";
+            return oxygenOutcome;
+        }
+    }
+
+    private String oxygenationSO(){
+        String oxygenOutcome;
+
+        int pAge = showAge();
+        int botRange = 0;
+        int topRange = 100;
+        int counter = 0;
+        int po2 = Integer.parseInt(Otfield.getText());
+
+        if (pAge <= 60) {
+            botRange = 80;
+
+            if (po2 < botRange) {
+                oxygenOutcome = "Inadequate with supplemental Oxygen.";
+                return oxygenOutcome;
+            } else if (po2 > topRange) {
+                oxygenOutcome = "More than Adequate with supplemental Oxygen.";
+                return oxygenOutcome;
+            } else if (po2 >= botRange && po2 <= topRange) {
+                oxygenOutcome = "Adequate with supplemental Oxygen.";
+                return oxygenOutcome;
+
+            } else {
+                oxygenOutcome = "Cannot Determine.";
+                return oxygenOutcome;
+            }
+
+
+
+
+        } else if (pAge > 60) {
+
+            counter = pAge - 60;
+
+            botRange = 80 - counter;
+
+
+            if (po2 < botRange) {
+                oxygenOutcome = "Inadequate with supplemental Oxygen.";
+                return oxygenOutcome;
+            } else if (po2 > topRange) {
+                oxygenOutcome = "More than Adequate with supplemental Oxygen.";
+                return oxygenOutcome;
+            } else if (po2 >= botRange && po2 <= topRange) {
+                oxygenOutcome = "Adequate with supplemental Oxygen.";
+                return oxygenOutcome;
+            } else {
+                oxygenOutcome = "Cannot Determine.";
+                return oxygenOutcome;
+            }
+
+
+        } else {
+            oxygenOutcome = "Cannot Determine.";
+            return oxygenOutcome;
+        }
+
+    }
 
 
 

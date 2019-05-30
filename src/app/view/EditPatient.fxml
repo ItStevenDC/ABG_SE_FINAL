@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="775.0" prefWidth="883.0" style="-fx-background-color: #f1c40f;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.EditPatientController">
+<AnchorPane onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="775.0" prefWidth="902.0" style="-fx-background-color: #f1c40f;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.EditPatientController">
     <children>
         <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <effect>
@@ -82,12 +82,13 @@
                            <children>
                               <TableView fx:id="table" fixedCellSize="0.0" prefHeight="404.0" prefWidth="700.0">
                                 <columns>
-                                  <TableColumn fx:id="col_id" prefWidth="75.0" text="Patient ID" />
-                                  <TableColumn fx:id="col_fn" prefWidth="109.0" text="First Name" />
+                                  <TableColumn fx:id="col_id" prefWidth="98.0" text="Patient ID" />
+                                  <TableColumn fx:id="col_fn" prefWidth="74.0" text="First Name" />
                                     <TableColumn fx:id="col_ln" prefWidth="86.0" text="Last Name" />
                                     <TableColumn fx:id="col_age" prefWidth="61.0" text="Age" />
                                     <TableColumn fx:id="col_ph" prefWidth="68.0" text="Ph" />
                                     <TableColumn fx:id="col_pco" prefWidth="69.0" text="pCO2" />
+                                    <TableColumn fx:id="col_po" prefWidth="69.0" text="pO2" />
                                     <TableColumn fx:id="col_hco" prefWidth="90.0" text="Bicarbonate" />
                                     <TableColumn fx:id="col_date" prefWidth="138.0" text="Last Modified" />
                                     <TableColumn fx:id="col_interpreter" prefWidth="138.0" text="Interpreted By" />
@@ -168,6 +169,20 @@
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 15;" text="pO2: ">
+                                             <HBox.margin>
+                                                <Insets left="10.0" top="10.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                          <JFXTextField fx:id="updatePofield" style="-fx-font-family: Quicksand; -fx-font-size: 15;">
+                                             <HBox.margin>
+                                                <Insets left="3.0" />
+                                             </HBox.margin>
+                                          </JFXTextField>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 15;" text="HCO: ">
                                              <HBox.margin>
                                                 <Insets left="10.0" top="10.0" />
@@ -176,14 +191,15 @@
                                           <JFXTextField fx:id="updateHcofield" style="-fx-font-family: Quicksand; -fx-font-size: 15;">
                                              <HBox.margin>
                                                 <Insets left="3.0" />
-                                             </HBox.margin></JFXTextField>
+                                             </HBox.margin>
+                                          </JFXTextField>
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                               <VBox layoutX="244.0" layoutY="10.0" prefHeight="248.0" prefWidth="368.0">
                                  <children>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                    <HBox prefHeight="40.0" prefWidth="368.0">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 15;" text="Interpreted by: ">
                                              <HBox.margin>
@@ -197,12 +213,26 @@
                                           </Text>
                                        </children>
                                     </HBox>
-                                    <HBox prefHeight="244.0" prefWidth="368.0">
+                                    <HBox prefHeight="132.0" prefWidth="368.0">
                                        <children>
-                                          <TextArea fx:id="updateCommentArea" prefHeight="179.0" prefWidth="361.0" style="-fx-font-family: Quicksand; -fx-font-size: 15;">
+                                          <TextArea fx:id="updateCommentArea" wrapText="true" prefHeight="116.0" prefWidth="358.0" style="-fx-font-family: Quicksand; -fx-font-size: 15;">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin></TextArea>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Quicksand; -fx-font-size: 15;" text="FiO:">
+                                             <HBox.margin>
+                                                <Insets left="10.0" top="10.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                          <JFXTextField fx:id="updatefiofield" style="-fx-font-family: Quicksand; -fx-font-size: 15;">
+                                             <HBox.margin>
+                                                <Insets left="3.0" />
+                                             </HBox.margin>
+                                          </JFXTextField>
                                        </children>
                                     </HBox>
                                  </children>
